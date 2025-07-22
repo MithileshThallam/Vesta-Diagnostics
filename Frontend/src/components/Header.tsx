@@ -13,12 +13,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
+    <header className="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-lg border-b border-border/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl lg:text-3xl font-display font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-2xl lg:text-3xl font-display font-bold bg-gradient-primary bg-clip-text text-black">
               Vesta Diagnostics
             </h1>
           </div>
@@ -43,7 +43,7 @@ const Header = () => {
             <Button variant="outline" size="lg" className="font-medium">
               Book a Demo
             </Button>
-            <Button variant="premium" size="lg">
+            <Button variant="premium" size="lg" className="font-medium bg-gray-800">
               Log In
             </Button>
           </div>

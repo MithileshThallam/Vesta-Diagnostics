@@ -5,8 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      borderColor: {
+        DEFAULT: 'hsl(var(--border))', // This makes @apply border-border work
+      },
+      backgroundColor: {
+        DEFAULT: 'hsl(var(--background))',
+      },
+      textColor: {
+        DEFAULT: 'hsl(var(--foreground))',
+      }
+
+    },
   },
   plugins: [],
 }
-
