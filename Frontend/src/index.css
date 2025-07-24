@@ -2,86 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 220 15% 12%;
+    --foreground: 0 0% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 12%;
+    --card-foreground: 0 0% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 12%;
+    --popover-foreground: 0 0% 20%;
 
-    --primary: 215 25% 15%;
+    --primary: 15 96% 53%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 30% 90%;
-    --secondary-foreground: 215 25% 15%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 20%;
 
-    --muted: 215 15% 95%;
-    --muted-foreground: 215 20% 45%;
+    --muted: 0 0% 98%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 35 85% 60%;
-    --accent-foreground: 215 25% 15%;
+    --accent: 15 96% 53%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 15% 85%;
-    --input: 215 15% 85%;
-    --ring: 35 85% 60%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 15 96% 53%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --gradient-primary: linear-gradient(135deg, hsl(215 25% 15%), hsl(215 30% 25%));
-    --gradient-secondary: linear-gradient(135deg, hsl(35 85% 60%), hsl(35 90% 70%));
-    --gradient-accent: linear-gradient(135deg, hsl(170 45% 55%), hsl(180 50% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(215 25% 8%) 0%, hsl(215 30% 15%) 50%, hsl(35 85% 60%) 100%);
-    --shadow-elegant: 0 25px 50px -12px hsl(215 25% 15% / 0.25);
-    --shadow-warm: 0 10px 30px -5px hsl(35 85% 60% / 0.3);
-    --shadow-soft: 0 4px 20px hsl(215 25% 15% / 0.1);
-    --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    --transition-bounce: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Vesta Medical Design System - Clean & Professional */
+    --vesta-orange: 15 96% 53%; /* #F05A28 */
+    --vesta-navy: 248 81% 20%; /* #1A1449 */
+    --text-dark: 0 0% 20%; /* #333333 */
+    --text-black: 0 0% 0%; /* #000000 */
+    
+    --gradient-primary: linear-gradient(90deg, hsl(15 96% 53%), hsl(248 81% 20%));
+    --gradient-subtle: linear-gradient(90deg, hsl(15 96% 53% / 0.1), hsl(248 81% 20% / 0.1));
+    --gradient-accent: linear-gradient(135deg, hsl(15 96% 53%), hsl(248 81% 20%));
+    
+    --shadow-soft: 0 2px 8px rgba(26, 20, 73, 0.06);
+    --shadow-medium: 0 4px 12px rgba(26, 20, 73, 0.08);
+    --shadow-hover: 0 8px 25px rgba(26, 20, 73, 0.12);
+    
+    --transition-smooth: all 0.2s ease-in-out;
+    --transition-bounce: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
+
     --sidebar-foreground: 240 5.3% 26.1%;
+
     --sidebar-primary: 240 5.9% 10%;
+
     --sidebar-primary-foreground: 0 0% 98%;
+
     --sidebar-accent: 240 4.8% 95.9%;
+
     --sidebar-accent-foreground: 240 5.9% 10%;
+
     --sidebar-border: 220 13% 91%;
+
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 220 15% 8%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 20%;
 
-    --card: 220 15% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
 
-    --popover: 220 15% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
 
-    --primary: 215 25% 15%;
+    --primary: 218 100% 20%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 20% 20%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 0 0% 20%;
 
-    --muted: 215 15% 20%;
-    --muted-foreground: 215 10% 70%;
+    --muted: 210 40% 98%;
+    --muted-foreground: 215 20% 45%;
 
-    --accent: 35 85% 65%;
-    --accent-foreground: 215 25% 8%;
+    --accent: 15 90% 55%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 215 15% 25%;
-    --input: 215 15% 25%;
-    --ring: 35 85% 65%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 15 90% 55%;
 
     --sidebar-background: 220 15% 8%;
     --sidebar-foreground: 0 0% 95%;
@@ -106,7 +124,6 @@
 }
 
 @layer utilities {
-  /* Custom utilities */
   .scale-102 {
     transform: scale(1.02);
   }
@@ -129,18 +146,5 @@
   
   .will-change-transform {
     will-change: transform;
-  }
-
-  /* Required for your custom variables */
-  .border-border {
-    border-color: hsl(var(--border));
-  }
-
-  .bg-background {
-    background-color: hsl(var(--background));
-  }
-
-  .text-foreground {
-    color: hsl(var(--foreground));
   }
 }

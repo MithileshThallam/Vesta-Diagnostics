@@ -107,7 +107,7 @@ const HeroSlider = () => {
                     {slide.description}
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="premium" size="xl" className="text-lg">
+                    <Button variant="premium" size="xl" className="text-lg bg-gradient-to-r from-gray-800 to-gray-700 ">
                       Get Started
                     </Button>
                     <Button variant="outline" size="xl" className="text-lg bg-white/10 border-white/30 text-white hover:bg-white/20">

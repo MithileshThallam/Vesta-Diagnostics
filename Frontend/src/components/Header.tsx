@@ -1,4 +1,4 @@
-import { Button } from "../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -13,12 +13,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-lg border-b border-border/50">
+    <header className="fixed top-0 w-full z-50 bg-white shadow-soft border-b border-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl lg:text-3xl font-display font-bold bg-gradient-primary bg-clip-text text-black">
+            <h1 className="text-2xl lg:text-3xl font-semibold bg-gradient-primary bg-clip-text text-transparent p-2">
               Vesta Diagnostics
             </h1>
           </div>
@@ -40,10 +40,10 @@ const Header = () => {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button variant="outline" size="lg" className="font-medium">
+            <Button variant="outline" size="lg">
               Book a Demo
             </Button>
-            <Button variant="premium" size="lg" className="font-medium bg-gray-800">
+            <Button variant="premium" size="lg">
               Log In
             </Button>
           </div>
@@ -64,7 +64,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-lg border-b border-border/50 shadow-elegant">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-soft border-b border-gray-100">
             <div className="px-4 py-6 space-y-4">
               {navItems.map((item) => (
                 <Button
@@ -79,7 +79,7 @@ const Header = () => {
                   </a>
                 </Button>
               ))}
-              <div className="pt-4 space-y-3 border-t border-border/50">
+              <div className="pt-4 space-y-3 border-t border-gray-100">
                 <Button variant="outline" size="lg" className="w-full">
                   Book a Demo
                 </Button>
