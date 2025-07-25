@@ -1,18 +1,19 @@
-import Header from "@/components/Header";
-import HeroSlider from "@/components/HeroSlider";
+import Header from "@/components/Header"
+import HeroSlider from "@/components/HeroSlider"
+import AboutUs from "@/components/AboutUs"
+// import WhyChooseUs from "@/components/WhyChooseUs"
+// import Services from "@/components/Services"
 
-const Index = () => {
+const Home = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
-      <main>
-        <HeroSlider />
-        {/* <WhoWeAre />
-        <WhyChooseUs />
-        <OurServices /> */}
-      </main>
+      <HeroSlider />
+      <AboutUs />
+      {/* <WhyChooseUs /> */}
+      {/* <Services /> */}
     </div>
-  );
-};
+  )
+}
 
-export default Index;
+export default Home
