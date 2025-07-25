@@ -1,7 +1,7 @@
 import Header from "@/components/Header"
 import HeroSlider from "@/components/HeroSlider"
 import AboutUs from "@/components/AboutUs"
-// import WhyChooseUs from "@/components/WhyChooseUs"
+import WhyChooseUs from "@/components/WhyChooseUs"
 import Services from "@/components/Services"
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
       <Header />
       <HeroSlider />
       <AboutUs />
-      {/* <WhyChooseUs /> */}
+      <WhyChooseUs />
       <Services />
     </div>
   )
