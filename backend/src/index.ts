@@ -3,8 +3,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db';
 
-import authRoutes from './routes/auth.routes';
-import adminRoutes from './routes/admin.routes';
+import authRoutes from './routes/auth.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import bookingRoutes from './routes/bookings.routes.js';
+import testRoutes from './routes/test.routes.js';
+
 
 dotenv.config();
 connectDB();
@@ -18,6 +21,9 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);      // /signup, /login
 app.use('/api/admin', adminRoutes);    // /login, /create
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/tests', testRoutes);
+
 
 // Default route
 app.get('/', (_, res) => {
