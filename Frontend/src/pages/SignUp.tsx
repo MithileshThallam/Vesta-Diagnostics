@@ -4,7 +4,8 @@ import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Shield, Check, Messag
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import signupImage from '/HeroSlider/hero-5.png';
+import { validateSignupForm } from '@/lib/validation';
+import signupImage from '/SignupPic.jpg';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +22,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [otpSent, setOtpSent] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const togglePassword = useCallback(() => {
     setShowPassword(prev => !prev);
@@ -32,15 +34,52 @@ const Signup = () => {
 
   const handleInputChange = useCallback((field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-  }, []);
+
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  }, [errors]);
 
   const handleNext = useCallback(() => {
+    // Clear previous errors
+    setErrors({});
+
+    // Step-specific validation
+    if (step === 1) {
+      // Validate contact info
+      if (!formData.phone.trim()) {
+        setErrors({ phone: ['Phone number is required'] });
+        return;
+      }
+      if (!/^\+?\d{10,15}$/.test(formData.phone)) {
+        setErrors({ phone: ['Please enter a valid phone number (10-15 digits)'] });
+        return;
+      }
+    } else if (step === 2) {
+      // Validate OTP
+      if (!formData.otp || formData.otp.length !== 6) {
+        setErrors({ otp: ['OTP must be 6 digits'] });
+        return;
+      }
+      if (!/^\d+$/.test(formData.otp)) {
+        setErrors({ otp: ['OTP can only contain numbers'] });
+        return;
+      }
+    }
+
+    // Proceed to next step if validation passes
     if (step < 3) {
       setStep(prev => prev + 1);
     }
-  }, [step]);
+  }, [step, formData.phone, formData.otp]);
 
   const handleBack = useCallback(() => {
+    setErrors({});
     if (step > 1) {
       setStep(prev => prev - 1);
     }
@@ -55,28 +94,49 @@ const Signup = () => {
   }, []);
 
   const verifyOtp = useCallback(() => {
+    if (formData.otp.length !== 6) {
+      setErrors({ otp: ['OTP must be 6 digits'] });
+      return;
+    }
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       handleNext();
     }, 1000);
-  }, [handleNext]);
+  }, [formData.otp, handleNext]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const validation = validateSignupForm(formData);
+    if (!validation.success) {
+      setErrors(validation.errors || {});
+      setIsLoading(false);
+      return;
+    }
+
+    console.log('Form submitted with data:', {
+      phone: formData.phone,
+      email: formData.email || 'Not provided',
+      hasWhatsApp: formData.hasWhatsApp ? 'Yes' : 'No',
+      username: formData.username,
+      password: formData.password,
+    });
+
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);
-  }, []);
+    console.log('Account created successfully!');
+  }, [formData]);
 
   const floatingElements = useMemo(() => (
     <>
-      <div className="absolute top-16 right-20 w-14 h-14 bg-gradient-primary rounded-full opacity-15 animate-pulse" 
-           style={{ animationDelay: '0s', animationDuration: '4s' }} />
+      <div className="absolute top-16 right-20 w-14 h-14 bg-gradient-primary rounded-full opacity-15 animate-pulse"
+        style={{ animationDelay: '0s', animationDuration: '4s' }} />
       <div className="absolute top-32 left-16 w-10 h-10 bg-gradient-primary rounded-full opacity-20 animate-pulse"
-           style={{ animationDelay: '1.5s', animationDuration: '3s' }} />
+        style={{ animationDelay: '1.5s', animationDuration: '3s' }} />
       <div className="absolute bottom-24 right-12 w-18 h-18 bg-gradient-primary rounded-full opacity-10 animate-pulse"
-           style={{ animationDelay: '2.5s', animationDuration: '5s' }} />
+        style={{ animationDelay: '2.5s', animationDuration: '5s' }} />
     </>
   ), []);
 
@@ -87,9 +147,9 @@ const Signup = () => {
       {/* Image Section */}
       <div className="hidden lg:flex flex-1 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-vesta-navy/70 to-transparent z-10" />
-        <img 
-          src={signupImage} 
-          alt="Medical team discussing diagnosis" 
+        <img
+          src={signupImage}
+          alt="Medical team discussing diagnosis"
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-8 left-8 z-20 text-white">
@@ -97,26 +157,21 @@ const Signup = () => {
           <p className="text-xl opacity-90">Experts who care</p>
         </div>
       </div>
-      
+
       {/* Form Section */}
       <div className="flex-1 flex items-center justify-center p-6 relative overflow-hidden">
-        {/* Animated Background Elements */}
         {floatingElements}
-        
-        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-tr from-vesta-navy/5 via-transparent to-vesta-orange/5 pointer-events-none" />
-        
-        {/* Main Container */}
+
         <div className="w-full max-w-lg relative z-10">
-          {/* Glassmorphism Card */}
           <div className="backdrop-blur-xl bg-white/85 border border-white/30 rounded-2xl shadow-2xl p-6">
-            
+
             {/* Header */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-primary rounded-full mb-3">
                 <Shield className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-text-dark mb-1 bg-gradient-primary bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold mb-1 bg-gradient-primary bg-clip-text text-transparent">
                 Join Vesta
               </h1>
               <p className="text-text-dark/70 text-sm">Create your secure health account</p>
@@ -130,7 +185,7 @@ const Signup = () => {
                 <span className={step >= 3 ? 'text-vesta-orange font-medium' : ''}>Security</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-primary rounded-full transition-all duration-500 ease-out"
                   style={{ width: `${progressWidth}%` }}
                 />
@@ -140,7 +195,6 @@ const Signup = () => {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               {step === 1 ? (
-                // Step 1: Contact Information
                 <div className="space-y-4">
                   {/* Phone Number */}
                   <div className="space-y-1">
@@ -154,11 +208,38 @@ const Signup = () => {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="+91 98243 62001"
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
                       />
                     </div>
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone[0]}</p>}
+                  </div>
+
+                  {/* WhatsApp Checkbox */}
+                  <div className="space-y-1">
+                    <label className="flex items-center space-x-2 cursor-pointer group">
+                      <div className="relative">
+                        <input
+                          type="checkbox"
+                          checked={formData.hasWhatsApp}
+                          onChange={(e) => handleInputChange('hasWhatsApp', e.target.checked)}
+                          className="sr-only"
+                        />
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-300 ${formData.hasWhatsApp
+                          ? 'bg-vesta-orange border-vesta-orange'
+                          : 'border-gray-300 group-hover:border-vesta-orange'
+                          }`}>
+                          {formData.hasWhatsApp && <Check className="w-3 h-3 text-white" />}
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <MessageSquare className="w-4 h-4 text-text-dark/60 mr-1" />
+                        <span className="text-text-dark/70 text-xs group-hover:text-text-dark transition-colors duration-300">
+                          I have WhatsApp on this number
+                        </span>
+                      </div>
+                    </label>
                   </div>
 
                   {/* Email (Optional) */}
@@ -179,39 +260,14 @@ const Signup = () => {
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                       />
                     </div>
-                  </div>
-
-                  {/* WhatsApp Checkbox */}
-                  <div className="space-y-1">
-                    <label className="flex items-center space-x-2 cursor-pointer group">
-                      <div className="relative">
-                        <input 
-                          type="checkbox" 
-                          checked={formData.hasWhatsApp}
-                          onChange={(e) => handleInputChange('hasWhatsApp', e.target.checked)}
-                          className="sr-only"
-                        />
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-300 ${
-                          formData.hasWhatsApp 
-                            ? 'bg-vesta-orange border-vesta-orange' 
-                            : 'border-gray-300 group-hover:border-vesta-orange'
-                        }`}>
-                          {formData.hasWhatsApp && <Check className="w-3 h-3 text-white" />}
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <MessageSquare className="w-4 h-4 text-text-dark/60 mr-1" />
-                        <span className="text-text-dark/70 text-xs group-hover:text-text-dark transition-colors duration-300">
-                          I have WhatsApp on this number
-                        </span>
-                      </div>
-                    </label>
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email[0]}</p>}
                   </div>
 
                   {/* Next Button */}
                   <Button
                     type="button"
                     onClick={handleNext}
+                    disabled={step === 1 && !formData.phone.trim()} // Only disable if no phone number entered
                     className="w-full h-11 bg-gradient-primary text-white font-semibold rounded-xl text-sm hover:shadow-md transform transition-all duration-300 hover:scale-[1.02] group"
                   >
                     <div className="flex items-center space-x-2">
@@ -220,8 +276,8 @@ const Signup = () => {
                     </div>
                   </Button>
                 </div>
+
               ) : step === 2 ? (
-                // Step 2: OTP Verification
                 <div className="space-y-4">
                   <div className="text-center mb-4">
                     <div className="inline-flex items-center justify-center w-12 h-12 bg-vesta-orange/10 rounded-full mb-2">
@@ -250,11 +306,12 @@ const Signup = () => {
                         required
                       />
                     </div>
+                    {errors.otp && <p className="text-red-500 text-xs mt-1">{errors.otp[0]}</p>}
                   </div>
 
                   {/* Resend OTP */}
                   <div className="text-center text-xs">
-                    <button 
+                    <button
                       type="button"
                       onClick={sendOtp}
                       disabled={isLoading}
@@ -295,7 +352,6 @@ const Signup = () => {
                   </div>
                 </div>
               ) : (
-                // Step 3: Account Security
                 <div className="space-y-4">
                   {/* Username */}
                   <div className="space-y-1">
@@ -314,6 +370,7 @@ const Signup = () => {
                         required
                       />
                     </div>
+                    {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username[0]}</p>}
                   </div>
 
                   {/* Password */}
@@ -340,6 +397,7 @@ const Signup = () => {
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
                     </div>
+                    {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password[0]}</p>}
                   </div>
 
                   {/* Confirm Password */}
@@ -366,15 +424,16 @@ const Signup = () => {
                         {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
                     </div>
+                    {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword[0]}</p>}
                   </div>
 
                   {/* Terms Agreement */}
                   <div className="space-y-2">
                     <label className="flex items-start space-x-2 cursor-pointer group">
-                      <input 
-                        type="checkbox" 
-                        className="w-3 h-3 mt-0.5 text-vesta-orange border-gray-300 rounded focus:ring-vesta-orange transition-colors duration-300" 
-                        required 
+                      <input
+                        type="checkbox"
+                        className="w-3 h-3 mt-0.5 text-vesta-orange border-gray-300 rounded focus:ring-vesta-orange transition-colors duration-300"
+                        required
                       />
                       <span className="text-xs text-text-dark/70 group-hover:text-text-dark transition-colors duration-300">
                         I agree to the{' '}
@@ -421,8 +480,8 @@ const Signup = () => {
             <div className="text-center mt-6">
               <p className="text-text-dark/70 text-xs">
                 Already have an account?{' '}
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="text-vesta-orange hover:text-vesta-navy font-semibold transition-colors duration-300 hover:underline"
                 >
                   Sign in here

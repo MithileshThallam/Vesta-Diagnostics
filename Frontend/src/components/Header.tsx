@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router"
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", href: "#" },
@@ -43,7 +45,7 @@ const Header = () => {
             <Button variant="outline" size="lg">
               Book a Demo
             </Button>
-            <Button variant="premium" size="lg">
+            <Button variant="premium" size="lg" onClick={()=> {navigate('/login')}}>
               Log In
             </Button>
           </div>
