@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useMemo } from "react"
-import { Microscope, Clock, Shield, Users, Award, Zap, Heart, CheckCircle, ArrowRight, Sparkles } from "lucide-react"
+import { Microscope, Clock, Shield, Users, Award, Zap, CheckCircle, ArrowRight, Sparkles } from "lucide-react"
 
 const WhyChooseUs = () => {
   const [activeCard, setActiveCard] = useState(0)
