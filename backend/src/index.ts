@@ -19,8 +19,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);      // /signup, /login
-app.use('/api/admin', adminRoutes);    // /login, /create
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/tests', testRoutes);
 

@@ -123,6 +123,7 @@ const Signup = () => {
       username: formData.username,
       password: formData.password,
     });
+    console.log('Form submitted with data:', formData);
 
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);
