@@ -41,3 +41,11 @@ export const isUser = (req: AuthRequest, res: Response, next: NextFunction) => {
   if (req.user?.role === 'user') return next();
   return res.status(403).json({ message: 'User access only' });
 };
+export const isAdminOrSubAdmin = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user?.role === 'admin' || req.user?.role === 'sub-admin') return next();
+  return res.status(403).json({ message: 'Admin or Sub-admin access only' });
+};

@@ -2,12 +2,18 @@ import { Request, Response } from 'express';
 import Booking from '../models/Booking.model.js';
 import { Types } from 'mongoose';
 
-// @desc User creates booking
+// Create Booking — User only
 export const createBooking = async (req: Request, res: Response) => {
   try {
-    const { test, selectedLocation, paymentMethod, paymentStatus, transactionId } = req.body;
+    const {
+      test,
+      selectedLocation,
+      paymentMethod,
+      paymentStatus,
+      transactionId,
+    } = req.body;
 
-    const newBooking = await Booking.create({
+    const booking = await Booking.create({
       user: req.user!.id,
       test,
       selectedLocation,
@@ -16,23 +22,30 @@ export const createBooking = async (req: Request, res: Response) => {
       transactionId,
     });
 
-    res.status(201).json({ message: 'Booking created', booking: newBooking });
+    return res.status(201).json({ message: 'Booking created', booking });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create booking', error: err });
+    return res.status(500).json({
+      message: 'Failed to create booking',
+      error: (err as Error).message,
+    });
   }
 };
 
-// @desc User gets their bookings
+// Get My Bookings — User only
 export const getMyBookings = async (req: Request, res: Response) => {
   try {
     const bookings = await Booking.find({ user: req.user!.id }).populate('test');
-    res.status(200).json({ bookings });
+
+    return res.status(200).json({ bookings });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch bookings', error: err });
+    return res.status(500).json({
+      message: 'Failed to fetch bookings',
+      error: (err as Error).message,
+    });
   }
 };
 
-// @desc Admin/Sub-Admin gets bookings (admin = all, sub-admin = location-specific)
+// Get Bookings — Admin or Sub-Admin
 export const getBookingsForAdmin = async (req: Request, res: Response) => {
   try {
     let filter = {};
@@ -41,24 +54,36 @@ export const getBookingsForAdmin = async (req: Request, res: Response) => {
       filter = { selectedLocation: req.user!.location };
     }
 
-    const bookings = await Booking.find(filter).populate('user').populate('test');
+    const bookings = await Booking.find(filter)
+      .populate('user')
+      .populate('test');
 
-    res.status(200).json({ bookings });
+    return res.status(200).json({ bookings });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch admin bookings', error: err });
+    return res.status(500).json({
+      message: 'Failed to fetch admin bookings',
+      error: (err as Error).message,
+    });
   }
 };
 
-// @desc Admin/Sub-Admin updates status
+// Update Booking Status — Admin / Sub-Admin
 export const updateBookingStatus = async (req: Request, res: Response) => {
   try {
     const { bookingId } = req.params;
     const { status } = req.body;
 
-    const booking = await Booking.findById(bookingId);
-    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+    // Validate status
+    if (!['pending', 'accepted', 'rejected'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid booking status' });
+    }
 
-    // If sub-admin, enforce location check
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    // Sub-admin can only update their own location’s bookings
     if (
       req.user!.role === 'sub-admin' &&
       booking.selectedLocation !== req.user!.location
@@ -69,8 +94,11 @@ export const updateBookingStatus = async (req: Request, res: Response) => {
     booking.status = status;
     await booking.save();
 
-    res.status(200).json({ message: 'Booking status updated', booking });
+    return res.status(200).json({ message: 'Booking status updated', booking });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update booking', error: err });
+    return res.status(500).json({
+      message: 'Failed to update booking',
+      error: (err as Error).message,
+    });
   }
 };
