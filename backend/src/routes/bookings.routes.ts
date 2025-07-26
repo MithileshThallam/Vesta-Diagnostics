@@ -5,16 +5,24 @@ import {
   getBookingsForAdmin,
   updateBookingStatus,
 } from '../controllers/booking.controller.js';
-import { verifyToken, isUser, isAdmin, isSubAdmin } from '../middlewares/authMiddleware';
+import {
+  verifyToken,
+  isUser,
+  isAdmin,
+  isAdminOrSubAdmin,
+} from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// 🧑 User
-router.post('/create', verifyToken, isUser, createBooking);
-router.get('/my-bookings', verifyToken, isUser, getMyBookings);
+// 🧑‍⚕️ USER ROUTES
+router.post('/', verifyToken, isUser, createBooking);           // POST /api/bookings
+router.get('/me', verifyToken, isUser, getMyBookings);          // GET  /api/bookings/me
 
-// 🛠 Admin / Sub-admin
-router.get('/admin-bookings', verifyToken, getBookingsForAdmin); // internal role check
-router.patch('/:bookingId/status', verifyToken, updateBookingStatus); // internal check in controller
+// 🛡️ ADMIN / SUB-ADMIN ROUTES
+router.get('/location', verifyToken, isAdminOrSubAdmin, getBookingsForAdmin); // GET /api/bookings/location
+router.patch('/:bookingId/status', verifyToken, isAdminOrSubAdmin, updateBookingStatus); // PATCH /api/bookings/:bookingId/status
+
+// 🧑‍💼 SUPER ADMIN ROUTE (same as admin)
+router.get('/', verifyToken, isAdmin, getBookingsForAdmin);     // GET /api/bookings
 
 export default router;

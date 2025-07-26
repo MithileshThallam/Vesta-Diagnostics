@@ -3,9 +3,14 @@ import User from '../models/User.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+// ADMIN / SUB-ADMIN LOGIN
 export const adminLogin = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
 
     const admin = await User.findOne({ email });
     if (!admin || (admin.role !== 'admin' && admin.role !== 'sub-admin')) {
@@ -33,13 +38,18 @@ export const adminLogin = async (req: Request, res: Response) => {
       token,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Admin login failed', error });
+    res.status(500).json({ message: 'Admin login failed', error: (error as Error).message });
   }
 };
 
+// CREATE SUB-ADMIN
 export const createSubAdmin = async (req: Request, res: Response) => {
   try {
     const { name, email, password, location } = req.body;
+
+    if (!name || !email || !password || !location) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
 
     const existing = await User.findOne({ email });
     if (existing) {
@@ -67,6 +77,6 @@ export const createSubAdmin = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Sub-admin creation failed', error });
+    res.status(500).json({ message: 'Sub-admin creation failed', error: (error as Error).message });
   }
 };
