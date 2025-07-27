@@ -2,11 +2,15 @@
 import { z } from 'zod';
 
 export const signupSchema = z.object({
-  username: z.string().min(1, 'Username is required'),
-  email: z.string().email('Invalid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  phone: z.string().min(10, 'Phone number is required'),
-  hasWhatsApp: z.enum(['Yes', 'No']),
+  email: z.string().email("Invalid email format").optional(),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string(),
+  phone: z.string(),
+  name: z.string(),
+  hasWhatsApp: z.boolean(),
+}).refine((data) => data.password === data.confirmPassword, {
+  path: ["confirmPassword"],
+  message: "Passwords do not match",
 });
 
 export const loginSchema = z.object({

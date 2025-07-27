@@ -17,7 +17,7 @@ const Signup = () => {
     email: '',
     hasWhatsApp: false,
     otp: '',
-    username: '',
+    name: '',
     password: '',
     confirmPassword: ''
   });
@@ -120,6 +120,17 @@ const Signup = () => {
       return;
     }
 
+    let response = await fetch("http://localhost:5000/api/auth/signup",{
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    let res = await response.json();
+
+    console.log("Response received: ", res);
     console.log('Form submitted with data:', formData);
     toast({
       title: "Welcome!",
@@ -357,24 +368,24 @@ const Signup = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {/* Username */}
+                  {/* Name */}
                   <div className="space-y-1">
-                    <Label htmlFor="username" className="text-text-dark font-medium text-sm">Username</Label>
+                    <Label htmlFor="name" className="text-text-dark font-medium text-sm">Name</Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                         <User className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
                       </div>
                       <Input
-                        id="username"
+                        id="name"
                         type="text"
-                        value={formData.username}
-                        onChange={(e) => handleInputChange('username', e.target.value)}
-                        placeholder="Choose a username"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        placeholder="your name"
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
                       />
                     </div>
-                    {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username[0]}</p>}
+                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name[0]}</p>}
                   </div>
 
                   {/* Password */}

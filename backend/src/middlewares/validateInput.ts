@@ -7,6 +7,7 @@ const validate = (schema: any) => (req: Request, res: Response, next: NextFuncti
     schema.parse(req.body);
     next();
   } catch (err: any) {
+    console.log("Error: ", err);
     return res.status(400).json({ errors: err.errors });
   }
 };
