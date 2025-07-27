@@ -1,16 +1,20 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Stethoscope } from 'lucide-react';
+import { Eye, EyeOff, Phone, Lock, ArrowRight, Stethoscope } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import loginImage from '/Features.jpg';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const togglePassword = useCallback(() => {
     setShowPassword(prev => !prev);
@@ -19,9 +23,15 @@ const Login = () => {
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    toast({
+      title: "Welcome!",
+      description: "Patient Logged in successfully.",
+      className: "bg-white text-black",
+    });
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsLoading(false);
-  }, []);
+    navigate('/')
+  }, [navigate, toast]);
 
   const floatingElements = useMemo(() => (
     <>
@@ -76,19 +86,19 @@ const Login = () => {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Email Field */}
+              {/* Phone Number Field */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-text-dark font-medium text-sm">Email Address</Label>
+                <Label htmlFor="phone" className="text-text-dark font-medium text-sm">Phone Number</Label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                    <Mail className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
+                    <Phone className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
                   </div>
                   <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your.email@example.com"
+                    id="phone"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+1 (555) 123-4567"
                     className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                     required
                   />

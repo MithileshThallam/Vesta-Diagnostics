@@ -8,10 +8,10 @@ const Header = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "Home", href: "#" },
-    { name: "Tests", href: "#tests" },
-    { name: "Services", href: "#services" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/" },
+    { name: "Tests", href: "/tests" },
+    { name: "Services", href: "/services" },
+    { name: "Contact", href: "/contactus" },
   ];
 
   return (

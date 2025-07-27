@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { validateSignupForm } from '@/lib/validation';
 import signupImage from '/SignupPic.jpg';
+import { useNavigate } from "react-router";
+import { useToast } from '@/hooks/use-toast';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,8 +23,10 @@ const Signup = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
-  const [otpSent, setOtpSent] = useState(false);
+  // const [otpSent, setOtpSent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const togglePassword = useCallback(() => {
     setShowPassword(prev => !prev);
@@ -88,7 +92,7 @@ const Signup = () => {
   const sendOtp = useCallback(() => {
     setIsLoading(true);
     setTimeout(() => {
-      setOtpSent(true);
+      // setOtpSent(true);
       setIsLoading(false);
     }, 1000);
   }, []);
@@ -116,14 +120,13 @@ const Signup = () => {
       return;
     }
 
-    console.log('Form submitted with data:', {
-      phone: formData.phone,
-      email: formData.email || 'Not provided',
-      hasWhatsApp: formData.hasWhatsApp ? 'Yes' : 'No',
-      username: formData.username,
-      password: formData.password,
-    });
     console.log('Form submitted with data:', formData);
+    toast({
+      title: "Welcome!",
+      description: "Patient Logged in successfully.",
+      className: "bg-white text-black",
+    });
+    navigate('/');
 
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);

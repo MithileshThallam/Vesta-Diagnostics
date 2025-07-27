@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from '@/pages/Home'
 import Login from "@/pages/Login";
 import  Signup from "@/pages/SignUp";
+import Test from "./pages/Test";
+import Services from "./pages/Services";
+import Contact from "./pages/Contact";
+import Header from "./components/Header";
 
 const queryClient = new QueryClient();
 
@@ -15,10 +19,14 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+      <Header />
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/tests" element={<Test />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contactus" element={<Contact />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
