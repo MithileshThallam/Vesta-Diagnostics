@@ -4,7 +4,9 @@ import { signupSchema, loginSchema, createAdminSchema } from '../utils/validatio
 
 const validate = (schema: any) => (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log("Login details received: ", req.body);
     schema.parse(req.body);
+    console.log("Details validated");
     next();
   } catch (err: any) {
     console.log("Error: ", err);
