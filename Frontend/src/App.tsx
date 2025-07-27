@@ -10,6 +10,7 @@ import Test from "./pages/Test";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Header from "./components/Header";
+import NotFound from "@/pages/NotFound"
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,8 @@ const App = () => (
         <Route path="/tests" element={<Test />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contactus" element={<Contact />} />
+
+        <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
