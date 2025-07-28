@@ -2,6 +2,7 @@ import HeroSlider from "@/components/HeroSlider"
 import AboutUs from "@/components/AboutUs"
 import WhyChooseUs from "@/components/WhyChooseUs"
 import Services from "@/components/Services"
+import RadiologyDepartment from "@/components/RadiologyDepartment"
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
       <HeroSlider />
       <AboutUs />
       <WhyChooseUs />
+      <RadiologyDepartment/>
       <Services />
     </div>
   )

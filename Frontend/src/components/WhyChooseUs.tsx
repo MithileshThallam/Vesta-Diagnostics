@@ -134,7 +134,7 @@ const WhyChooseUs = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative py-16 md:py-24 lg:py-32 bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden"
+      className="relative py-16 md:py-24 lg:py-20 lg:pb-36 bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-hidden"
     >
       {/* Static background elements - converted to CSS-only animations */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -189,7 +189,7 @@ const HeroSlider = () => {
         <div className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20">
           <Button
             onClick={handleBookSlot}
-            className="px-6 py-3 text-lg font-bold bg-gradient-to-r from-primary to-secondary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite]"
+            className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite]"
           >
             📅 Book a Slot Now
           </Button>
