@@ -7,6 +7,7 @@ export interface ITest extends Document {
   description?: string;
   price?: number;
   preparation?: string;
+  imageUrl: string; // 🆕 New field
 }
 
 const TestSchema = new Schema<ITest>(
@@ -21,6 +22,7 @@ const TestSchema = new Schema<ITest>(
     description: { type: String },
     price: { type: Number },
     preparation: { type: String },
+    imageUrl: { type: String, required: true }, // 🆕 Store Cloudinary image link
   },
   { timestamps: true }
 );

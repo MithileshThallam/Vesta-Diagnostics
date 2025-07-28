@@ -6,8 +6,9 @@ declare global {
         role: 'user' | 'admin' | 'sub-admin';
         location?: string;
       };
+      file?: Express.Multer.File; // ✅ Add this line to support req.file
     }
   }
 }
 
-export {}; 
+export {};

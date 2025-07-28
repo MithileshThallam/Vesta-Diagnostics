@@ -14,15 +14,15 @@ import {
 
 const router = express.Router();
 
-// 🧑‍⚕️ USER ROUTES
-router.post('/', verifyToken, isUser, createBooking);           // POST /api/bookings
-router.get('/me', verifyToken, isUser, getMyBookings);          // GET  /api/bookings/me
+// 👤 USER ROUTES
+router.post('/', verifyToken, isUser, createBooking);              // POST /api/bookings
+router.get('/me', verifyToken, isUser, getMyBookings);             // GET  /api/bookings/me
 
-// 🛡️ ADMIN / SUB-ADMIN ROUTES
-router.get('/location', verifyToken, isAdminOrSubAdmin, getBookingsForAdmin); // GET /api/bookings/location
+// 🧑‍💼 ADMIN / SUB-ADMIN ROUTES
+router.get('/location', verifyToken, isAdminOrSubAdmin, getBookingsForAdmin);        // GET /api/bookings/location
 router.patch('/:bookingId/status', verifyToken, isAdminOrSubAdmin, updateBookingStatus); // PATCH /api/bookings/:bookingId/status
 
 // 🧑‍💼 SUPER ADMIN ROUTE (same as admin)
-router.get('/', verifyToken, isAdmin, getBookingsForAdmin);     // GET /api/bookings
+router.get('/', verifyToken, isAdmin, getBookingsForAdmin);        // GET /api/bookings
 
 export default router;

@@ -1,11 +1,14 @@
-// src/routes/auth.routes.ts
 import express from 'express';
 import { signup, login } from '../controllers/auth.controller.js';
-import { validateSignup, validateLogin } from '../middlewares/validateInput.js';
+import { validateBody } from '../middlewares/validateInput.js';
+import { signupSchema, loginSchema } from '../utils/validationSchema.js';
 
 const router = express.Router();
 
-router.post('/signup', validateSignup, signup);
-router.post('/login', validateLogin, login);
+// 📝 POST /api/auth/signup — Register user
+router.post('/signup', validateBody(signupSchema), signup);
+
+// 🔐 POST /api/auth/login — Login user
+router.post('/login', validateBody(loginSchema), login);
 
 export default router;

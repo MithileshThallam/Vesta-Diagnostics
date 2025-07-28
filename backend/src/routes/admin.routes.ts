@@ -1,14 +1,15 @@
-// src/routes/admin.routes.ts
 import express from 'express';
 import { adminLogin, createSubAdmin } from '../controllers/admin.controller.js';
-import { validateLogin, validateAdminCreation } from '../middlewares/validateInput.js';
 import { verifyToken, isAdmin } from '../middlewares/authMiddleware.js';
+import { validateBody } from '../middlewares/validateInput.js';
+import { loginSchema, createAdminSchema } from '../utils/validationSchema.js';
 
 const router = express.Router();
 
-router.post('/login', validateLogin, adminLogin);
+// 🔐 POST /api/admin/login — Admin & Sub-admin login
+router.post('/login', validateBody(loginSchema), adminLogin);
 
-// Only main admin can create sub-admins
-router.post('/create', verifyToken, isAdmin, validateAdminCreation, createSubAdmin);
+// 👤 POST /api/admin/create — Create sub-admin (only super admin)
+router.post('/create', verifyToken, isAdmin, validateBody(createAdminSchema), createSubAdmin);
 
 export default router;
