@@ -22,16 +22,30 @@ const Login = () => {
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
+
+  
+    let response = await fetch("http://localhost:5000/api/auth/login",{
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ phone, password }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    let res = await response.json();
+  
+    console.log("Response received: ", res);
+  
     setIsLoading(true);
-    toast({
-      title: "Welcome!",
-      description: "Patient Logged in successfully.",
-      className: "bg-white text-black",
-    });
+    // toast({
+    //   title: "Welcome!",
+    //   description: "Patient Logged in successfully.",
+    //   className: "bg-white text-black",
+    // });
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsLoading(false);
-    navigate('/')
-  }, [navigate, toast]);
+    // navigate('/')
+  }, [navigate, toast, phone, password]);
 
   const floatingElements = useMemo(() => (
     <>
