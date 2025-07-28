@@ -28,7 +28,7 @@ const Services = () => {
       title: "Cardiac Diagnostics",
       description: "Comprehensive heart health assessments including ECG, echocardiography, and stress testing.",
       features: ["ECG & Holter Monitoring", "Echocardiography", "Stress Testing", "Cardiac Biomarkers"],
-      image: "/placeholder.svg?height=300&width=400&text=Cardiac+Diagnostics",
+      image: "/Services/Cardiac.png",
       color: "from-red-500 to-pink-500",
       stat: "24/7",
       statLabel: "Emergency Care",
@@ -38,7 +38,7 @@ const Services = () => {
       title: "Neurological Testing",
       description: "Advanced brain and nervous system diagnostics using cutting-edge imaging technology.",
       features: ["MRI Brain Scans", "EEG Testing", "Nerve Conduction", "Cognitive Assessment"],
-      image: "/placeholder.svg?height=300&width=400&text=Neurological+Testing",
+      image: "/Services/Neuro.png",
       color: "from-purple-500 to-indigo-500",
       stat: "95%",
       statLabel: "Early Detection",
@@ -48,7 +48,7 @@ const Services = () => {
       title: "Genetic Testing",
       description: "Personalized genetic analysis for hereditary conditions and treatment optimization.",
       features: ["DNA Sequencing", "Hereditary Screening", "Pharmacogenomics", "Cancer Genetics"],
-      image: "/placeholder.svg?height=300&width=400&text=Genetic+Testing",
+      image: "/Services/genetic.png",
       color: "from-green-500 to-emerald-500",
       stat: "1000+",
       statLabel: "Genetic Markers",
@@ -58,7 +58,7 @@ const Services = () => {
       title: "Laboratory Services",
       description: "Complete range of blood tests, biochemistry, and molecular diagnostics.",
       features: ["Blood Chemistry", "Hormone Testing", "Infectious Disease", "Tumor Markers"],
-      image: "/placeholder.svg?height=300&width=400&text=Laboratory+Services",
+      image: "/Services/lab.png",
       color: "from-blue-500 to-cyan-500",
       stat: "2-4 hrs",
       statLabel: "Results Ready",
@@ -68,7 +68,7 @@ const Services = () => {
       title: "Radiology & Imaging",
       description: "State-of-the-art imaging services including CT, MRI, ultrasound, and X-ray.",
       features: ["CT Scans", "MRI Imaging", "Ultrasound", "Digital X-Ray"],
-      image: "/placeholder.svg?height=300&width=400&text=Radiology+Imaging",
+      image: "/Services/radiologist.png",
       color: "from-orange-500 to-yellow-500",
       stat: "HD",
       statLabel: "Image Quality",
@@ -78,7 +78,7 @@ const Services = () => {
       title: "Preventive Health",
       description: "Comprehensive health checkups and preventive screening packages.",
       features: ["Executive Checkups", "Cancer Screening", "Diabetes Panel", "Wellness Packages"],
-      image: "/placeholder.svg?height=300&width=400&text=Preventive+Health",
+      image: "/Services/health.png",
       color: "from-teal-500 to-green-500",
       stat: "360°",
       statLabel: "Health Check",
@@ -155,7 +155,7 @@ const Services = () => {
           </div>
 
           <h2
-            className={`text-4xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-vesta-navy to-vesta-orange mb-6 leading-tight transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            className={`text-4xl py-3 lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-vesta-navy to-vesta-orange mb-6 leading-tight transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             Comprehensive Diagnostic Solutions
           </h2>

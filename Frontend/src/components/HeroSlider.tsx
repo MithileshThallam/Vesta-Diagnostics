@@ -7,57 +7,41 @@ import hero3 from "/HeroSlider/hero-3.png";
 import hero4 from "/HeroSlider/hero-4.png";
 import hero5 from "/HeroSlider/hero-5.png";
 
-// Updated slides with mobile-friendly shorter versions
 const slides = [
   {
     id: 1,
     image: hero1,
     title: "Advanced Diagnostic Excellence",
-    mobileTitle: "Diagnostic Excellence",
     subtitle: "Where cutting-edge technology meets precision healthcare",
-    mobileSubtitle: "Cutting-edge precision healthcare",
     description: "Experience the future of medical diagnostics with our state-of-the-art facilities and innovative testing solutions.",
-    mobileDescription: "State-of-the-art diagnostic facilities and innovative testing.",
   },
   {
     id: 2,
     image: hero2,
     title: "Global Network, Local Care",
-    mobileTitle: "Global Network",
     subtitle: "Connected centers, personalized service",
-    mobileSubtitle: "Personalized diagnostic service",
     description: "Our extensive network of diagnostic centers ensures world-class healthcare is always within your reach.",
-    mobileDescription: "World-class healthcare within your reach.",
   },
   {
     id: 3,
     image: hero3,
     title: "Comprehensive Testing Suite",
-    mobileTitle: "Testing Suite",
     subtitle: "From routine to specialized diagnostics",
-    mobileSubtitle: "Routine to specialized diagnostics",
     description: "Advanced molecular diagnostics, genetic testing, and AI-powered analysis for accurate, timely results.",
-    mobileDescription: "Advanced diagnostics with AI-powered analysis.",
   },
   {
     id: 4,
     image: hero4,
     title: "Expert Medical Professionals",
-    mobileTitle: "Medical Experts",
     subtitle: "Precision diagnostics, expert interpretation",
-    mobileSubtitle: "Expert diagnostic interpretation",
     description: "Our team of specialists combines years of experience with the latest diagnostic technologies.",
-    mobileDescription: "Specialists with latest diagnostic technologies.",
   },
   {
     id: 5,
     image: hero5,
     title: "Data-Driven Healthcare",
-    mobileTitle: "Data-Driven Care",
     subtitle: "Intelligence that transforms care",
-    mobileSubtitle: "Intelligent healthcare",
     description: "Harness the power of medical data analytics for better health outcomes and personalized treatment plans.",
-    mobileDescription: "Better outcomes through data analytics.",
   },
 ];
 
@@ -80,10 +64,12 @@ const HeroSlider = () => {
   useEffect(() => {
     if (!isAutoPlaying) return;
 
+    // Clear any existing interval
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
 
+    // Set new interval
     intervalRef.current = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
@@ -98,22 +84,25 @@ const HeroSlider = () => {
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
     setIsAutoPlaying(false);
+    // Restart auto-play after manual navigation
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
     setIsAutoPlaying(false);
+    // Restart auto-play after manual navigation
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
     setIsAutoPlaying(false);
+    // Restart auto-play after manual navigation
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  // Touch event handlers
+  // Touch event handlers for mobile swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -124,9 +113,9 @@ const HeroSlider = () => {
 
   const handleTouchEnd = () => {
     if (touchStartX.current - touchEndX.current > 50) {
-      nextSlide();
+      nextSlide(); // Swipe left
     } else if (touchEndX.current - touchStartX.current > 50) {
-      prevSlide();
+      prevSlide(); // Swipe right
     }
   };
 
@@ -154,34 +143,27 @@ const HeroSlider = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
 
-            {/* Content - Responsive with mobile-specific text */}
+            {/* Content */}
             <div className="relative h-full flex items-center">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-3xl ml-0 md:ml-12 p-4 md:p-0">
-                  <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                    <span className="md:hidden">{slide.mobileTitle}</span>
-                    <span className="hidden md:inline">{slide.title}</span>
+                <div className="max-w-3xl ml-4 md:ml-12 p-4 md:p-0">
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 leading-tight">
+                    {slide.title}
                   </h2>
-                  <p className="text-base xs:text-lg sm:text-xl lg:text-2xl text-white/90 mb-2 sm:mb-4 font-medium">
-                    <span className="md:hidden">{slide.mobileSubtitle}</span>
-                    <span className="hidden md:inline">{slide.subtitle}</span>
+                  <p className="text-lg sm:text-xl lg:text-2xl text-white/90 mb-3 sm:mb-4 font-medium">
+                    {slide.subtitle}
                   </p>
-                  <p className="text-sm xs:text-base sm:text-lg lg:text-xl text-white/80 mb-4 sm:mb-8 max-w-2xl leading-relaxed">
-                    <span className="md:hidden">{slide.mobileDescription}</span>
-                    <span className="hidden md:inline">{slide.description}</span>
+                  <p className="text-base sm:text-lg lg:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
+                    {slide.description}
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-                    <Button 
-                      variant="premium" 
-                      size="sm" 
-                      className="text-xs sm:text-sm md:text-lg px-4 py-2 sm:px-6 sm:py-3"
-                    >
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <Button variant="premium" size="lg" className="text-sm sm:text-lg">
                       Get Started
                     </Button>
                     <Button 
                       variant="outline" 
-                      size="sm"
-                      className="text-xs sm:text-sm md:text-lg bg-white/90 text-text-dark border-white/90 hover:bg-white px-4 py-2 sm:px-6 sm:py-3"
+                      size="lg" 
+                      className="text-sm sm:text-lg bg-white/90 text-text-dark border-white/90 hover:bg-white"
                     >
                       Learn More
                     </Button>
@@ -199,7 +181,7 @@ const HeroSlider = () => {
         className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200 hover:scale-105 z-10"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       <button
@@ -207,16 +189,16 @@ const HeroSlider = () => {
         className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200 hover:scale-105 z-10"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       {/* Dots Indicator */}
-      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-10">
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-10">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-200 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${
               index === currentSlide
                 ? "bg-white scale-125"
                 : "bg-white/50 hover:bg-white/70"
