@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef, useEffect } from "react"
 import {
   ChevronLeft,
@@ -15,12 +13,14 @@ import {
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 const Services = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate();
 
   const services = [
     {
@@ -44,6 +44,16 @@ const Services = () => {
       statLabel: "Early Detection",
     },
     {
+      icon: Eye,
+      title: "Radiology & Imaging",
+      description: "State-of-the-art imaging services including CT, MRI, ultrasound, and X-ray.",
+      features: ["CT Scans", "MRI Imaging", "Ultrasound", "Digital X-Ray"],
+      image: "/Services/radiologist.png",
+      color: "from-orange-500 to-yellow-500",
+      stat: "HD",
+      statLabel: "Image Quality",
+    },
+    {
       icon: Dna,
       title: "Genetic Testing",
       description: "Personalized genetic analysis for hereditary conditions and treatment optimization.",
@@ -62,16 +72,6 @@ const Services = () => {
       color: "from-blue-500 to-cyan-500",
       stat: "2-4 hrs",
       statLabel: "Results Ready",
-    },
-    {
-      icon: Eye,
-      title: "Radiology & Imaging",
-      description: "State-of-the-art imaging services including CT, MRI, ultrasound, and X-ray.",
-      features: ["CT Scans", "MRI Imaging", "Ultrasound", "Digital X-Ray"],
-      image: "/Services/radiologist.png",
-      color: "from-orange-500 to-yellow-500",
-      stat: "HD",
-      statLabel: "Image Quality",
     },
     {
       icon: Stethoscope,
@@ -155,7 +155,7 @@ const Services = () => {
           </div>
 
           <h2
-            className={`text-4xl py-3 lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-vesta-navy to-vesta-orange mb-6 leading-tight transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            className={`text-4xl pb-3 lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-vesta-navy to-vesta-orange mb-6 leading-tight transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             Comprehensive Diagnostic Solutions
           </h2>
@@ -195,9 +195,8 @@ const Services = () => {
             {services.map((service, index) => (
               <Card
                 key={index}
-                className={`flex-shrink-0 w-80 group hover:shadow-xl border-0 shadow-soft bg-white transition-all duration-500 hover:-translate-y-2 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+                className={`flex-shrink-0 w-80 group hover:shadow-xl border-0 shadow-soft bg-white transition-all duration-500 hover:-translate-y-2 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
                 style={{ transitionDelay: `${600 + index * 100}ms` }}
               >
                 {/* Image */}
@@ -265,11 +264,10 @@ const Services = () => {
               <button
                 key={index}
                 onClick={() => scrollToIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
                     ? "bg-gradient-to-r from-vesta-orange to-vesta-navy scale-125"
                     : "bg-gray-300 hover:bg-gray-400"
-                }`}
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
@@ -280,7 +278,10 @@ const Services = () => {
         <div
           className={`text-center mt-16 transition-all duration-700 delay-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
-          <div className="inline-flex items-center space-x-4 bg-gradient-to-r from-vesta-orange to-vesta-navy p-6 rounded-2xl shadow-lg text-white hover:shadow-xl transition-shadow duration-300">
+          <div
+            className="inline-flex items-center cursor-pointer space-x-4 bg-gradient-to-r from-vesta-orange to-vesta-navy p-6 rounded-2xl shadow-lg text-white hover:shadow-xl transition-shadow duration-300"
+            onClick={() => { navigate('/tests') }}
+          >
             <Heart className="w-6 h-6" />
             <div className="text-left">
               <div className="text-lg font-semibold">Need a Specific Test?</div>
