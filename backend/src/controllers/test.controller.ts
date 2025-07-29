@@ -63,9 +63,16 @@ export const createTest = async (req: Request, res: Response) => {
     });
   }
 };
+
+
 export const getAllTests = async (req: Request, res: Response) => {
   try {
-    const tests = await Test.find().sort({ createdAt: -1 });
+    const { skip = '0', limit = '0' } = req.query;
+    const tests = await Test.find()
+      .sort({ createdAt: -1 })
+      .skip(Number(skip))
+      .limit(Number(limit));
+
     return res.status(200).json({ tests });
   } catch (err) {
     return res.status(500).json({
