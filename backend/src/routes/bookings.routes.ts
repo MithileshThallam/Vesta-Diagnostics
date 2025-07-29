@@ -5,6 +5,7 @@ import {
   getBookingsForAdmin,
   updateBookingStatus,
 } from '../controllers/booking.controller.js';
+
 import {
   verifyToken,
   isUser,
@@ -12,17 +13,30 @@ import {
   isAdminOrSubAdmin,
 } from '../middlewares/authMiddleware.js';
 
+import { validateBody } from '../middlewares/validateInput.js';
+import { createBookingSchema } from '../utils/validationSchema.js';
+
 const router = express.Router();
 
-// 👤 USER ROUTES
-router.post('/', verifyToken, isUser, createBooking);              // POST /api/bookings
-router.get('/me', verifyToken, isUser, getMyBookings);             // GET  /api/bookings/me
+// 🧑‍⚕️ USER ROUTES
 
-// 🧑‍💼 ADMIN / SUB-ADMIN ROUTES
-router.get('/location', verifyToken, isAdminOrSubAdmin, getBookingsForAdmin);        // GET /api/bookings/location
-router.patch('/:bookingId/status', verifyToken, isAdminOrSubAdmin, updateBookingStatus); // PATCH /api/bookings/:bookingId/status
+// Create a new booking (user only)
+router.post('/', verifyToken, isUser, validateBody(createBookingSchema), createBooking);
 
-// 🧑‍💼 SUPER ADMIN ROUTE (same as admin)
-router.get('/', verifyToken, isAdmin, getBookingsForAdmin);        // GET /api/bookings
+// Get bookings for the logged-in user
+router.get('/me', verifyToken, isUser, getMyBookings);
+
+// 🛡️ ADMIN / SUB-ADMIN ROUTES
+
+// Get bookings for admin/sub-admin (filtered by location for sub-admin)
+router.get('/location', verifyToken, isAdminOrSubAdmin, getBookingsForAdmin);
+
+// Update booking status (admin/sub-admin)
+router.patch('/:bookingId/status', verifyToken, isAdminOrSubAdmin, updateBookingStatus);
+
+// 🧑‍💼 SUPER ADMIN ROUTE
+
+// Get all bookings (main admin only)
+router.get('/', verifyToken, isAdmin, getBookingsForAdmin);
 
 export default router;

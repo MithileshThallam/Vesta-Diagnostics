@@ -1,40 +1,25 @@
+// src/models/Booking.model.ts
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IBooking extends Document {
   user: mongoose.Types.ObjectId;
-  test: mongoose.Types.ObjectId;
+  tests: string[]; // List of test IDs (same as frontend 'id')
   selectedLocation: string;
-  paymentMethod: 'online' | 'offline';
-  paymentStatus: 'paid' | 'unpaid';
+  paymentMethod: string;
+  paymentStatus: string;
   transactionId?: string;
-  reportUrl?: string;
   status: 'pending' | 'accepted' | 'rejected';
 }
 
 const BookingSchema = new Schema<IBooking>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    test: { type: Schema.Types.ObjectId, ref: 'Test', required: true },
-    selectedLocation: { type: String, required: true }, // selected by user at time of booking
-
-    paymentMethod: {
-      type: String,
-      enum: ['online', 'offline'],
-      required: true,
-    },
-    paymentStatus: {
-      type: String,
-      enum: ['paid', 'unpaid'],
-      default: 'unpaid',
-    },
+    tests: [{ type: String, required: true }], // e.g. ['cbc', 'lft']
+    selectedLocation: { type: String, required: true },
+    paymentMethod: { type: String, required: true },
+    paymentStatus: { type: String, required: true },
     transactionId: { type: String },
-    reportUrl: { type: String },
-
-    status: {
-      type: String,
-      enum: ['pending', 'accepted', 'rejected'],
-      default: 'pending',
-    },
+    status: { type: String, enum: ['pending', 'accepted', 'rejected'], default: 'pending' },
   },
   { timestamps: true }
 );

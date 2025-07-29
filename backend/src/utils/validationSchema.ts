@@ -1,6 +1,17 @@
 // src/utils/validationSchemas.ts
 import { z } from 'zod';
 
+
+
+export const createBookingSchema = z.object({
+  tests: z.array(z.string()).min(1, 'At least one test must be selected'),
+  selectedLocation: z.string().min(1, 'Location is required'),
+  paymentMethod: z.string().min(1, 'Payment method is required'),
+  paymentStatus: z.string().min(1, 'Payment status is required'),
+  transactionId: z.string().optional(),
+});
+
+
 export const signupSchema = z.object({
   email: z.string().email("Invalid email format").optional(),
   password: z.string().min(6, "Password must be at least 6 characters"),

@@ -1,28 +1,20 @@
 import express from 'express';
-import {
-  createTest,
-  getTestsByCategory,
-  getTestBySlug,
-} from '../controllers/test.controller.js';
-
+import { createTest, getAllTests } from '../controllers/test.controller.js';
 import { verifyToken, isAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
-import {upload} from '../middlewares/multer.js'; // 📦 single image upload middleware
+import { upload } from '../middlewares/multer.js';
 
 const router = express.Router();
 
-// ✅ POST /api/tests — Create new test (admin/sub-admin only)
+// ✅ Admin/Sub-Admin: Add a new test
 router.post(
-  '/',
+  '/create',
   verifyToken,
   isAdminOrSubAdmin,
-  upload.single('image'), // field name from frontend must be "image"
+  upload.single('image'), // frontend must send field name = "image"
   createTest
 );
 
-// ✅ GET /api/tests?category=radiology
-router.get('/', getTestsByCategory);
-
-// ✅ GET /api/tests/:category/:slug
-router.get('/:category/:slug', getTestBySlug);
+// ✅ Frontend: Get all tests
+router.get('/all', getAllTests);
 
 export default router;
