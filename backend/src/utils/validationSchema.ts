@@ -25,8 +25,8 @@ export const signupSchema = z.object({
 });
 
 export const loginSchema = z.object({
-  phone: z.string(),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+ email: z.string().email('Invalid email'),
+   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 export const createAdminSchema = z.object({
