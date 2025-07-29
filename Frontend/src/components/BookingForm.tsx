@@ -137,7 +137,7 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="Enter your full name"
                 required
-                className="border-2 border-orange-200 rounded-lg font-body focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors duration-200"
+                className="rounded-lg font-body"
               />
             </div>
 
@@ -153,7 +153,7 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
                 onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                 placeholder="Enter your phone number"
                 required
-                className="border-2 border-orange-200 rounded-lg font-body focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors duration-200"
+                className="rounded-lg font-body"
               />
             </div>
 
@@ -167,15 +167,15 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
                 onValueChange={(value) => setFormData(prev => ({ ...prev, district: value }))}
                 required
               >
-                <SelectTrigger className="border-2 border-orange-200 rounded-lg font-body focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors duration-200">
+                <SelectTrigger className="rounded-lg font-body duration-200">
                   <SelectValue placeholder="Select your district" />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-2 border-gray-200 rounded-lg shadow-lg z-50">
+                <SelectContent className="bg-white rounded-lg shadow-lg z-50">
                   {districts.map((district) => (
                     <SelectItem 
                       key={district} 
                       value={district}
-                      className="cursor-pointer font-body hover:bg-orange-50 focus:bg-orange-100"
+                      className="cursor-pointer font-body hover:bg-orange-500 focus:bg-orange-500"
                     >
                       {district}
                     </SelectItem>
@@ -196,7 +196,7 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
                 required
               >
                 <SelectTrigger 
-                  className="border-2 border-orange-200 rounded-lg font-body focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors duration-200 disabled:opacity-50"
+                  className="rounded-lg font-body duration-200 disabled:opacity-50"
                 >
                   <SelectValue 
                     placeholder={
@@ -206,12 +206,12 @@ const BookingForm = ({ isOpen, onClose }: BookingFormProps) => {
                     } 
                   />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-2 border-gray-200 rounded-lg shadow-lg z-50">
+                <SelectContent className="bg-white rounded-lg shadow-lg z-50">
                   {availableTests.map((test) => (
                     <SelectItem 
                       key={test} 
                       value={test}
-                      className="cursor-pointer font-body hover:bg-orange-50 focus:bg-orange-100"
+                      className="cursor-pointer font-body hover:bg-orange-500 focus:bg-orange-500"
                     >
                       {test}
                     </SelectItem>
