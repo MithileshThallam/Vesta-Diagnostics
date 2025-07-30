@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Header from "./components/Header";
 import NotFound from "@/pages/NotFound"
+import {useEffect} from 'react';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,30 @@ const AppContent = () => {
   const location = useLocation();
   const hideHeaderPaths = ['/login', '/signup'];
   const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/details/profile', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch user details');
+        }
+
+        const data = await res.json();
+        console.log(data);
+      } catch (err) {
+        console.error('Error fetching user:', err);
+      }
+    }
+    fetchDetails();
+  }, [])
 
   return (
     <>
