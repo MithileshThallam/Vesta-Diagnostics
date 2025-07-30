@@ -9,6 +9,7 @@ import authRoutes from './routes/auth.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import bookingRoutes from './routes/bookings.routes.js';
 import testRoutes from './routes/test.routes.js';
+import detailsRoutes from './routes/details.routes.js'
 
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/tests', testRoutes);
+app.use('/api/details',detailsRoutes);
 
 
 // Default route
