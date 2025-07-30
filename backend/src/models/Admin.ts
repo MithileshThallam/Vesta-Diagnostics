@@ -1,17 +1,16 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IAdmin extends Document {
   name: string;
   email: string;
   phone: string;
   password: string;
-  role: 'user';
-  hasWhatsapp?: boolean;
+  role: 'admin';
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-const UserSchema = new Schema<IUser>(
+const AdminSchema = new Schema<IAdmin>(
   {
     name: { type: String, required: true },
     email: {
@@ -27,12 +26,11 @@ const UserSchema = new Schema<IUser>(
       match: [/^[0-9]{10,15}$/, 'Please enter a valid phone number'],
     },
     password: { type: String, required: true },
-    role: { type: String, enum: ['user'], default: 'user' },
-    hasWhatsapp: { type: Boolean, default: false },
+    role: { type: String, enum: ['admin'], default: 'admin' },
   },
   { timestamps: true }
 );
 
-UserSchema.index({ phone: 1 });
+AdminSchema.index({ phone: 1 });
 
-export default mongoose.model<IUser>('User', UserSchema);
+export default mongoose.model<IAdmin>('Admin', AdminSchema);
