@@ -18,3 +18,7 @@ Thumbs.db
 # IDE/editor folders
 .vscode/
 .idea/
+
+
+seed.test.ts
+drop_slug.ts
