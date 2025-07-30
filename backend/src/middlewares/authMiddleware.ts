@@ -9,15 +9,22 @@ interface AuthRequest extends Request {
   };
 }
 
+
+
+
+
 export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.headers.authorization;
+    // ✅ Check all possible auth cookies
+    const token =
+      req.cookies.AdminAuthToken ||
+      req.cookies.SubAdminAuthToken ||
+      req.cookies.UserAuthToken;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'Authorization token missing' });
+    if (!token) {
+      return res.status(401).json({ message: 'Authentication token missing' });
     }
 
-    const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest['user'];
 
     req.user = decoded;
@@ -26,6 +33,8 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
     return res.status(401).json({ message: 'Invalid or expired token' });
   }
 };
+
+
 
 export const isAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
   if (req.user?.role === 'admin') return next();
