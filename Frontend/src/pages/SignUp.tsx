@@ -132,12 +132,12 @@ const Signup = () => {
 
     console.log("Response received: ", res);
     console.log('Form submitted with data:', formData);
-    toast({
-      title: "Welcome!",
-      description: "Patient Logged in successfully.",
-      className: "bg-white text-black",
-    });
-    navigate('/');
+    // toast({
+    //   title: "Welcome!",
+    //   description: "Patient Logged in successfully.",
+    //   className: "bg-white text-black",
+    // });
+    // navigate('/');
 
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);

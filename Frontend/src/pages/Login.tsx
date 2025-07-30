@@ -23,6 +23,7 @@ const Login = () => {
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("Request data: ", phone, password);
   
     let response = await fetch("http://localhost:5000/api/auth/login",{
       method: 'POST',
