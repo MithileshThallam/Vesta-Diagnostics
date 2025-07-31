@@ -14,11 +14,20 @@ interface CartBadgeProps {
 const CartBadge: React.FC<CartBadgeProps> = ({ onClick, className = "" }) => {
   const totalCount = useTestCartStore((state) => state.totalCount())
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick()
+    } else {
+      // Default behavior: navigate to cart page
+      window.location.href = "/cart"
+    }
+  }
+
   return (
     <Button
       variant="outline"
       size="sm"
-      onClick={onClick}
+      onClick={handleClick}
       className={`relative ${className}`}
       aria-label={`Shopping cart with ${totalCount} items`}
     >

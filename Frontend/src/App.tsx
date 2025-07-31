@@ -6,9 +6,10 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Signup from "@/pages/SignUp"
-import Tests from "@/pages/Test"
+import Tests from "./pages/Test"
 import Services from "./pages/Services"
 import Contact from "./pages/Contact"
+import Cart from "./pages/Cart"
 import Header from "./components/Header"
 import NotFound from "@/pages/NotFound"
 import { useAuthFetch } from "@/hooks/useAuthFetch"
@@ -33,6 +34,7 @@ const AppContent = () => {
         <Route path="/tests" element={<Tests />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contactus" element={<Contact />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

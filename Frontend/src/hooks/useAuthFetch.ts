@@ -8,20 +8,27 @@ export const useAuthFetch = () => {
   const clearUser = useUserStore((state) => state.clearUser)
 
   useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+    
+    let isMounted = true
+
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch("/api/auth/user", {
+        const response = await fetch("http://localhost:5000/api/details/profile", {
           method: "GET",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
+          signal
         })
+
+        if (!isMounted) return
 
         if (response.ok) {
           const userData = await response.json()
 
-          // Validate required fields
           if (userData.name && userData.phone && userData.role) {
             setUser({
               name: userData.name,
@@ -36,24 +43,43 @@ export const useAuthFetch = () => {
             throw new Error("Invalid user data structure")
           }
         } else {
-          // Not authenticated or invalid token - clear any stale user data
           clearUser()
-
           if (process.env.NODE_ENV === "development") {
             console.log("User not authenticated or token invalid")
           }
         }
       } catch (error) {
-        // Clear user data on any error
-        clearUser()
+        // Proper error type checking
+        if (error instanceof Error) {
+          if (error.name === 'AbortError') {
+            return // expected abort, no need to handle
+          }
+          
+          if (isMounted) {
+            clearUser()
+          }
 
-        // Only log in development
-        if (process.env.NODE_ENV === "development") {
-          console.warn("Auth fetch failed:", error)
+          if (process.env.NODE_ENV === "development") {
+            console.warn("Auth fetch failed:", error.message)
+          }
+        } else {
+          // Handle non-Error objects
+          if (isMounted) {
+            clearUser()
+          }
+
+          if (process.env.NODE_ENV === "development") {
+            console.warn("Auth fetch failed with unknown error type")
+          }
         }
       }
     }
 
     fetchUserDetails()
+
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
   }, [setUser, clearUser])
 }

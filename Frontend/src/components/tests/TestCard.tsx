@@ -1,10 +1,11 @@
 "use client"
 
-import type React from "react"
+import React, { useMemo } from "react"
 import { Clock, MapPin, ChevronRight, Plus, Check } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useTestCartStore } from "@/store/testCartStore"
+import { useToast } from "@/hooks/use-toast"
 import type { MedicalTest } from "@/types/test"
 
 interface TestCardProps {
@@ -15,11 +16,18 @@ interface TestCardProps {
 
 const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible }) => {
   const { addTest, removeTest, isTestInCart } = useTestCartStore()
-  const inCart = isTestInCart(test.id)
+  const { toast } = useToast()
+
+  const inCart = useMemo(() => isTestInCart(test.id), [test.id, isTestInCart])
 
   const handleCartAction = () => {
     if (inCart) {
       removeTest(test.id)
+      toast({
+        title: "Test removed",
+        description: `${test.name} has been removed from your cart`,
+        variant: "default",
+      })
     } else {
       addTest({
         id: test.id,
@@ -29,37 +37,54 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible }) => {
         category: test.category,
         duration: test.duration,
       })
+      toast({
+        title: "Test added",
+        description: `${test.name} has been added to your cart`,
+        variant: "default",
+      })
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleCartAction()
     }
   }
 
   return (
     <Card
-      className={`group hover:shadow-xl border-0 shadow-soft bg-white/90 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 test-card ${
+      className={`group hover:shadow-lg border-0 shadow-soft bg-white/90 backdrop-blur-sm transform transition-transform duration-300 hover:-translate-y-2 test-card ${
         isVisible ? "test-card--visible" : ""
       } ${inCart ? "ring-2 ring-vesta-orange/50" : ""}`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      style={{ animationDelay: `${index * 80}ms` }}
       role="article"
       aria-labelledby={`test-${test.id}-title`}
     >
-      {/* Test Image */}
       <div className="relative overflow-hidden rounded-t-lg">
         <img
           src={test.image || "/placeholder.svg"}
           alt={`${test.name} diagnostic procedure`}
-          className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 will-change-transform"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-        {test.popular && (
-          <span className="absolute top-3 right-3 bg-gradient-to-r from-vesta-orange to-vesta-navy text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg">
-            Popular
-          </span>
-        )}
-        {inCart && (
-          <div className="absolute top-3 left-3 bg-vesta-orange text-white rounded-full p-1.5 shadow-lg">
-            <Check className="w-4 h-4" />
-          </div>
-        )}
+
+        <span
+          className={`absolute top-3 right-3 text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg transition-opacity duration-300 ${
+            test.popular ? "bg-gradient-to-r from-vesta-orange to-vesta-navy opacity-100" : "opacity-0"
+          }`}
+        >
+          Popular
+        </span>
+
+        <div
+          className={`absolute top-3 left-3 bg-vesta-orange text-white rounded-full p-1.5 shadow-lg transition-opacity duration-300 ${
+            inCart ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Check className="w-4 h-4" />
+        </div>
       </div>
 
       <CardHeader className="pb-4">
@@ -73,7 +98,6 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible }) => {
       </CardHeader>
 
       <CardContent className="pt-0">
-        {/* Test Details */}
         <div className="space-y-3 mb-6">
           <div className="flex items-center text-sm text-slate-600">
             <span className="w-4 h-4 mr-2 text-green-600 font-bold">₹</span>
@@ -89,16 +113,16 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible }) => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex gap-2">
           <Button
             onClick={handleCartAction}
+            onKeyDown={handleKeyDown}
             variant={inCart ? "default" : "outline"}
             className={`flex-1 transition-all duration-300 ${
               inCart
                 ? "bg-vesta-orange text-white border-vesta-orange hover:bg-vesta-orange/90"
                 : "group-hover:bg-vesta-orange group-hover:text-white group-hover:border-vesta-orange bg-transparent border-slate-200 hover:shadow-md"
-            }`}
+            } active:scale-95`}
             aria-label={inCart ? `Remove ${test.name} from cart` : `Add ${test.name} to cart`}
           >
             {inCart ? (
@@ -128,4 +152,4 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible }) => {
   )
 }
 
-export default TestCard
+export default React.memo(TestCard)

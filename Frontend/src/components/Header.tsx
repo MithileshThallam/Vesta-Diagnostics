@@ -5,9 +5,11 @@ import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import CartBadge from "./cartBadge"
 import UserProfile from "./UserProfile"
+import { useNavigate } from "react-router-dom"
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -17,7 +19,7 @@ const Header = () => {
   ]
 
   const handleCartClick = () => {
-    // TODO: Open cart modal/drawer
+    navigate('/cart');
     console.log("Cart clicked")
   }
 
@@ -27,7 +29,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-2xl pb-1 lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               Vesta Diagnostics
             </h1>
           </div>
