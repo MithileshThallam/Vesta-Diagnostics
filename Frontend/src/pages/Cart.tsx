@@ -1,44 +1,13 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import { Trash2, ShoppingBag, ArrowRight, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useTestCartStore } from "@/store/testCartStore"
 import Header from "@/components/Header"
-import Lenis from "@studio-freight/lenis"
 
 const Cart = () => {
   const { tests, removeTest, clearCart, totalAmount, totalCount } = useTestCartStore()
-  const lenisRef = useRef<Lenis | null>(null)
-
-  // Initialize Lenis smooth scrolling
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: "vertical",
-      gestureDirection: "vertical",
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    })
-
-    lenisRef.current = lenis
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-
-    return () => {
-      lenis.destroy()
-    }
-  }, [])
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat("en-IN", {
