@@ -36,7 +36,7 @@ const AppContent = () => {
         }
 
         const data = await res.json();
-        console.log(data);
+        console.log("Details fetched from backend: ", data);
       } catch (err) {
         console.error('Error fetching user:', err);
       }

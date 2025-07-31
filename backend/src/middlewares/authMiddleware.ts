@@ -9,10 +9,6 @@ interface AuthRequest extends Request {
   };
 }
 
-
-
-
-
 export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     // ✅ Check all possible auth cookies
@@ -20,6 +16,8 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
       req.cookies.AdminAuthToken ||
       req.cookies.SubAdminAuthToken ||
       req.cookies.UserAuthToken;
+
+      console.log('Request received?');
 
     if (!token) {
       return res.status(401).json({ message: 'Authentication token missing' });
