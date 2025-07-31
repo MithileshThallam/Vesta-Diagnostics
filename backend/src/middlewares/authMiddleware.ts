@@ -17,8 +17,6 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
       req.cookies.SubAdminAuthToken ||
       req.cookies.UserAuthToken;
 
-      console.log('Request received?');
-
     if (!token) {
       return res.status(401).json({ message: 'Authentication token missing' });
     }
