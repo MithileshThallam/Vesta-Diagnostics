@@ -2,7 +2,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ITest extends Document {
-  id: string; // 👈 used by frontend as slug/identifier
+  id: string; // slug/identifier used in frontend
   name: string;
   category: string;
   description: string;
@@ -18,7 +18,7 @@ export interface ITest extends Document {
 
 const TestSchema = new Schema<ITest>(
   {
-    id: { type: String, required: true, unique: true }, // 👈 this is your slug-like ID
+    id: { type: String, required: true, unique: true }, // used in route like /api/tests/:id
     name: { type: String, required: true },
     category: { type: String, required: true },
     description: { type: String, required: true },
@@ -33,5 +33,8 @@ const TestSchema = new Schema<ITest>(
   },
   { timestamps: true }
 );
+
+// ✅ Explicit unique index on `id` field for better performance and clarity
+TestSchema.index({ id: 1 }, { unique: true });
 
 export default mongoose.model<ITest>('Test', TestSchema);
