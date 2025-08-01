@@ -65,19 +65,40 @@ export const createTest = async (req: Request, res: Response) => {
 };
 
 
+
 export const getAllTests = async (req: Request, res: Response) => {
   try {
-    const { skip = '0', limit = '0' } = req.query;
+    const { skip = "0", limit = "0" } = req.query;
+
     const tests = await Test.find()
-      .sort({ createdAt: -1 })
       .skip(Number(skip))
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .select("id name category price priceDisplay duration image popular"); // 🔍 summary only
 
     return res.status(200).json({ tests });
   } catch (err) {
     return res.status(500).json({
-      message: 'Failed to fetch tests',
+      message: "Failed to fetch tests",
       error: (err as Error).message,
     });
   }
 };
+export const getSpecificTest = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const test = await Test.findOne({ id });
+
+    if (!test) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+
+    return res.status(200).json({ test });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Failed to fetch test",
+      error: (err as Error).message,
+    });
+  }
+};
+

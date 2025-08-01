@@ -1,5 +1,6 @@
 import express from 'express';
-import { createTest, getAllTests } from '../controllers/test.controller.js';
+import { createTest, getAllTests,getSpecificTest } from '../controllers/test.controller.js';
+
 import { verifyToken, isAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
 import { upload } from '../middlewares/multer.js';
 
@@ -16,5 +17,6 @@ router.post(
 
 // ✅ Frontend: Get all tests
 router.get('/all', getAllTests);
+router.get('/:id',getSpecificTest)
 
 export default router;
