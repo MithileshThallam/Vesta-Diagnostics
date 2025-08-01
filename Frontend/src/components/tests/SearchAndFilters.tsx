@@ -9,7 +9,7 @@ interface SearchAndFiltersProps {
   locations: TestLocation[]
   resultsCount: number
   showFilters: boolean
-  searchInputRef: React.RefObject<HTMLInputElement>
+  searchInputRef: React.RefObject<HTMLInputElement | null>; 
   onSearchChange: (value: string) => void
   onLocationChange: (value: string) => void
   onSortChange: (value: string) => void
@@ -92,6 +92,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
               className="appearance-none bg-white/80 border border-slate-200 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-vesta-orange/50 transition-all duration-300"
               aria-label="Filter by location"
             >
+              <option value="all">All Locations</option>
               {locations.map((location) => (
                 <option key={location.id} value={location.id}>
                   {location.name}

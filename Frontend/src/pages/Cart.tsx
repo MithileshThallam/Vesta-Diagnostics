@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useTestCartStore } from "@/store/testCartStore"
 import Header from "@/components/Header"
+import { useNavigate } from "react-router-dom"
 
 const Cart = () => {
   const { tests, removeTest, clearCart, totalAmount, totalCount } = useTestCartStore()
+  const navigate = useNavigate();
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat("en-IN", {
@@ -31,7 +33,7 @@ const Cart = () => {
   }
 
   const handleContinueShopping = () => {
-    window.location.href = "/tests"
+    navigate('/tests');
   }
 
   // Empty cart state

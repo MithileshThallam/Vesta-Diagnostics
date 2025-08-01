@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import BookingForm from "@/components/BookingForm";
+import BookingForm from "@/components/Home/BookingForm";
 import hero1 from "/HeroSlider/hero-1.png";
 import hero2 from "/HeroSlider/hero-2.png";
 import hero3 from "/HeroSlider/hero-3.png";

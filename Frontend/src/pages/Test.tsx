@@ -26,7 +26,7 @@ const Tests = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Debounce search query for performance
   useEffect(() => {
