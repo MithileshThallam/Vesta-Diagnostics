@@ -73,7 +73,7 @@ export const getAllTests = async (req: Request, res: Response) => {
     const tests = await Test.find()
       .skip(Number(skip))
       .limit(Number(limit))
-      .select("id name category price priceDisplay duration image popular"); // 🔍 summary only
+      .select("id name category description priceDisplay duration locationNames image popular");
 
     return res.status(200).json({ tests });
   } catch (err) {
@@ -83,6 +83,7 @@ export const getAllTests = async (req: Request, res: Response) => {
     });
   }
 };
+
 export const getSpecificTest = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
