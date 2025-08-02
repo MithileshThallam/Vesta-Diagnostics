@@ -4,7 +4,7 @@ import type React from "react"
 import { Clock, MapPin, ChevronRight, Plus, Check, Activity, Zap } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useTestCartStore } from "@/store/testCartStore"
+import { useTestCartStore } from "@/stores/testCartStore"
 import type { MedicalTest } from "@/types/test"
 
 interface TestCardProps {

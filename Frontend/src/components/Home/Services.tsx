@@ -265,8 +265,8 @@ const Services = () => {
                 key={index}
                 onClick={() => scrollToIndex(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                    ? "bg-gradient-to-r from-vesta-orange to-vesta-navy scale-125"
-                    : "bg-gray-300 hover:bg-gray-400"
+                  ? "bg-gradient-to-r from-vesta-orange to-vesta-navy scale-125"
+                  : "bg-gray-300 hover:bg-gray-400"
                   }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -280,7 +280,16 @@ const Services = () => {
         >
           <div
             className="inline-flex items-center cursor-pointer space-x-4 bg-gradient-to-r from-vesta-orange to-vesta-navy p-6 rounded-2xl shadow-lg text-white hover:shadow-xl transition-shadow duration-300"
-            onClick={() => { navigate('/tests') }}
+            onClick={() => {
+              navigate('/tests');
+              setTimeout(() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+              }, 0);
+            }}
+
           >
             <Heart className="w-6 h-6" />
             <div className="text-left">

@@ -6,19 +6,22 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Signup from "@/pages/SignUp"
-import Tests from "./pages/Test"
+import Tests from "@/pages/Test"
 import Services from "./pages/Services"
 import Contact from "./pages/Contact"
 import Cart from "./pages/Cart"
+import AdminPanel from "@/pages/AdminPanel"
 import Header from "./components/Header"
 import NotFound from "@/pages/NotFound"
 import { useAuthFetch } from "@/hooks/useAuthFetch"
+import { useUserStore } from "@/stores/userStore"
 
 const queryClient = new QueryClient()
 
 const AppContent = () => {
   const location = useLocation()
-  const hideHeaderPaths = ["/login", "/signup"]
+  const { role } = useUserStore()
+  const hideHeaderPaths = ["/login", "/signup", "/admin"]
   const shouldShowHeader = !hideHeaderPaths.includes(location.pathname)
 
   // Auto-fetch user on app load
@@ -35,6 +38,8 @@ const AppContent = () => {
         <Route path="/services" element={<Services />} />
         <Route path="/contactus" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
+        {/* {(role === "admin" || role === "sub-admin") && <Route path="/admin" element={<AdminPanel />} />} */}
+        <Route path="/admin" element={<AdminPanel />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

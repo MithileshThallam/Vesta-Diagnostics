@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { ShoppingCart } from "lucide-react"
-import { useTestCartStore } from "@/store/testCartStore"
+import { useTestCartStore } from "@/stores/testCartStore"
 import { Button } from "@/components/ui/button"
 
 interface CartBadgeProps {

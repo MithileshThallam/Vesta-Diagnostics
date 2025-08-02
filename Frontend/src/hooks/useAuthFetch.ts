@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { useUserStore } from "@/store/userStore"
+import { useUserStore } from "@/stores/userStore"
 
 export const useAuthFetch = () => {
   const setUser = useUserStore((state) => state.setUser)

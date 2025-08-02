@@ -3,7 +3,7 @@
 import { Trash2, ShoppingBag, ArrowRight, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { useTestCartStore } from "@/store/testCartStore"
+import { useTestCartStore } from "@/stores/testCartStore"
 import Header from "@/components/Header"
 import { useNavigate } from "react-router-dom"
 

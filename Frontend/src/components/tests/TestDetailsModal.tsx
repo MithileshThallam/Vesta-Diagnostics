@@ -4,8 +4,9 @@ import type React from "react"
 import { X, Clock, MapPin, FileText, Timer, Activity, Plus, Check, Calendar, Stethoscope, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useTestCartStore } from "@/store/testCartStore"
+import { useTestCartStore } from "@/stores/testCartStore"
 import type { MedicalTest } from "@/types/test"
+import { useNavigate } from "react-router-dom"
 
 interface TestModalProps {
   test: MedicalTest | null
@@ -14,8 +15,8 @@ interface TestModalProps {
 }
 
 const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
-  const { addTest, removeTest, isTestInCart } = useTestCartStore()
-
+  const { addTest, removeTest, isTestInCart, clearCart } = useTestCartStore()
+  const navigate = useNavigate()
   if (!isOpen || !test) return null
 
   const inCart = isTestInCart(test.id)
@@ -35,6 +36,12 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
     }
   }
 
+  const handleInstantBook = () => {
+    clearCart();
+    handleCartAction();
+    navigate("/cart");
+  }
+
   const formatReportTime = (hours: number) => {
     if (hours < 24) return `${hours} hours`
     if (hours < 168) return `${Math.floor(hours / 24)} day${hours > 48 ? "s" : ""}`
@@ -43,7 +50,7 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
 
   const getLocationNames = (locationIds: string[]) => {
     const locationMap: Record<string, string> = {
-      mumbai: "Mumbai", delhi: "Delhi NCR", bangalore: "Bangalore", 
+      mumbai: "Mumbai", delhi: "Delhi NCR", bangalore: "Bangalore",
       chennai: "Chennai", hyderabad: "Hyderabad", pune: "Pune",
       kolkata: "Kolkata", ahmedabad: "Ahmedabad"
     }
@@ -61,7 +68,7 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-start">
               <h1 className="text-3xl font-bold text-slate-900">{test.name}</h1>
-              <div className="text-2xl font-bold text-vesta-orange">₹{test.priceDisplay}</div>
+              <div className="text-2xl font-bold text-vesta-orange mr-10">{test.priceDisplay}</div>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -181,9 +188,14 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
                   )}
                 </Button>
 
-                <Button variant="outline" size="lg" className="w-full text-lg h-12 bg-transparent border-slate-200 hover:bg-slate-50">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full text-lg h-12 bg-transparent border-slate-200 hover:bg-slate-50"
+                  onClick={()=> handleInstantBook()}
+                >
                   <Calendar className="w-5 h-5 mr-2" />
-                  Book Now
+                  Instant Book
                 </Button>
               </div>
             </div>

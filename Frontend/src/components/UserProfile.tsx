@@ -1,7 +1,7 @@
 "use client"
 
 import { User, LogOut, Settings } from "lucide-react"
-import { useUserStore } from "@/store/userStore"
+import { useUserStore } from "@/stores/userStore"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
