@@ -23,15 +23,15 @@ const BookingManagement = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "text-[hsl(45_100%_50%)] bg-[hsl(45_100%_50%/0.1)]"
+        return "text-yellow-400 bg-yellow-400/10"
       case "confirmed":
-        return "text-[hsl(200_100%_50%)] bg-[hsl(200_100%_50%/0.1)]"
+        return "text-blue-400 bg-blue-400/10"
       case "completed":
-        return "text-[hsl(120_60%_50%)] bg-[hsl(120_60%_50%/0.1)]"
+        return "text-green-400 bg-green-400/10"
       case "cancelled":
-        return "text-[hsl(0_84%_60%)] bg-[hsl(0_84%_60%/0.1)]"
+        return "text-red-400 bg-red-400/10"
       default:
-        return "text-[hsl(0_0%_45%)] bg-[hsl(0_0%_45%/0.1)]"
+        return "text-slate-400 bg-slate-400/10"
     }
   }
 
@@ -59,28 +59,26 @@ const BookingManagement = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-[hsl(15_96%_53%)] to-[hsl(248_81%_20%)] bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
             Booking Management
           </h2>
-          <p className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] mt-1">
-            Monitor and manage all test bookings
-          </p>
+          <p className="text-slate-400 mt-1">Monitor and manage all test bookings</p>
         </div>
       </div>
 
       {/* Filters */}
-      <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
+      <Card className="border-0 bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-xl border border-slate-700/50">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[hsl(0_0%_45%)] h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search by user, test name, or location..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-[hsl(0_0%_98%)] dark:bg-[hsl(215_15%_20%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] rounded-lg text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] placeholder-[hsl(0_0%_45%)] focus:outline-none focus:ring-2 focus:ring-[hsl(15_96%_53%/0.5)] focus:border-[hsl(15_96%_53%/0.5)] transition-all duration-300"
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
               />
             </div>
 
@@ -89,7 +87,7 @@ const BookingManagement = () => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as any)}
-                className="appearance-none bg-[hsl(0_0%_98%)] dark:bg-[hsl(215_15%_20%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] rounded-lg px-4 py-3 pr-10 text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] focus:outline-none focus:ring-2 focus:ring-[hsl(15_96%_53%/0.5)] focus:border-[hsl(15_96%_53%/0.5)] transition-all duration-300"
+                className="appearance-none bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 pr-10 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -97,17 +95,17 @@ const BookingManagement = () => {
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
               </select>
-              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[hsl(0_0%_45%)] h-4 w-4 pointer-events-none" />
+              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4 pointer-events-none" />
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Bookings Table */}
-      <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
+      <Card className="border-0 bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-xl border border-slate-700/50">
         <CardHeader>
-          <CardTitle className="text-xl text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-[hsl(15_96%_53%)]" />
+          <CardTitle className="text-xl text-white flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-cyan-400" />
             Bookings ({filteredBookings.length})
           </CardTitle>
         </CardHeader>
@@ -115,25 +113,13 @@ const BookingManagement = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)]">
-                  <th className="text-left py-4 px-4 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] font-medium">
-                    Booking
-                  </th>
-                  <th className="text-left py-4 px-4 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] font-medium">
-                    User
-                  </th>
-                  <th className="text-left py-4 px-4 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] font-medium">
-                    Test
-                  </th>
-                  <th className="text-left py-4 px-4 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] font-medium">
-                    Schedule
-                  </th>
-                  <th className="text-left py-4 px-4 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] font-medium">
-                    Status
-                  </th>
-                  <th className="text-right py-4 px-4 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] font-medium">
-                    Actions
-                  </th>
+                <tr className="border-b border-slate-700/50">
+                  <th className="text-left py-4 px-4 text-slate-300 font-medium">Booking</th>
+                  <th className="text-left py-4 px-4 text-slate-300 font-medium">User</th>
+                  <th className="text-left py-4 px-4 text-slate-300 font-medium">Test</th>
+                  <th className="text-left py-4 px-4 text-slate-300 font-medium">Schedule</th>
+                  <th className="text-left py-4 px-4 text-slate-300 font-medium">Status</th>
+                  <th className="text-right py-4 px-4 text-slate-300 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,41 +128,33 @@ const BookingManagement = () => {
                   return (
                     <tr
                       key={booking.id}
-                      className="border-b border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] hover:bg-[hsl(0_0%_96%)] dark:hover:bg-[hsl(215_15%_20%)] transition-colors duration-200"
+                      className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors duration-200"
                     >
                       <td className="py-4 px-4">
                         <div>
-                          <div className="text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] font-medium">
-                            #{booking.id}
-                          </div>
-                          <div className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] text-sm">
+                          <div className="text-white font-medium">#{booking.id}</div>
+                          <div className="text-slate-400 text-sm">
                             {new Date(booking.createdAt).toLocaleDateString()}
                           </div>
                         </div>
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[hsl(248_81%_20%)] to-[hsl(15_96%_53%)] flex items-center justify-center text-white text-sm font-semibold">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center text-white text-sm font-semibold">
                             {booking.userName.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <div className="text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] font-medium">
-                              {booking.userName}
-                            </div>
-                            <div className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] text-sm">
-                              ID: {booking.userId}
-                            </div>
+                            <div className="text-white font-medium">{booking.userName}</div>
+                            <div className="text-slate-400 text-sm">ID: {booking.userId}</div>
                           </div>
                         </div>
                       </td>
                       <td className="py-4 px-4">
                         <div>
-                          <div className="text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] font-medium">
-                            {booking.testName}
-                          </div>
+                          <div className="text-white font-medium">{booking.testName}</div>
                           <div className="flex items-center gap-4 mt-1">
-                            <span className="text-[hsl(15_96%_53%)] font-semibold">{booking.priceDisplay}</span>
-                            <div className="flex items-center gap-1 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] text-sm">
+                            <span className="text-vesta-orange font-semibold">{booking.priceDisplay}</span>
+                            <div className="flex items-center gap-1 text-slate-400 text-sm">
                               <MapPin className="h-3 w-3" />
                               {booking.location}
                             </div>
@@ -185,11 +163,11 @@ const BookingManagement = () => {
                       </td>
                       <td className="py-4 px-4">
                         <div className="space-y-1">
-                          <div className="flex items-center gap-2 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
+                          <div className="flex items-center gap-2 text-slate-300">
                             <Calendar className="h-3 w-3" />
                             <span className="text-sm">{new Date(booking.testDate).toLocaleDateString()}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
+                          <div className="flex items-center gap-2 text-slate-400">
                             <Clock className="h-3 w-3" />
                             <span className="text-sm">{new Date(booking.testDate).toLocaleTimeString()}</span>
                           </div>
@@ -199,7 +177,7 @@ const BookingManagement = () => {
                         <select
                           value={booking.status}
                           onChange={(e) => handleStatusChange(booking.id, e.target.value)}
-                          className={`appearance-none px-3 py-1 rounded-full text-xs font-medium border-0 focus:outline-none focus:ring-2 focus:ring-[hsl(15_96%_53%/0.5)] ${getStatusColor(booking.status)}`}
+                          className={`appearance-none px-3 py-1 rounded-full text-xs font-medium border-0 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${getStatusColor(booking.status)}`}
                         >
                           <option value="pending">Pending</option>
                           <option value="confirmed">Confirmed</option>
@@ -212,7 +190,7 @@ const BookingManagement = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-[hsl(0_0%_45%)] hover:text-[hsl(0_0%_20%)] dark:hover:text-[hsl(0_0%_95%)] hover:bg-[hsl(0_0%_90%)] dark:hover:bg-[hsl(215_15%_25%)]"
+                            className="text-slate-400 hover:text-white hover:bg-slate-700/50"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -220,7 +198,7 @@ const BookingManagement = () => {
                             variant="ghost"
                             size="sm"
                             onClick={() => deleteBooking(booking.id)}
-                            className="text-[hsl(0_84%_60%)] hover:text-[hsl(0_84%_55%)] hover:bg-[hsl(0_84%_60%/0.1)]"
+                            className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
