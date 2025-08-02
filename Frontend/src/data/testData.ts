@@ -325,7 +325,7 @@ export const medicalTests: MedicalTest[] = [
 
   // Preventive Packages
   {
-    id: "executive-checkup",
+    id: "executive-checkup-package",
     name: "Executive Health Checkup",
     category: "preventive",
     price: 15000,
@@ -520,7 +520,7 @@ export const medicalTests: MedicalTest[] = [
   
   // Genetic Tests
   {
-    id: "genetic-screening",
+    id: "genetic-screening-package",
     name: "Comprehensive Genetic Screening",
     category: "genetic",
     price: 25000,

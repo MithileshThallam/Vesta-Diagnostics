@@ -36,46 +36,27 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
   }
 
   const formatReportTime = (hours: number) => {
-    if (hours < 24) {
-      return `${hours} hours`
-    } else if (hours < 168) {
-      const days = Math.floor(hours / 24)
-      return `${days} day${days > 1 ? "s" : ""}`
-    } else {
-      const weeks = Math.floor(hours / 168)
-      return `${weeks} week${weeks > 1 ? "s" : ""}`
-    }
+    if (hours < 24) return `${hours} hours`
+    if (hours < 168) return `${Math.floor(hours / 24)} day${hours > 48 ? "s" : ""}`
+    return `${Math.floor(hours / 168)} week${hours > 336 ? "s" : ""}`
   }
 
   const getLocationNames = (locationIds: string[]) => {
-    const locationMap: { [key: string]: string } = {
-      mumbai: "Mumbai",
-      delhi: "Delhi NCR",
-      bangalore: "Bangalore",
-      chennai: "Chennai",
-      hyderabad: "Hyderabad",
-      pune: "Pune",
-      kolkata: "Kolkata",
-      ahmedabad: "Ahmedabad",
+    const locationMap: Record<string, string> = {
+      mumbai: "Mumbai", delhi: "Delhi NCR", bangalore: "Bangalore", 
+      chennai: "Chennai", hyderabad: "Hyderabad", pune: "Pune",
+      kolkata: "Kolkata", ahmedabad: "Ahmedabad"
     }
-
-    if (locationIds.length >= 8) return ["All Locations"]
-    return locationIds.map((id) => locationMap[id] || id)
+    return locationIds.length >= 8 ? ["All Locations"] : locationIds.map(id => locationMap[id] || id)
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-colors"
-          aria-label="Close modal"
-        >
+      <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl">
+        <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg">
           <X className="w-5 h-5 text-slate-600" />
         </button>
 
-        {/* Header Section */}
         <div className="p-6 pb-4 border-b border-slate-100">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-start">
@@ -83,7 +64,6 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
               <div className="text-2xl font-bold text-vesta-orange">₹{test.priceDisplay}</div>
             </div>
 
-            {/* Highlights */}
             <div className="flex flex-wrap gap-2">
               <div className="flex items-center text-sm text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full">
                 <Zap className="w-4 h-4 mr-2 text-vesta-orange" />
@@ -104,12 +84,9 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Content */}
         <div className="p-6">
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">
-              {/* About Section */}
               <Card className="border-0 shadow-soft bg-slate-50">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl">
@@ -122,22 +99,18 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
                 </CardContent>
               </Card>
 
-              {/* Parameters Section */}
               <Card className="border-0 shadow-soft">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl">
                     <FileText className="w-5 h-5 text-blue-600" />
                     Parameters Tested ({test.parameterCount})
                   </CardTitle>
-                  <CardDescription>Key measurements and analyses included in this test</CardDescription>
+                  <CardDescription>Key measurements included</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {test.parameters.map((parameter, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
-                      >
+                      <div key={index} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100">
                         <div className="w-2 h-2 bg-vesta-orange rounded-full flex-shrink-0" />
                         <span className="text-slate-700">{parameter}</span>
                       </div>
@@ -147,14 +120,12 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
               </Card>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
-              {/* Quick Info */}
               <Card className="border-0 shadow-soft bg-gradient-to-br from-vesta-orange/5 to-vesta-navy/5">
                 <CardHeader>
                   <CardTitle className="text-lg">Test Information</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-2">
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-blue-600" />
                     <div>
@@ -185,10 +156,7 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
                       <div className="font-medium text-slate-900">Available At</div>
                       <div className="text-sm text-slate-600">
                         {getLocationNames(test.locations).map((location, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-slate-200 text-slate-700 px-2 py-1 rounded-md text-xs mr-1 mb-1"
-                          >
+                          <span key={index} className="inline-block bg-slate-200 text-slate-700 px-2 py-1 rounded-md text-xs mr-1 mb-1">
                             {location}
                           </span>
                         ))}
@@ -198,14 +166,8 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
                 </CardContent>
               </Card>
 
-              {/* Action Buttons */}
               <div className="space-y-3">
-                <Button
-                  onClick={handleCartAction}
-                  variant={inCart ? "default" : "premium"}
-                  size="lg"
-                  className="w-full text-lg h-12"
-                >
+                <Button onClick={handleCartAction} variant={inCart ? "default" : "premium"} size="lg" className="w-full text-lg h-12">
                   {inCart ? (
                     <>
                       <Check className="w-5 h-5 mr-2" />
@@ -219,39 +181,11 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
                   )}
                 </Button>
 
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full text-lg h-12 bg-transparent border-slate-200 hover:bg-slate-50"
-                >
+                <Button variant="outline" size="lg" className="w-full text-lg h-12 bg-transparent border-slate-200 hover:bg-slate-50">
                   <Calendar className="w-5 h-5 mr-2" />
                   Book Now
                 </Button>
               </div>
-
-              {/* Trust Indicators */}
-              <Card className="border-0 shadow-soft bg-slate-50">
-                <CardContent className="p-4">
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl mb-1">🔒</div>
-                      <div className="text-xs text-slate-600">Secure & Safe</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl mb-1">✅</div>
-                      <div className="text-xs text-slate-600">NABL Certified</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl mb-1">🏥</div>
-                      <div className="text-xs text-slate-600">Expert Analysis</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl mb-1">📱</div>
-                      <div className="text-xs text-slate-600">Digital Reports</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>

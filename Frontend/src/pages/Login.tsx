@@ -38,14 +38,13 @@ const Login = () => {
     console.log("Response received: ", res);
   
     setIsLoading(true);
-    // toast({
-    //   title: "Welcome!",
-    //   description: "Patient Logged in successfully.",
-    //   className: "bg-white text-black",
-    // });
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsLoading(false);
-    // navigate('/')
+    toast({
+      title: "Welcome Back!",
+      className: "bg-white text-black",
+    });
+    navigate('/')
   }, [navigate, toast, phone, password]);
 
   const floatingElements = useMemo(() => (
