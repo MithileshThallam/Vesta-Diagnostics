@@ -1,10 +1,8 @@
-// src/controllers/test.controller.ts
 import { Request, Response } from 'express';
 import Test from '../models/Test.model.js';
 import slugify from 'slugify';
-import cloudinary from '../config/cloudinary.js';
 
-// ✅ CREATE Test (admin or sub-admin)
+// ✅ CREATE Test (without image)
 export const createTest = async (req: Request, res: Response) => {
   try {
     const {
@@ -18,25 +16,20 @@ export const createTest = async (req: Request, res: Response) => {
       locationNames,
       popular,
       keywords,
+      parts,
+      parameterCount,
+      parameters,
+      reportIn,
+      about,
     } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ message: 'Image file is required' });
+    if (
+      !name || !category || !description || !price || !priceDisplay || !duration ||
+      !locations || !locationNames || !keywords || !parts || !parameterCount ||
+      !parameters || !reportIn || !about
+    ) {
+      return res.status(400).json({ message: 'All required fields must be provided' });
     }
-
-    const file = req.file as Express.Multer.File;
-
-    // Upload to Cloudinary
-    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { folder: 'vesta-tests', resource_type: 'image' },
-        (error, result) => {
-          if (error || !result) return reject(error);
-          resolve(result);
-        }
-      );
-      stream.end(file.buffer);
-    });
 
     const slug = slugify(name, { lower: true });
 
@@ -50,9 +43,13 @@ export const createTest = async (req: Request, res: Response) => {
       duration,
       locations,
       locationNames,
-      image: result.secure_url,
       popular,
       keywords,
+      parts,
+      parameterCount,
+      parameters,
+      reportIn,
+      about,
     });
 
     return res.status(201).json({ message: 'Test created successfully', test });
@@ -64,8 +61,7 @@ export const createTest = async (req: Request, res: Response) => {
   }
 };
 
-
-
+// ✅ GET All Tests (without image field)
 export const getAllTests = async (req: Request, res: Response) => {
   try {
     const { skip = "0", limit = "0" } = req.query;
@@ -73,7 +69,9 @@ export const getAllTests = async (req: Request, res: Response) => {
     const tests = await Test.find()
       .skip(Number(skip))
       .limit(Number(limit))
-      .select("id name category description priceDisplay duration locationNames image popular");
+      .select(
+        "id name category description price priceDisplay duration locationNames popular parts parameterCount parameters reportIn about"
+      );
 
     return res.status(200).json({ tests });
   } catch (err) {
@@ -83,23 +81,3 @@ export const getAllTests = async (req: Request, res: Response) => {
     });
   }
 };
-
-export const getSpecificTest = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-
-    const test = await Test.findOne({ id });
-
-    if (!test) {
-      return res.status(404).json({ message: "Test not found" });
-    }
-
-    return res.status(200).json({ test });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Failed to fetch test",
-      error: (err as Error).message,
-    });
-  }
-};
-

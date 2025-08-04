@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User.model';
 import SubAdmin from '../models/SubAdmin';
-import Admin from '../models/Admin';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -72,51 +71,64 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 
+
+
 export const login = async (req: Request, res: Response) => {
   try {
     const { phone, password } = req.body;
     console.log("Login Request Received: ", req.body);
 
-    // Check admin collection first
-    let user = await Admin.findOne({ phone });
-    let userType = 'admin';
+    let user: any = null;
+    let userType: 'admin' | 'sub-admin' | 'user' = 'user';
 
-    // If not admin, check sub-admin
+    // ✅ Hardcoded admin check
+    const hardcodedAdmin = {
+      phone: '999-999-9999', // replace with actual phone number
+      password: process.env.ADMIN_PASSWORD || 'admin@123', // can use env var
+      name: 'Super Admin',
+      role: 'admin',
+      _id: 'admin-id-001'
+    };
+
+    if (phone === hardcodedAdmin.phone) {
+      const isMatch = await bcrypt.compare(password, await bcrypt.hash(hardcodedAdmin.password, 10));
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Incorrect password' });
+      }
+      user = hardcodedAdmin;
+      userType = 'admin';
+    }
+
+    // 🔍 Check sub-admins
     if (!user) {
       user = await SubAdmin.findOne({ phone });
-      userType = 'sub-admin';
+      if (user) userType = 'sub-admin';
     }
 
-    // If neither admin nor sub-admin, check regular user
+    // 🔍 Check regular users
     if (!user) {
       user = await User.findOne({ phone });
-      userType = 'user';
+      if (user) userType = 'user';
     }
 
-    // If no user found in any collection
+    // ❌ No match in any case
     if (!user) {
       return res.status(400).json({ message: 'No user exists with this phone number.' });
     }
 
-    // Verify password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Incorrect password' });
-    }
-
-    // Generate JWT token
+    // ✅ Generate token
     const token = jwt.sign(
       { id: user._id, role: user.role, userType },
       process.env.JWT_SECRET!,
       { expiresIn: '7d' }
     );
 
-    // Determine cookie name based on user type
+    // 🔐 Set cookie name
     let cookieName = 'UserAuthToken';
     if (userType === 'admin') cookieName = 'AdminAuthToken';
     else if (userType === 'sub-admin') cookieName = 'SubAdminAuthToken';
 
-    // Set HTTP-only secure cookie
+    // 🍪 Set cookie
     res.cookie(cookieName, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -125,7 +137,8 @@ export const login = async (req: Request, res: Response) => {
       path: '/',
     });
 
-    res.status(200).json({
+    // ✅ Send response
+    return res.status(200).json({
       message: 'Login successful',
       user: {
         id: user._id,
@@ -137,6 +150,6 @@ export const login = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Login failed', error });
+    return res.status(500).json({ message: 'Login failed', error });
   }
 };

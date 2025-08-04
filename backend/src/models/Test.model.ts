@@ -2,7 +2,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ITest extends Document {
-  id: string; // slug/identifier used in frontend
+  id: string;
   name: string;
   category: string;
   description: string;
@@ -11,14 +11,19 @@ export interface ITest extends Document {
   duration: string;
   locations: string[];
   locationNames: string[];
-  image: string;
   popular: boolean;
   keywords: string[];
+
+  parts: string[];
+  parameterCount: number; 
+  parameters: string[]
+  reportIn: number; 
+  about: string; 
 }
 
 const TestSchema = new Schema<ITest>(
   {
-    id: { type: String, required: true, unique: true }, // used in route like /api/tests/:id
+    id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     category: { type: String, required: true },
     description: { type: String, required: true },
@@ -27,14 +32,18 @@ const TestSchema = new Schema<ITest>(
     duration: { type: String, required: true },
     locations: [{ type: String, required: true }],
     locationNames: [{ type: String, required: true }],
-    image: { type: String, required: true },
     popular: { type: Boolean, default: false },
-    keywords: [{ type: String }],
+    keywords: [{ type: String, required: true }],
+
+    parts: [{ type: String, required: true }],
+    parameterCount: { type: Number, required: true },
+    parameters: [{ type: String, required: true }],
+    reportIn: { type: Number, required: true },
+    about: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-// ✅ Explicit unique index on `id` field for better performance and clarity
 TestSchema.index({ id: 1 }, { unique: true });
 
 export default mongoose.model<ITest>('Test', TestSchema);
