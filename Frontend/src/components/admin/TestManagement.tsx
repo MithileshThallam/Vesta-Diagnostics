@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Filter, Plus, Edit, Trash2, Clock, Activity, MapPin, FileText, Zap } from "lucide-react"
+import { Search, Filter, Plus, Edit, Trash2, Clock, Activity, MapPin, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { medicalTests } from "@/data/testData"
+import CreateTestModal from "./CreateTestModal"
 
 const TestManagement = () => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -120,7 +121,7 @@ const TestManagement = () => {
                 <CardTitle className="text-xl font-bold text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] group-hover:text-[hsl(15_96%_53%)] transition-colors duration-300 leading-tight">
                   {test.name}
                 </CardTitle>
-                
+
                 {/* Highlights section */}
                 <div className="flex flex-col gap-1 text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                   <div className="flex items-center">
@@ -189,6 +190,14 @@ const TestManagement = () => {
           </Card>
         ))}
       </div>
+      <CreateTestModal
+        open={showCreateForm}
+        onClose={() => setShowCreateForm(false)}
+        onSubmit={(newTest) => {
+          // Handle the new test creation here
+          console.log("New test created:", newTest)
+        }}
+      />
     </div>
   )
 }
