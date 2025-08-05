@@ -128,16 +128,23 @@ const Signup = () => {
         "Content-Type": "application/json"
       },
     })
-    let res = await response.json();
 
-    console.log("Response received: ", res);
-    console.log('Form submitted with data:', formData);
-    // toast({
-    //   title: "Welcome!",
-    //   description: "Patient Logged in successfully.",
-    //   className: "bg-white text-black",
-    // });
-    // navigate('/');
+    if (response.ok) {
+      toast({
+        title: "Welcome!",
+        description: "Patient Logged in successfully.",
+        className: "bg-white text-black",
+      });
+      navigate('/');
+    }
+    else{
+      let res = await response.json();
+      toast({
+        title: "Error!",
+        description: res.message,
+        className: "bg-white text-black",
+      });
+    }
 
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);

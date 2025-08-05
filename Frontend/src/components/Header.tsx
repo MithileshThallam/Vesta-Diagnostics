@@ -1,11 +1,9 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import CartBadge from "./cartBadge"
 import UserProfile from "./UserProfile"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -23,7 +21,7 @@ const Header = () => {
     {
       name: "Pathology",
       tests: [
-        "25-Hydroxy Vitamin D, Serum",
+        "25 - Hydroxy Vitamin D, Serum",
         "ANA Profile, Serum",
         "Anti Cyclic Citrullinated Peptide (Anti CCP), Serum",
         "Apolipoprotein A1, Serum",
@@ -48,32 +46,31 @@ const Header = () => {
     {
       name: "Radiology",
       tests: [
-        "Bone Densitometry Right Femur/Flip",
-        "Bone Densitometry Spine",
-        "CT Abdomen & Pelvis Plain",
-        "CT Chest/Thorax Plain",
-        "CT Neck Plain Study",
-        "CT PNS (Axial+Coronal)",
-        "CT Right Knee (3D Study)",
-        "CT Temporal Bone",
-        "HRCT Chest",
-        "Mammography Bilateral",
-        "MRI Brain Plain",
-        "MRI Dorsal Spine / Thoracic Spine",
-        "MRI Lumbar Spine",
-        "MRI Right Foot",
-        "MRI Right Knee Joint",
-        "MRI Stroke Protocol",
-        "Ultrasound Doppler Bilateral Lower Limbs, Venous",
-        "Ultrasound Doppler Left Lower Limb, Venous",
-        "Ultrasound NT Scan",
-        "Ultrasound Soft Parts",
-        "Ultrasound Transvaginal Scan (TVS)",
-        "X-Ray Erect Abdomen",
-        "X-Ray LS Spine AP And LAT View",
-        "X-Ray PNS (Water View)",
-        "X-Ray Right Knee AP/LAT View(Standing)",
-        "X-Ray Right Foot AP View"
+        "Bone Densitometry Right Forearm",
+        "Bone Densitometry Whole Body",
+        "CT Brain Plain",
+        "CT KUB Plain",
+        "CT Peripheral Angiogram",
+        "CT Pulmonary Angiogram",
+        "CT Right Wrist (3D Study)",
+        "CT Urography Plain",
+        "M.R.C.P.",
+        "MRI Abdomen and Pelvis",
+        "MRI Cervical Spine",
+        "MRI Left Shoulder Joint",
+        "MRI Right Ankle Joint",
+        "MRI Right Hand",
+        "MRI Sella + Contrast",
+        "Ultrasound Abdomen Pelvis",
+        "Ultrasound Doppler Carotid",
+        "Ultrasound Neck",
+        "Ultrasound Pelvis-Female",
+        "Ultrasound TIFFA",
+        "X-Ray Chest PA View",
+        "X-Ray HSG (Hysterosalpingogram)",
+        "X-Ray Pelvis With Both Hip AP View",
+        "X-Ray Right Foot AP View",
+        "X-Ray Right Shoulder AP View"
       ]
     }
   ]
@@ -104,38 +101,73 @@ const Header = () => {
                 onMouseLeave={() => item.name === "Tests" ? setIsTestsHovered(false) : null}
               >
                 <Button variant="nav" size="sm" asChild className="text-base">
-                  <a href={item.href}>{item.name}</a>
+                  <Link to={item.href}>{item.name}</Link>
                 </Button>
 
                 {item.name === "Tests" && isTestsHovered && (
-                  <div className="hidden lg:block absolute top-full -left-72 mt-2 w-[800px] bg-white shadow-lg rounded-lg border border-gray-200 p-4 z-50">
-                    <div className="grid grid-cols-2 gap-6">
-                      {testCategories.map((category) => (
-                        <div key={category.name} className="space-y-2">
-                          <h3 className="font-bold text-lg text-primary mb-2">{category.name}</h3>
-                          <ul className="space-y-1">
-                            {category.tests.slice(0, 10).map((test) => (
-                              <li key={test}>
-                                <a
-                                  href="#"
-                                  className="text-sm text-gray-700 hover:text-primary hover:underline"
-                                  onClick={(e) => e.preventDefault()}
-                                >
-                                  {test}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                          {category.tests.length > 10 && (
-                            <a
-                              href="/tests"
-                              className="text-sm text-primary hover:underline font-medium"
-                            >
-                              View all {category.name.toLowerCase()} tests...
-                            </a>
-                          )}
-                        </div>
-                      ))}
+                  <div
+                    className="hidden lg:block absolute top-6 -left-[400px] mt-2 w-[1000px] bg-white shadow-dropdown rounded-lg border border-gray-200 z-50"
+                    onMouseEnter={() => setIsTestsHovered(true)}
+                    onMouseLeave={() => setIsTestsHovered(false)}
+                  >
+                    <div className="p-6">
+                      <div className="text-center mb-6">
+                        <h2 className="text-2xl font-bold text-primary">Top Tests</h2>
+                      </div>
+                      <div className="grid grid-cols-2 gap-8 max-h-[70vh] overflow-y-auto">
+                        {testCategories.map((category) => (
+                          <div key={category.name} className="space-y-3 text-center">
+                            <h3 className="font-bold text-lg text-primary mb-3">{category.name}</h3>
+                            {/* <div className="border-b border-dashed border-gray-300 mb-4"></div> */}
+                            <div className="grid grid-cols-2 gap-4 text-left">
+                              <div className="space-y-0">
+                                <ul className="space-y-0">
+                                  {category.tests.map((test, index) => (
+                                    <li key={test}>
+                                      <div className="flex items-start py-2">
+                                        <span className="text-primary mr-2 mt-1.5 text-xs">•</span>
+                                        <a
+                                          href="#"
+                                          className="text-sm text-gray-700 hover:text-primary transition-smooth text-wrap leading-relaxed whitespace-normal break-words"
+                                          onClick={(e) => e.preventDefault()}
+                                        >
+                                          {test}
+                                        </a>
+                                      </div>
+                                      {index < Math.ceil(category.tests.length / 2) - 1 && (
+                                        <div className="border-b border-dashed border-gray-200"></div>
+                                      )}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div className="space-y-0">
+                                <ul className="space-y-0">
+                                  {category.tests.map((test, index) => (
+                                    <li key={test}>
+                                      <div className="flex items-start py-2">
+                                        <span className="text-primary mr-2 mt-1.5 text-xs">•</span>
+                                        <a
+                                          href="#"
+                                          className="text-sm text-gray-700 hover:text-primary transition-smooth leading-relaxed line-clamp-1"
+                                          onClick={(e) => e.preventDefault()}
+                                        >
+                                          {test}
+                                        </a>
+                                      </div>
+                                      {index < Math.floor(category.tests.length / 2) - 1 && (
+                                        <div className="border-b border-dashed border-gray-200"></div>
+                                      )}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="pt-4">
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
