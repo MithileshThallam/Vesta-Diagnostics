@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button"
 import { useAdminStore } from "@/stores/adminStore"
 import { useUserStore } from "@/stores/userStore"
 import AdminDashboard from "@/components/admin/AdminDashboard"
-import UserManagement from "@/components/admin/UserManagement"
 import BookingManagement from "@/components/admin/BookingManagement"
 import TestManagement from "@/components/admin/TestManagement"
 import Home from "./Home"
@@ -26,10 +25,8 @@ const AdminPanel = () => {
 
   const menuItems = [
     { id: "dashboard", label: "Mission Control", icon: LayoutDashboard },
-    { id: "users", label: "User Matrix", icon: Users },
     { id: "bookings", label: "Booking Nexus", icon: Calendar },
     { id: "tests", label: "Test Arsenal", icon: TestTube },
-    { id: "settings", label: "System Config", icon: Settings },
   ]
 
   const renderContent = () => {
@@ -40,8 +37,6 @@ const AdminPanel = () => {
     switch (activeSection) {
       case "dashboard":
         return <AdminDashboard />
-      case "users":
-        return <UserManagement />
       case "bookings":
         return <BookingManagement />
       case "tests":
