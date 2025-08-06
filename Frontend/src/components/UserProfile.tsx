@@ -1,4 +1,3 @@
-"use client"
 
 import { User, LogOut, Settings } from "lucide-react"
 import { useUserStore } from "@/stores/userStore"
@@ -30,8 +29,6 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     await logout()
-    // Optionally redirect to home page
-    window.location.href = "/"
   }
 
   return (

@@ -42,7 +42,7 @@ export const useUserStore = create<UserState>()(
       logout: async () => {
         try {
           // Call logout endpoint to clear httpOnly cookie
-          await fetch("/api/auth/logout", {
+          await fetch("http://localhost:5000/api/auth/logout", {
             method: "POST",
             credentials: "include",
             headers: {

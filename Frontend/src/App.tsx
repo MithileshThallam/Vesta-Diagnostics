@@ -7,7 +7,7 @@ import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Signup from "@/pages/SignUp"
 import Tests from "@/pages/Test"
-// import Franchise from './pages/Franchise'
+import Franchise from './pages/Franchise'
 import Contact from "./pages/Contact"
 import Cart from "./pages/Cart"
 import AdminPanel from "@/pages/AdminPanel"
@@ -36,7 +36,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/tests" element={<Tests />} />
-        {/* <Route path="/franchise" element={<Franchise />} /> */}
+        <Route path="/franchise" element={<Franchise />} />
         <Route path="/contactus" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         {/* {(role === "admin" || role === "sub-admin") && <Route path="/admin" element={<AdminPanel />} />} */}
