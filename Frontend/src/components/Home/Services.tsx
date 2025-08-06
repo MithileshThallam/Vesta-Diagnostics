@@ -238,14 +238,14 @@ const Services = () => {
                 </CardHeader>
 
                 <CardContent className="pt-0">
-                  <ul className="space-y-2 mb-6">
+                  {/* <ul className="space-y-2 mb-6">
                     {service.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-center text-sm text-slate-600">
                         <div className="w-1.5 h-1.5 rounded-full bg-vesta-orange mr-3" />
                         {feature}
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
                   <Button
                     variant="outline"
                     className="w-full group-hover:bg-vesta-orange group-hover:text-white group-hover:border-vesta-orange transition-all duration-300 bg-transparent border-gray-200 hover:shadow-md"

@@ -125,7 +125,6 @@ const RadiologyDepartment = () => {
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div className={`px-4 py-2 bg-gradient-to-r ${currentTest.gradient} rounded-full text-sm font-bold shadow-lg flex items-center`}>
                     <currentTest.icon className="w-4 h-4 mr-2" />
-                    {currentTest.priceRange}
                   </div>
                   <div className="flex items-center space-x-2 text-sm bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
                     <Clock className="w-4 h-4" />
@@ -226,7 +225,6 @@ const RadiologyDepartment = () => {
                     <p className={`text-sm mb-3 ${
                       isActive ? "text-white/90" : "text-gray-600"
                     }`}>
-                      {test.priceRange}
                     </p>
                     <ul className="space-y-2 mt-auto">
                       {test.features.map((feature, idx) => (
