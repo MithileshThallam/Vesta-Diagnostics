@@ -175,7 +175,7 @@ const HeroSlider = () => {
                         size="lg"
                         className="text-sm sm:text-lg bg-white/90 text-black border-white/90 hover:bg-white cursor-pointer"
                       >
-                        Learn More
+                            Explore Tests
                       </Button>
                     </div>
                   </div>

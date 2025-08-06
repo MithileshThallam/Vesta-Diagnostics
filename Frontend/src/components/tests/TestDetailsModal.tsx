@@ -88,7 +88,7 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900">{test.name}</h1>
-              <div className="text-xl md:text-2xl font-bold text-vesta-orange">{test.priceDisplay}</div>
+              {/* <div className="text-xl md:text-2xl font-bold text-vesta-orange">{test.priceDisplay}</div> */}
             </div>
 
             <div className="flex flex-wrap gap-2">

@@ -53,7 +53,12 @@ export const signup = async (req: Request, res: Response) => {
     });
 
   } catch (error: any) {
-    console.error('Signup error:', error);
+
+    return res.status(500).json({ 
+      success: false,   
+      message: 'Internal server error',
+      error: error.message
+    });
 
     if (error.code === 11000 && error.keyPattern?.email) {
       return res.status(400).json({ 
