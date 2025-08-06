@@ -135,7 +135,7 @@ const Signup = () => {
         description: "Patient Logged in successfully.",
         className: "bg-white text-black",
       });
-      navigate('/');
+      navigate('/login');
     }
     else{
       let res = await response.json();

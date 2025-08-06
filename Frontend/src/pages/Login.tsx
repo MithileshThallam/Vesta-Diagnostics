@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import loginImage from '/Features.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { useUserStore } from '@/stores/userStore';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,37 +25,66 @@ const Login = () => {
     e.preventDefault();
 
     console.log("Request data: ", phone, password);
-  
-    let response = await fetch("http://localhost:5000/api/auth/login",{
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify({ phone, password }),
-      headers: {
-        "Content-Type": "application/json"
-      },
-    })
-    let res = await response.json();
-  
-    console.log("Response received: ", res);
-  
+
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsLoading(false);
-    toast({
-      title: "Welcome Back!",
-      className: "bg-white text-black",
-    });
-    navigate('/')
+
+    try {
+      let response = await fetch("http://localhost:5000/api/auth/login", {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({ phone, password }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      });
+
+      let res = await response.json();
+
+      console.log("Response received: ", res);
+
+      if (response.ok) {
+        // Update user store with the received data
+        useUserStore.getState().setUser({
+          name: res.user.name,
+          phone: res.user.phone,
+          role: res.user.role
+        });
+
+        toast({
+          title: "Welcome Back!",
+          className: "bg-white text-black",
+        });
+
+        // Wait for state to update before navigating
+        await new Promise(resolve => setTimeout(resolve, 100));
+        navigate('/');
+      } else {
+        toast({
+          title: "Login Failed",
+          description: res.message || "Invalid credentials",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred during login",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }, [navigate, toast, phone, password]);
+
 
   const floatingElements = useMemo(() => (
     <>
-      <div className="absolute top-20 left-10 w-16 h-16 bg-gradient-primary rounded-full opacity-20 animate-pulse" 
-           style={{ animationDelay: '0s', animationDuration: '3s' }} />
+      <div className="absolute top-20 left-10 w-16 h-16 bg-gradient-primary rounded-full opacity-20 animate-pulse"
+        style={{ animationDelay: '0s', animationDuration: '3s' }} />
       <div className="absolute top-40 right-16 w-12 h-12 bg-gradient-primary rounded-full opacity-15 animate-pulse"
-           style={{ animationDelay: '1s', animationDuration: '4s' }} />
+        style={{ animationDelay: '1s', animationDuration: '4s' }} />
       <div className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-primary rounded-full opacity-10 animate-pulse"
-           style={{ animationDelay: '2s', animationDuration: '5s' }} />
+        style={{ animationDelay: '2s', animationDuration: '5s' }} />
     </>
   ), []);
 
@@ -63,9 +93,9 @@ const Login = () => {
       {/* Image Section */}
       <div className="hidden lg:flex flex-1 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-vesta-navy/70 to-transparent z-10" />
-        <img 
-          src={loginImage} 
-          alt="Doctor reviewing medical scans" 
+        <img
+          src={loginImage}
+          alt="Doctor reviewing medical scans"
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-8 left-8 z-20 text-white">
@@ -73,20 +103,20 @@ const Login = () => {
           <p className="text-xl opacity-90">Experts who care</p>
         </div>
       </div>
-      
+
       {/* Form Section */}
       <div className="flex-1 flex items-center justify-center p-6 relative overflow-hidden">
         {/* Animated Background Elements */}
         {floatingElements}
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-vesta-orange/5 via-transparent to-vesta-navy/5 pointer-events-none" />
-        
+
         {/* Main Container */}
         <div className="w-full max-w-md relative z-10">
           {/* Glassmorphism Card */}
           <div className="backdrop-blur-xl bg-white/80 border border-white/20 rounded-2xl shadow-2xl p-8">
-            
+
             {/* Header */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-primary rounded-full mb-3">
@@ -151,8 +181,8 @@ const Login = () => {
                   <input type="checkbox" className="w-3 h-3 text-vesta-orange border-gray-300 rounded focus:ring-vesta-orange transition-colors duration-300" />
                   <span className="text-text-dark/70 group-hover:text-text-dark transition-colors duration-300">Remember me</span>
                 </label>
-                <Link 
-                  to="/forgot-password" 
+                <Link
+                  to="/forgot-password"
                   className="text-vesta-orange hover:text-vesta-navy transition-colors duration-300 font-medium text-xs"
                 >
                   Forgot password?
@@ -193,13 +223,13 @@ const Login = () => {
             <div className="grid grid-cols-2 gap-3">
               <Button variant="outline" className="h-10 border text-xs hover:border-vesta-orange hover:bg-vesta-orange/5 transition-all duration-300">
                 <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 </svg>
                 Google
               </Button>
               <Button variant="outline" className="h-10 border text-xs hover:border-vesta-orange hover:bg-vesta-orange/5 transition-all duration-300">
                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
                 Facebook
               </Button>
@@ -209,8 +239,8 @@ const Login = () => {
             <div className="text-center mt-6">
               <p className="text-text-dark/70 text-xs">
                 Don't have an account?{' '}
-                <Link 
-                  to="/signup" 
+                <Link
+                  to="/signup"
                   className="text-vesta-orange hover:text-vesta-navy font-semibold transition-colors duration-300 hover:underline"
                 >
                   Sign up for free
