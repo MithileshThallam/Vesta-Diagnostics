@@ -7,11 +7,12 @@ import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Signup from "@/pages/SignUp"
 import Tests from "@/pages/Test"
-import Franchise from './pages/Franchise'
+// import Franchise from './pages/Franchise'
 import Contact from "./pages/Contact"
 import Cart from "./pages/Cart"
 import AdminPanel from "@/pages/AdminPanel"
 import Header from "./components/Header"
+import Footer from "./components/Footer"
 import NotFound from "@/pages/NotFound"
 import { useAuthFetch } from "@/hooks/useAuthFetch"
 import { useUserStore } from "@/stores/userStore"
@@ -35,13 +36,14 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/tests" element={<Tests />} />
-        <Route path="/franchise" element={<Franchise />} />
+        {/* <Route path="/franchise" element={<Franchise />} /> */}
         <Route path="/contactus" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         {/* {(role === "admin" || role === "sub-admin") && <Route path="/admin" element={<AdminPanel />} />} */}
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer/>
     </>
   )
 }
