@@ -158,3 +158,23 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Login failed', error });
   }
 };
+
+export const logout = (req: Request, res: Response) => {
+  try {
+    // Clear all possible auth tokens
+    res.clearCookie('UserAuthToken', { path: '/' });
+    res.clearCookie('SubAdminAuthToken', { path: '/' });
+    res.clearCookie('AdminAuthToken', { path: '/' });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Logout successful',
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: 'Logout failed',
+      error: error.message,
+    });
+  }
+};
