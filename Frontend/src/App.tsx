@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const { role, isAuthenticated } = useUserStore();
-  const hideHeaderPaths = ["/login", "/signup"];
+  const hideHeaderPaths = ["/login", "/signup", "/admin"];
   const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
 
   // This will run on first load and whenever auth state changes
