@@ -1,138 +1,208 @@
-import { useEffect, useState } from "react";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Phone, MapPin, User, Mail } from "lucide-react";
+import contactHeroBg from "/CHero.png";
 
-const Contact = () => {
-  const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; size: number; delay: number }>>([]);
-
-  useEffect(() => {
-    const newStars = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      delay: Math.random() * 5,
-    }));
-    setStars(newStars);
-  }, []);
-
+const ContactInfo = () => {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden mt-10">
-      {/* Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {stars.map((star) => (
-          <div
-            key={star.id}
-            className="absolute bg-vesta-orange/20 rounded-full animate-pulse"
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              animationDelay: `${star.delay}s`,
-              animationDuration: "2s",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Subtle Gradient Overlays */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-vesta-orange/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-vesta-blue/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-
-      {/* Contact Icons */}
-      <div className="absolute inset-0 pointer-events-none">
-        <Mail 
-          className="absolute top-20 left-16 text-vesta-orange/30 medical-icon" 
-          size={40}
-        />
-        <Phone 
-          className="absolute top-1/3 right-20 text-vesta-blue/30 medical-icon" 
-          size={36}
-          style={{ animationDelay: "1s" }}
-        />
-        <MapPin 
-          className="absolute bottom-1/3 left-12 text-vesta-navy/30 medical-icon" 
-          size={38}
-          style={{ animationDelay: "2s" }}
-        />
-        <MessageCircle 
-          className="absolute bottom-20 right-16 text-vesta-orange/30 medical-icon" 
-          size={42}
-          style={{ animationDelay: "3s" }}
-        />
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-        <div className="text-center max-w-5xl mx-auto">
+    <div className="min-h-screen bg-background">
+      {/* Hero Section - Enhanced Responsive */}
+      <section
+        className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] flex items-center justify-center bg-gradient-to-br from-background/95 to-secondary/40"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${contactHeroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="animate-fade-in-up">
-            <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8">
-              <span className="bg-gradient-to-r from-vesta-navy via-vesta-blue to-vesta-orange bg-clip-text text-transparent">
-                Contact
-              </span>
+            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+              Precision <span className="text-gradient">Diagnostics</span> For Better Health
             </h1>
-            
-            <div className="space-y-6 animate-slide-in-left" style={{ animationDelay: "0.5s" }}>
-              <p className="text-3xl md:text-4xl font-thin text-vesta-blue tracking-widest">
-                Connect With Us
-              </p>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
-                Reach out to our team of healthcare professionals and discover how we can support your wellness journey
-              </p>
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10 px-4">
+              Advanced medical testing with accuracy and care in Hyderabad
+            </p>
+          </div>
+        </div>
+        
+        {/* Scrolling indicator - Hidden on mobile */}
+        <div className="hidden sm:block absolute bottom-6 lg:bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+            <div className="w-1 h-2 bg-white/80 rounded-full mt-2 animate-scroll-indicator"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Content - Enhanced Responsive */}
+      <section id="contact-content" className="py-12 sm:py-16 lg:py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
+
+            {/* Contact Information - Responsive Cards */}
+            <div className="space-y-8 sm:space-y-10 lg:space-y-12">
+              <div className="animate-slide-up">
+                <h2 className="font-playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 sm:mb-6">
+                  Your Health <span className="text-primary">Partner</span>
+                </h2>
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 sm:mb-8">
+                  At Vesta Diagnostics, we combine cutting-edge technology with compassionate care to deliver accurate test results you can trust.
+                </p>
+                
+                <div className="grid gap-4 sm:gap-6">
+                  {/* Doctor Card */}
+                  <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/20 hover:border-primary/30 transition-all hover:shadow-lg hover:translate-y-[-4px]">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <User className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium text-muted-foreground mb-1 text-sm sm:text-base">Pathologist</h3>
+                        <p className="text-lg sm:text-xl font-semibold text-foreground">Dr. Rajeshwar Reddy</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground mt-1">Vesta Diagnostics</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Contact Card */}
+                  <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/20 hover:border-primary/30 transition-all hover:shadow-lg hover:translate-y-[-4px]">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-medium text-muted-foreground mb-1 text-sm sm:text-base">Email Us</h3>
+                        <a 
+                          href="mailto:contact@vestadiagnostics.com" 
+                          className="text-base sm:text-xl font-semibold text-primary hover:text-primary-accent transition-colors break-all sm:break-normal"
+                        >
+                          contact@vestadiagnostics.com
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Detailed Contact Cards */}
+              <div className="space-y-4 sm:space-y-6">
+                {/* Phone Card */}
+                <div className="bg-gradient-to-br from-card to-primary/5 p-4 sm:p-6 rounded-xl border border-border/20 hover:shadow-lg transition-all group">
+                  <div className="flex items-start gap-3 sm:gap-5">
+                    <div className="relative">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                        <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-primary group-hover:text-primary-accent transition-colors" />
+                      </div>
+                      <div className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center">
+                        <span>1</span>
+                      </div>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-playfair text-lg sm:text-xl font-semibold text-foreground mb-2">Appointments</h3>
+                      <a
+                        href="tel:+91XXXXXXXXXX"
+                        className="text-lg sm:text-xl font-bold text-primary hover:text-primary-accent transition-colors inline-flex items-center gap-2 flex-wrap"
+                      >
+                        +91 XXXXXXXXXX
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-right">
+                          <path d="M7 7h10v10" />
+                          <path d="M7 17 17 7" />
+                        </svg>
+                      </a>
+                      <p className="text-sm sm:text-base text-muted-foreground mt-2">
+                        Monday - Saturday, 7:00 AM - 8:00 PM
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Location Card */}
+                <div className="bg-gradient-to-br from-card to-primary/5 p-4 sm:p-6 rounded-xl border border-border/20 hover:shadow-lg transition-all group">
+                  <div className="flex items-start gap-3 sm:gap-5">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-primary group-hover:text-primary-accent transition-colors" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-playfair text-lg sm:text-xl font-semibold text-foreground mb-2">Our Diagnostic Center</h3>
+                      <p className="text-base sm:text-lg font-medium text-foreground">
+                        25-8-123, MG Road, Near Paradise Circle, Secunderabad - 500003, Telangana
+                      </p>
+                      <p className="text-sm sm:text-base text-muted-foreground mt-2 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-clock">
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        Walk-ins welcome
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-scale-in" style={{ animationDelay: "0.8s" }}>
-              <div className="text-center group">
-                <div className="w-20 h-20 mx-auto mb-6 bg-vesta-orange/10 rounded-full flex items-center justify-center border border-vesta-orange/20 group-hover:bg-vesta-orange/20 transition-all duration-300">
-                  <Mail className="text-vesta-orange" size={28} />
+            {/* Map Section - Enhanced Responsive */}
+            <div className="lg:sticky lg:top-24">
+              <div className="bg-card rounded-xl overflow-hidden shadow-xl border border-border/20">
+                <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-primary/5 to-primary-accent/5">
+                  <h3 className="font-playfair text-xl sm:text-2xl lg:text-3xl font-semibold text-foreground mb-2 sm:mb-3">
+                    Our Diagnostic Center
+                  </h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Visit our state-of-the-art facility in Secunderabad for all your diagnostic needs.
+                  </p>
                 </div>
-                <p className="text-sm font-medium text-vesta-orange">Email</p>
-                <p className="text-xs text-muted-foreground mt-1">hello@vesta.com</p>
-              </div>
-              
-              <div className="text-center group">
-                <div className="w-20 h-20 mx-auto mb-6 bg-vesta-blue/10 rounded-full flex items-center justify-center border border-vesta-blue/20 group-hover:bg-vesta-blue/20 transition-all duration-300">
-                  <Phone className="text-vesta-blue" size={28} />
-                </div>
-                <p className="text-sm font-medium text-vesta-blue">Phone</p>
-                <p className="text-xs text-muted-foreground mt-1">+1 (555) 123-4567</p>
-              </div>
-              
-              <div className="text-center group">
-                <div className="w-20 h-20 mx-auto mb-6 bg-vesta-navy/10 rounded-full flex items-center justify-center border border-vesta-navy/20 group-hover:bg-vesta-navy/20 transition-all duration-300">
-                  <MapPin className="text-vesta-navy" size={28} />
-                </div>
-                <p className="text-sm font-medium text-vesta-navy">Location</p>
-                <p className="text-xs text-muted-foreground mt-1">Medical District</p>
-              </div>
-              
-              <div className="text-center group">
-                <div className="w-20 h-20 mx-auto mb-6 bg-vesta-orange/10 rounded-full flex items-center justify-center border border-vesta-orange/20 group-hover:bg-vesta-orange/20 transition-all duration-300">
-                  <MessageCircle className="text-vesta-orange" size={28} />
-                </div>
-                <p className="text-sm font-medium text-vesta-orange">Support</p>
-                <p className="text-xs text-muted-foreground mt-1">24/7 Available</p>
-              </div>
-            </div>
 
-            <div className="mt-20 animate-fade-in-up" style={{ animationDelay: "1.2s" }}>
-              <div className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-vesta-navy/5 border border-vesta-navy/10">
-                <div className="flex gap-3">
-                  <div className="w-3 h-3 bg-vesta-orange rounded-full animate-pulse"></div>
-                  <div className="w-3 h-3 bg-vesta-blue rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
-                  <div className="w-3 h-3 bg-vesta-navy rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
+                <div className="relative h-[300px] sm:h-[400px] lg:h-[500px]">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.263715316434!2d78.48685131538478!3d17.44395078804485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9158f201b205%3A0x5c3ef41c20a0f0a8!2sMG%20Rd%2C%20Secunderabad%2C%20Telangana%20500003!5e0!3m2!1sen!2sin!4v1623390276143!5m2!1sen!2sin"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0"
+                  />
+
+                  {/* Map Overlay - Responsive */}
+                  <div className="absolute bottom-3 sm:bottom-4 lg:bottom-6 left-3 sm:left-4 lg:left-6 bg-card/95 backdrop-blur-sm rounded-lg p-3 sm:p-4 shadow-2xl border border-border/20 flex items-center gap-2 sm:gap-3 animate-float max-w-[calc(100%-1.5rem)] sm:max-w-[calc(100%-2rem)] lg:max-w-none">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-accent rounded-full animate-pulse flex-shrink-0"></div>
+                    <div className="min-w-0">
+                      <p className="font-bold text-foreground text-sm sm:text-base truncate">Vesta Diagnostics</p>
+                      <p className="text-muted-foreground text-xs sm:text-sm">Medical Laboratory</p>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-2xl font-light text-vesta-navy tracking-wide">Coming Soon</span>
+
+                <div className="p-4 sm:p-6 bg-card border-t border-border/20">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 justify-between">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-foreground text-sm sm:text-base">Secunderabad, Telangana</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Diagnostic Center</p>
+                      </div>
+                    </div>
+                    <a 
+                      href="https://www.google.com/maps/place/MG+Rd,+Secunderabad,+Telangana+500003/@17.4439508,78.4868513,17z/data=!3m1!4b1!4m6!3m5!1s0x3bcb9158f201b205:0x5c3ef41c20a0f0a8!8m2!3d17.4439457!4d78.4894262!16s%2Fg%2F11c1z3w3qk?entry=ttu" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary font-medium hover:text-primary-accent transition-colors flex items-center gap-1 text-sm sm:text-base whitespace-nowrap"
+                    >
+                      Get Directions
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" sm-width="16" sm-height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-right">
+                        <path d="M7 7h10v10" />
+                        <path d="M7 17 17 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-vesta-navy/5 to-transparent"></div>
+      </section>
     </div>
   );
 };
 
-export default Contact;
+export default ContactInfo;
