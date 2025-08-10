@@ -9,7 +9,6 @@ import {
   Activity,
   MapPin,
   Zap,
-  DollarSign,
   FileText,
   AlertTriangle,
   Stethoscope,
@@ -34,7 +33,6 @@ interface FormData {
   name: string
   description: string
   category: string
-  price: string
   duration: string
   reportIn: string
   parameterCount: string
@@ -60,7 +58,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     name: "",
     description: "",
     category: "laboratory",
-    price: "",
     duration: "",
     reportIn: "",
     parameterCount: "",
@@ -81,9 +78,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
 
     if (!formData.name.trim()) newErrors.name = "Test name is required"
     if (!formData.description.trim()) newErrors.description = "Description is required"
-    if (!formData.price || isNaN(Number(formData.price)) || Number(formData.price) <= 0) {
-      newErrors.price = "Valid price is required"
-    }
+    if (!formData.category) newErrors.category = "Category is required"
     if (!formData.duration.trim()) newErrors.duration = "Duration is required"
     if (!formData.reportIn || isNaN(Number(formData.reportIn)) || Number(formData.reportIn) <= 0) {
       newErrors.reportIn = "Valid report time is required"
@@ -110,7 +105,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           name: editTest.name,
           description: editTest.description,
           category: editTest.category,
-          price: editTest.price.toString(),
           duration: editTest.duration,
           reportIn: editTest.reportIn.toString(),
           parameterCount: editTest.parameterCount.toString(),
@@ -126,7 +120,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           name: "",
           description: "",
           category: "laboratory",
-          price: "",
           duration: "",
           reportIn: "",
           parameterCount: "",
@@ -143,11 +136,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     }
   }, [open, mode, editTest])
 
-  // Price display
-  const priceDisplay = useMemo(() => {
-    const price = Number(formData.price)
-    return price > 0 ? `₹${price.toLocaleString()}` : "₹0"
-  }, [formData.price])
+
 
   // Report time display
   const reportTimeDisplay = useMemo(() => {
@@ -209,8 +198,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           name: formData.name.trim(),
           description: formData.description.trim(),
           category: formData.category,
-          price: Number(formData.price),
-          priceDisplay,
+         
           duration: formData.duration.trim(),
           reportIn: Number(formData.reportIn),
           parameterCount: Number(formData.parameterCount),
@@ -239,7 +227,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
         setIsSubmitting(false)
       }
     },
-    [formData, validateForm, mode, editTest, priceDisplay, onSubmit, onClose],
+    [formData, validateForm, mode, editTest, onSubmit, onClose],
   )
 
   const selectedCategory = useMemo(
@@ -367,31 +355,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="space-y-3">
-                    <Label
-                      htmlFor="price"
-                      className="text-sm font-semibold text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] flex items-center"
-                    >
-                      <DollarSign className="w-4 h-4 mr-1 text-[hsl(120_60%_50%)]" />
-                      Price *
-                    </Label>
-                    <input
-                      id="price"
-                      type="number"
-                      value={formData.price}
-                      onChange={(e) => handleInputChange("price", e.target.value)}
-                      className="w-full px-4 py-3 bg-[hsl(0_0%_100%)] dark:bg-[hsl(215_15%_20%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] rounded-lg text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] focus:outline-none focus:ring-2 focus:ring-[hsl(15_96%_53%/0.5)] focus:border-[hsl(15_96%_53%/0.5)] transition-all duration-300"
-                      placeholder="0"
-                      min="0"
-                      step="1"
-                    />
-                    {errors.price && (
-                      <p className="text-[hsl(0_84%_60%)] text-sm flex items-center">
-                        <AlertTriangle className="w-4 h-4 mr-1" />
-                        {errors.price}
-                      </p>
-                    )}
-                  </div>
 
                   <div className="space-y-3">
                     <Label
@@ -737,7 +700,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                 </div>
 
                 <div className="space-y-4">
-                  <div className="text-3xl font-bold text-[hsl(15_96%_53%)]">{priceDisplay}</div>
 
                   <div className="space-y-3 text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                     <div className="flex items-center">
