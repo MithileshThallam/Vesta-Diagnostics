@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware"
 export interface User {
   name: string
   phone: string
-  role: "patient" | "admin"
+  role: "patient" | "admin" | "sub-admin"
 }
 
 interface UserState extends User {

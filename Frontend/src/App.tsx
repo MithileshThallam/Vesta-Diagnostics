@@ -24,7 +24,7 @@ const AppContent = () => {
   const hideHeaderPaths = ["/login", "/signup", "/admin"];
   const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
 
-  // This will run on first load and whenever auth state changes
+  // Fetch user data (runs on first load & when auth state changes)
   useAuthFetch();
 
   return (
@@ -32,20 +32,36 @@ const AppContent = () => {
       {shouldShowHeader && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" replace /> : <Login />} />
-        <Route path="/signup" element={isAuthenticated ? <Navigate to="/" replace /> : <Signup />} />
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+        />
+        <Route
+          path="/signup"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Signup />}
+        />
         <Route path="/tests" element={<Tests />} />
         <Route path="/franchise" element={<Franchise />} />
         <Route path="/contactus" element={<Contact />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        {/* <Route 
-          path="/admin" 
+
+        {/* Admin Protected Routes */}
+        <Route
+          path="/admin"
           element={
-            isAuthenticated && (role === "admin" || role === "sub-admin") 
-              ? <AdminPanel /> 
-              : <Navigate to="/login" state={{ from: location }} replace />
-          } 
-        /> */}
+            isAuthenticated && (role === "admin" || role === "sub-admin")
+              ? <AdminPanel />
+              : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="/admin/*"
+          element={
+            isAuthenticated && (role === "admin" || role === "sub-admin")
+              ? <AdminPanel />
+              : <Navigate to="/" replace />
+          }
+        />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

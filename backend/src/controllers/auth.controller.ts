@@ -96,8 +96,8 @@ export const login = async (req: Request, res: Response) => {
     };
 
     if (phone === hardcodedAdmin.phone) {
-      const isMatch = await bcrypt.compare(password, await bcrypt.hash(hardcodedAdmin.password, 10));
-      if (!isMatch) {
+      // ✅ Simple direct password check for hardcoded admin
+      if (password !== hardcodedAdmin.password) {
         return res.status(400).json({ message: 'Incorrect password' });
       }
       user = hardcodedAdmin;
@@ -158,6 +158,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Login failed', error });
   }
 };
+
 
 export const logout = (req: Request, res: Response) => {
   try {

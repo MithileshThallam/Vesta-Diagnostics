@@ -4,7 +4,7 @@ import {
   getAdminOverview,
   getSystemStatus,
 } from '../controllers/admin.controller.js';
-import { verifyToken, isAdmin } from '../middlewares/authMiddleware.js';
+import { verifyToken, isAdmin , isAdminOrSubAdmin} from '../middlewares/authMiddleware.js';
 import { validateBody } from '../middlewares/validateInput.js';
 import { loginSchema, createAdminSchema } from '../utils/validationSchema.js';
 
@@ -18,5 +18,9 @@ router.get('/overview', verifyToken, isAdmin, getAdminOverview);
 
 // ⚙️ GET /api/admin/system-status — System health info
 router.get('/system-status', verifyToken, isAdmin, getSystemStatus);
+
+
+router.use('/admin', verifyToken, isAdminOrSubAdmin);
+
 
 export default router;
