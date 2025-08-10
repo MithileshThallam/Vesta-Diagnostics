@@ -5,6 +5,7 @@ import slugify from 'slugify';
 // ✅ CREATE Test (without image)
 export const createTest = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     const {
       name,
       category,

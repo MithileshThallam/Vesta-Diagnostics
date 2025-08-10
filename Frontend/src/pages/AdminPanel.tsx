@@ -1,10 +1,8 @@
 "use client"
 import {
   LayoutDashboard,
-  Users,
   Calendar,
   TestTube,
-  Settings,
   LogOut,
   ToggleLeft,
   ToggleRight,

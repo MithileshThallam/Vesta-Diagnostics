@@ -12,6 +12,17 @@ const TestManagement = () => {
   const [filterCategory, setFilterCategory] = useState<string>("all")
   const [showCreateForm, setShowCreateForm] = useState(false)
 
+  const createTestHandler = async (newTest: any) => {
+    console.log(newTest)
+    let res = await fetch('http://localhost:5000/api/tests/create', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(newTest)
+    })
+    let response = await res.json();
+    console.log("Response Received from backend: ", response)
+  }
+
   const filteredTests = medicalTests.filter((test) => {
     const matchesSearch =
       test.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -22,20 +33,22 @@ const TestManagement = () => {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "neurological":
-        return "bg-[hsl(248_81%_20%)]"
+      case "dermatology":
+        return "bg-[hsl(330_50%_60%)]" // Softer purple-pink for skin
+      case "microbiology":
+        return "bg-[hsl(10_80%_55%)]" // Vibrant red-orange for microbes
+      case "immunology":
+        return "bg-[hsl(210_80%_55%)]" // Cool blue for immune system
+      case "endocrinology":
+        return "bg-[hsl(280_60%_65%)]" // Soft purple for hormones
       case "cardiology":
-        return "bg-[hsl(0_84%_60%)]"
-      case "laboratory":
-        return "bg-[hsl(120_60%_50%)]"
-      case "radiology":
-        return "bg-[hsl(200_100%_50%)]"
-      case "genetic":
-        return "bg-[hsl(45_100%_50%)]"
-      case "preventive":
-        return "bg-[hsl(160_100%_40%)]"
+        return "bg-[hsl(0_75%_60%)]" // Strong red for heart
+      case "haematology":
+        return "bg-[hsl(180_70%_45%)]" // Teal for blood studies
+      case "serology":
+        return "bg-[hsl(45_90%_60%)]" // Warm gold for serum
       default:
-        return "bg-[hsl(0_0%_45%)]"
+        return "bg-[hsl(0_0%_65%)]" // Lighter neutral gray
     }
   }
 
@@ -72,7 +85,7 @@ const TestManagement = () => {
       </div>
 
       {/* Filters */}
-      <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
+      <Card className="bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
@@ -187,11 +200,8 @@ const TestManagement = () => {
       </div>
       <CreateTestModal
         open={showCreateForm}
-        onClose={() => setShowCreateForm(false)}
-        onSubmit={(newTest) => {
-          // Handle the new test creation here
-          console.log("New test created:", newTest)
-        }}
+        onClose={() => setShowCreateForm(true)}
+        onSubmit={(newTest) => {createTestHandler(newTest)}}
       />
     </div>
   )
