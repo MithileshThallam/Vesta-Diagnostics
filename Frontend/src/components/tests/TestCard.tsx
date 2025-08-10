@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { Clock, MapPin, ChevronRight, Calendar, Activity, Zap } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,7 +9,7 @@ interface TestCardProps {
   index: number
   isVisible: boolean
   onTestClick: (test: MedicalTest) => void
-  onInstantBook: (test: MedicalTest) => void
+  onInstantBook: (test: MedicalTest & { locationDetails: { id: string; name: string }[] }) => void
 }
 
 const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick, onInstantBook }) => {
@@ -41,16 +39,36 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
     return locationIds.map((id) => locationMap[id] || id).join(", ")
   }
 
+  const getLocationDetails = (locationIds: string[]): { id: string; name: string }[] => {
+    const locationMap: Record<string, string> = {
+      mumbai: "Mumbai",
+      delhi: "Delhi NCR",
+      bangalore: "Bangalore",
+      hyderabad: "Hyderabad",
+      chennai: "Chennai",
+      pune: "Pune",
+      kolkata: "Kolkata",
+      ahmedabad: "Ahmedabad",
+    }
+
+    return locationIds.map(id => ({
+      id,
+      name: locationMap[id] || id // Fallback to id if name not found
+    }))
+  }
+
   const handleInstantBook = (e: React.MouseEvent) => {
     e.stopPropagation()
-    onInstantBook(test)
+    onInstantBook({
+      ...test,
+      locationDetails: getLocationDetails(test.locations)
+    })
   }
 
   return (
     <Card
-      className={`group hover:shadow-xl border-2 border-gray-200 mt-4 shadow-soft bg-white/90 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 test-card cursor-pointer flex-shrink-0 w-80 flex flex-col h-[400px] ${
-        isVisible ? "test-card--visible" : ""
-      }`}
+      className={`group hover:shadow-xl border-2 border-gray-200 mt-4 shadow-soft bg-white/90 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 test-card cursor-pointer flex-shrink-0 w-80 flex flex-col h-[400px] ${isVisible ? "test-card--visible" : ""
+        }`}
       style={{ transitionDelay: `${index * 100}ms` }}
       role="article"
       aria-labelledby={`test-${test.id}-title`}
@@ -96,7 +114,6 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
       <CardContent className="pt-0 flex flex-col flex-grow">
         {/* Test Details */}
         <div className="space-y-4 mb-4">
-
           <div className="space-y-3">
             <div className="flex items-center text-sm text-slate-600">
               <Clock className="w-4 h-4 mr-2 text-blue-600" />

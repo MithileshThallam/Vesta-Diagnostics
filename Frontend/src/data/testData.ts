@@ -165,8 +165,7 @@ export const medicalTests: MedicalTest[] = [
     id: "mri-brain",
     name: "MRI Brain Scan",
     category: "neurological",
-    price: 8500,
-    priceDisplay: "₹8,500",
+
     duration: "45-60 min",
     locations: ["mumbai", "delhi", "bangalore"],
     description: "High-resolution imaging of brain structures to detect tumors, bleeding, swelling, or structural abnormalities",
@@ -182,8 +181,7 @@ export const medicalTests: MedicalTest[] = [
     id: "eeg",
     name: "EEG (Electroencephalogram)",
     category: "neurological",
-    price: 3200,
-    priceDisplay: "₹3,200",
+
     duration: "30-45 min",
     locations: ["mumbai", "delhi", "chennai"],
     description: "Records electrical activity of the brain to diagnose epilepsy, sleep disorders, and brain dysfunction",
@@ -201,8 +199,7 @@ export const medicalTests: MedicalTest[] = [
     id: "ecg",
     name: "ECG/EKG",
     category: "cardiology",
-    price: 1200,
-    priceDisplay: "₹1,200",
+
     duration: "15-20 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Records heart's electrical activity to detect arrhythmias, heart attacks, and other cardiac conditions",
@@ -218,8 +215,7 @@ export const medicalTests: MedicalTest[] = [
     id: "echocardiogram",
     name: "Echocardiogram",
     category: "cardiology",
-    price: 4200,
-    priceDisplay: "₹4,200",
+
     duration: "30-45 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad"],
     description: "Ultrasound of the heart to evaluate valves, chambers, and pumping function",
@@ -237,8 +233,6 @@ export const medicalTests: MedicalTest[] = [
     id: "complete-blood-count",
     name: "Complete Blood Count (CBC)",
     category: "laboratory",
-    price: 450,
-    priceDisplay: "₹450",
     duration: "5-10 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Measures different components of blood including red cells, white cells, and platelets",
@@ -254,8 +248,6 @@ export const medicalTests: MedicalTest[] = [
     id: "lipid-panel",
     name: "Lipid Panel",
     category: "laboratory",
-    price: 650,
-    priceDisplay: "₹650",
     duration: "5-10 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Measures cholesterol and triglycerides to assess cardiovascular risk",
@@ -273,10 +265,9 @@ export const medicalTests: MedicalTest[] = [
     id: "ct-scan",
     name: "CT Scan (Full Body)",
     category: "radiology",
-    price: 6500,
-    priceDisplay: "₹6,500",
+
     duration: "15-30 min",
-    locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad"],  
+    locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad"],
     description: "Comprehensive cross-sectional imaging of body structures using X-rays and computer technology",
     popular: true,
     keywords: ["ct", "computed tomography", "body scan", "cancer", "trauma"],
@@ -290,8 +281,7 @@ export const medicalTests: MedicalTest[] = [
     id: "ultrasound",
     name: "Ultrasound Imaging",
     category: "radiology",
-    price: 1800,
-    priceDisplay: "₹1,800",
+
     duration: "20-30 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Non-invasive imaging using sound waves to visualize internal organs",
@@ -309,8 +299,7 @@ export const medicalTests: MedicalTest[] = [
     id: "genetic-screening",
     name: "Comprehensive Genetic Screening",
     category: "genetic",
-    price: 25000,
-    priceDisplay: "₹25,000",
+
     duration: "Sample collection: 15 min",
     locations: ["mumbai", "delhi", "bangalore"],
     description: "Analysis of multiple genes to identify inherited disease risks and carrier status",
@@ -328,8 +317,7 @@ export const medicalTests: MedicalTest[] = [
     id: "executive-checkup-package",
     name: "Executive Health Checkup",
     category: "preventive",
-    price: 15000,
-    priceDisplay: "₹15,000",
+
     duration: "3-4 hours",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad"],
     description: "Comprehensive evaluation including cardiac risk, diabetes screening, cancer markers and full body check",
@@ -345,8 +333,7 @@ export const medicalTests: MedicalTest[] = [
     id: "nerve-conduction",
     name: "Nerve Conduction Study",
     category: "neurological",
-    price: 4500,
-    priceDisplay: "₹4,500",
+
     duration: "60-90 min",
     locations: ["mumbai", "bangalore", "hyderabad"],
     description: "Measures speed and strength of electrical signals in peripheral nerves",
@@ -362,8 +349,7 @@ export const medicalTests: MedicalTest[] = [
     id: "cognitive-assessment",
     name: "Cognitive Assessment",
     category: "neurological",
-    price: 2800,
-    priceDisplay: "₹2,800",
+
     duration: "90-120 min",
     locations: ["mumbai", "delhi", "bangalore", "pune"],
     description: "Standardized evaluation of memory, attention, and executive functions",
@@ -375,14 +361,12 @@ export const medicalTests: MedicalTest[] = [
     reportIn: 72,
     about: "Series of paper-based and computerized tests administered by neuropsychologist."
   },
-  
+
   // Radiology Tests
   {
     id: "x-ray",
     name: "Digital X-Ray",
     category: "radiology",
-    price: 800,
-    priceDisplay: "₹800",
     duration: "10-15 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Basic imaging for bones and chest using low-dose radiation",
@@ -398,8 +382,7 @@ export const medicalTests: MedicalTest[] = [
     id: "mammography",
     name: "Digital Mammography",
     category: "radiology",
-    price: 3500,
-    priceDisplay: "₹3,500",
+
     duration: "20-30 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai"],
     description: "Specialized X-ray for early detection of breast abnormalities",
@@ -411,14 +394,13 @@ export const medicalTests: MedicalTest[] = [
     reportIn: 48,
     about: "Compression of breast tissue between plates for clear imaging. Recommended annually after 40."
   },
-  
+
   // Cardiology Tests (continued)
   {
     id: "stress-test",
     name: "Cardiac Stress Test",
     category: "cardiology",
-    price: 5500,
-    priceDisplay: "₹5,500",
+
     duration: "60-90 min",
     locations: ["mumbai", "delhi", "bangalore"],
     description: "Evaluates heart function under physical exertion (treadmill) or pharmacological stress",
@@ -434,8 +416,7 @@ export const medicalTests: MedicalTest[] = [
     id: "holter-monitor",
     name: "24-Hour Holter Monitor",
     category: "cardiology",
-    price: 3800,
-    priceDisplay: "₹3,800",
+
     duration: "24 hours",
     locations: ["mumbai", "delhi", "bangalore", "chennai"],
     description: "Continuous ECG recording during daily activities to detect arrhythmias",
@@ -447,14 +428,12 @@ export const medicalTests: MedicalTest[] = [
     reportIn: 72,
     about: "Portable device with chest electrodes records every heartbeat over 24-48 hours."
   },
-  
+
   // Laboratory Tests (continued)
   {
     id: "thyroid-function",
     name: "Thyroid Function Test",
     category: "laboratory",
-    price: 850,
-    priceDisplay: "₹850",
     duration: "5-10 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Measures TSH, Free T3, Free T4 to evaluate thyroid gland function",
@@ -470,8 +449,6 @@ export const medicalTests: MedicalTest[] = [
     id: "diabetes-panel",
     name: "Diabetes Panel",
     category: "laboratory",
-    price: 950,
-    priceDisplay: "₹950",
     duration: "5-10 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Comprehensive evaluation including fasting glucose, HbA1c, and insulin levels",
@@ -487,8 +464,6 @@ export const medicalTests: MedicalTest[] = [
     id: "liver-function",
     name: "Liver Function Test (LFT)",
     category: "laboratory",
-    price: 750,
-    priceDisplay: "₹750",
     duration: "5-10 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Assesses liver health through enzyme, protein, and bilirubin levels",
@@ -504,8 +479,6 @@ export const medicalTests: MedicalTest[] = [
     id: "kidney-function",
     name: "Kidney Function Test (KFT)",
     category: "laboratory",
-    price: 680,
-    priceDisplay: "₹680",
     duration: "5-10 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Evaluates kidney filtration rate and electrolyte balance",
@@ -517,14 +490,13 @@ export const medicalTests: MedicalTest[] = [
     reportIn: 24,
     about: "Blood and urine tests assessing kidney's waste filtration capacity and electrolyte balance."
   },
-  
+
   // Genetic Tests
   {
     id: "genetic-screening-package",
     name: "Comprehensive Genetic Screening",
     category: "genetic",
-    price: 25000,
-    priceDisplay: "₹25,000",
+
     duration: "Sample collection: 15 min",
     locations: ["mumbai", "delhi", "bangalore"],
     description: "Analysis of 200+ genes for hereditary cancer, cardiac, and neurological conditions",
@@ -540,8 +512,7 @@ export const medicalTests: MedicalTest[] = [
     id: "cancer-genetics",
     name: "Cancer Genetic Testing",
     category: "genetic",
-    price: 18000,
-    priceDisplay: "₹18,000",
+
     duration: "Sample collection: 15 min",
     locations: ["mumbai", "delhi", "bangalore", "chennai"],
     description: "Targeted analysis of 30 cancer-associated genes including BRCA and TP53",
@@ -553,14 +524,13 @@ export const medicalTests: MedicalTest[] = [
     reportIn: 600,
     about: "Identifies inherited cancer risks. Recommended for family history of early-onset cancers."
   },
-  
+
   // Preventive Health Tests
   {
     id: "executive-checkup",
     name: "Executive Health Checkup",
     category: "preventive",
-    price: 15000,
-    priceDisplay: "₹15,000",
+
     duration: "3-4 hours",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad"],
     description: "Includes cardiac risk assessment, cancer markers, pulmonary function, and abdominal ultrasound",
@@ -576,8 +546,7 @@ export const medicalTests: MedicalTest[] = [
     id: "cancer-screening",
     name: "Cancer Screening Package",
     category: "preventive",
-    price: 12500,
-    priceDisplay: "₹12,500",
+
     duration: "2-3 hours",
     locations: ["mumbai", "delhi", "bangalore", "chennai"],
     description: "Combination of tumor markers, imaging, and specialized tests for early cancer detection",
@@ -593,8 +562,7 @@ export const medicalTests: MedicalTest[] = [
     id: "wellness-package",
     name: "Annual Wellness Package",
     category: "preventive",
-    price: 8500,
-    priceDisplay: "₹8,500",
+
     duration: "2-3 hours",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune", "kolkata", "ahmedabad"],
     description: "Basic screening including CBC, diabetes check, lipid profile, and urine analysis",
@@ -610,8 +578,7 @@ export const medicalTests: MedicalTest[] = [
     id: "women-health-package",
     name: "Women's Health Package",
     category: "preventive",
-    price: 9500,
-    priceDisplay: "₹9,500",
+
     duration: "2-3 hours",
     locations: ["mumbai", "delhi", "bangalore", "chennai", "hyderabad", "pune"],
     description: "Includes Pap smear, breast ultrasound, bone density, and hormonal profile",
@@ -623,4 +590,4 @@ export const medicalTests: MedicalTest[] = [
     reportIn: 72,
     about: "Comprehensive female-specific screening. Includes gynecological consultation."
   }
-  ];
+];

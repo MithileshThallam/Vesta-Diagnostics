@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BookingForm from "@/components/Home/BookingForm";
+import { useNavigate } from "react-router-dom";
 import hero1 from "/HeroSlider/hero-1.png";
 import hero2 from "/HeroSlider/hero-2.png";
 import hero3 from "/HeroSlider/hero-3.png";
@@ -53,6 +54,7 @@ const HeroSlider = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const navigate = useNavigate();
 
   // Clear interval on unmount
   useEffect(() => {
@@ -143,8 +145,8 @@ const HeroSlider = () => {
             <div
               key={slide.id}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentSlide
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-105"
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-105"
                 }`}
             >
               <div
@@ -175,7 +177,7 @@ const HeroSlider = () => {
                         size="lg"
                         className="text-sm sm:text-lg bg-white/90 text-black border-white/90 hover:bg-white cursor-pointer"
                       >
-                            Explore Tests
+                        Explore Tests
                       </Button>
                     </div>
                   </div>
@@ -188,7 +190,7 @@ const HeroSlider = () => {
         {/* Bouncing Book a Slot Button */}
         <div className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20">
           <Button
-            onClick={handleBookSlot}
+            onClick={() => { navigate('/tests') }}
             className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite]"
           >
             📅 Book a Slot Now
@@ -219,8 +221,8 @@ const HeroSlider = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${index === currentSlide
-                  ? "bg-white scale-125"
-                  : "bg-white/50 hover:bg-white/70"
+                ? "bg-white scale-125"
+                : "bg-white/50 hover:bg-white/70"
                 }`}
               aria-label={`Go to slide ${index + 1}`}
             />

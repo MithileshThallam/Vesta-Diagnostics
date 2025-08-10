@@ -17,7 +17,6 @@ interface TestsGridProps {
 const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, isVisible, onClearAllFilters }) => {
   const [selectedTest, setSelectedTest] = useState<MedicalTest | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [bookingTest, setBookingTest] = useState<MedicalTest | null>(null)
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
 
   const handleTestClick = (test: MedicalTest) => {
@@ -26,18 +25,13 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, isVisib
   }
 
   const handleInstantBook = (test: MedicalTest) => {
-    setBookingTest(test)
+    setSelectedTest(test)
     setIsBookingModalOpen(true)
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
     setSelectedTest(null)
-  }
-
-  const closeBookingModal = () => {
-    setIsBookingModalOpen(false)
-    setBookingTest(null)
   }
 
   const getCategoryInfo = (categoryId: string) => {
@@ -110,7 +104,12 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, isVisib
       <TestModal test={selectedTest} isOpen={isModalOpen} onClose={closeModal} />
 
       {/* Instant Booking Modal */}
-      <InstantBookingModal test={bookingTest} isOpen={isBookingModalOpen} onClose={closeBookingModal} />
+      <InstantBookingModal
+        test={selectedTest}
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        availableLocations={selectedTest?.locations || []}
+      />
     </>
   )
 }
