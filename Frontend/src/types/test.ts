@@ -16,8 +16,6 @@ export interface MedicalTest {
   id: string;
   name: string;
   category: string;
-  price: number;
-  priceDisplay: string;
   duration: string;
   locations: string[];
   description: string;

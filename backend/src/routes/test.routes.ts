@@ -11,7 +11,6 @@ router.post(
   '/create',
   verifyToken,
   isAdminOrSubAdmin,
-  upload.single('image'), // frontend must send field name = "image"
   createTest
 );
 

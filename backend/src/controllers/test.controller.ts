@@ -9,8 +9,6 @@ export const createTest = async (req: Request, res: Response) => {
       name,
       category,
       description,
-      price,
-      priceDisplay,
       duration,
       locations,
       locationNames,
@@ -24,26 +22,38 @@ export const createTest = async (req: Request, res: Response) => {
     } = req.body;
 
     if (
-      !name || !category || !description || !price || !priceDisplay || !duration ||
-      !locations || !locationNames || !keywords || !parts || !parameterCount ||
-      !parameters || !reportIn || !about
+      !name?.trim() ||
+      !category?.trim() ||
+      !description?.trim() ||
+      typeof duration !== "number" ||
+      !Array.isArray(locations) ||
+      !Array.isArray(locationNames) ||
+      !Array.isArray(keywords) ||
+      !Array.isArray(parts) ||
+      typeof parameterCount !== "number" ||
+      !Array.isArray(parameters) ||
+      !reportIn?.trim() ||
+      !about?.trim()
     ) {
-      return res.status(400).json({ message: 'All required fields must be provided' });
+      return res.status(400).json({ message: 'All required fields must be provided in the correct format' });
     }
 
     const slug = slugify(name, { lower: true });
+
+    const existingTest = await Test.findOne({ id: slug });
+    if (existingTest) {
+      return res.status(409).json({ message: 'Test with this name already exists' });
+    }
 
     const test = await Test.create({
       id: slug,
       name,
       category,
       description,
-      price,
-      priceDisplay,
       duration,
       locations,
       locationNames,
-      popular,
+      popular: Boolean(popular),
       keywords,
       parts,
       parameterCount,
@@ -54,12 +64,15 @@ export const createTest = async (req: Request, res: Response) => {
 
     return res.status(201).json({ message: 'Test created successfully', test });
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       message: 'Failed to create test',
       error: (err as Error).message,
     });
   }
 };
+
+    
 
 // ✅ GET All Tests (without image field)
 export const getAllTests = async (req: Request, res: Response) => {
@@ -70,7 +83,7 @@ export const getAllTests = async (req: Request, res: Response) => {
       .skip(Number(skip))
       .limit(Number(limit))
       .select(
-        "id name category description price priceDisplay duration locationNames popular parts parameterCount parameters reportIn about"
+        "id name category description duration locationNames popular parts parameterCount parameters reportIn about"
       );
 
     return res.status(200).json({ tests });

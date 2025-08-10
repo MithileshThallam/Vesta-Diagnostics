@@ -151,12 +151,7 @@ const TestManagement = () => {
             <CardContent className="pt-0">
               {/* Test Details */}
               <div className="space-y-4 mb-4">
-                {/* Price Section */}
-                <div className="flex items-center">
-                  <span className="text-2xl font-bold text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)]">
-                    {test.priceDisplay}
-                  </span>
-                </div>
+               
 
                 <div className="space-y-3">
                   <div className="flex items-center text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">

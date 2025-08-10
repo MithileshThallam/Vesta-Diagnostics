@@ -6,8 +6,7 @@ export interface ITest extends Document {
   name: string;
   category: string;
   description: string;
-  price: number;
-  priceDisplay: string;
+ 
   duration: string;
   locations: string[];
   locationNames: string[];
@@ -27,8 +26,6 @@ const TestSchema = new Schema<ITest>(
     name: { type: String, required: true },
     category: { type: String, required: true },
     description: { type: String, required: true },
-    price: { type: Number, required: true },
-    priceDisplay: { type: String, required: true },
     duration: { type: String, required: true },
     locations: [{ type: String, required: true }],
     locationNames: [{ type: String, required: true }],
