@@ -1,7 +1,7 @@
 import express from 'express';
 import { createTest, getAllTests } from '../controllers/test.controller.js';
 
-import { verifyToken, isAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
+import { verifyToken, requireAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
 import { upload } from '../middlewares/multer.js';
 
 const router = express.Router();
@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
   '/create',
   verifyToken,
-  isAdminOrSubAdmin,
+  requireAdminOrSubAdmin,
   createTest
 );
 

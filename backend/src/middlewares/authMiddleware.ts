@@ -5,52 +5,34 @@ interface AuthRequest extends Request {
   user?: {
     id: string;
     role: 'user' | 'admin' | 'sub-admin';
-    location?: string;
   };
 }
 
 export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    // ✅ Check all possible auth cookies
-    const token =
-      req.cookies.AdminAuthToken ||
-      req.cookies.SubAdminAuthToken ||
-      req.cookies.UserAuthToken;
+    const token = req.cookies.UserAuthToken || req.cookies.SubAdminAuthToken || req.cookies.AdminAuthToken;
 
     if (!token) {
-      return res.status(401).json({ message: 'Authentication token missing' });
+      return res.status(401).json({ message: 'Authentication required' });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest['user'];
-
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ message: 'Invalid token' });
   }
 };
 
-
-
-export const isAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (req.user?.role === 'admin') return next();
-  return res.status(403).json({ message: 'Admin access only' });
+export const requireRole = (allowedRoles: string[]) => {
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    next();
+  };
 };
 
-export const isSubAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (req.user?.role === 'sub-admin') return next();
-  return res.status(403).json({ message: 'Sub-admin access only' });
-};
-
-export const isUser = (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (req.user?.role === 'user') return next();
-  return res.status(403).json({ message: 'User access only' });
-};
-export const isAdminOrSubAdmin = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.user?.role === 'admin' || req.user?.role === 'sub-admin') return next();
-  return res.status(403).json({ message: 'Admin or Sub-admin access only' });
-};
+export const requireAdmin = requireRole(['admin']);
+export const requireSubAdmin = requireRole(['sub-admin']);
+export const requireAdminOrSubAdmin = requireRole(['admin', 'sub-admin']);

@@ -4,22 +4,39 @@ import {
   getAdminOverview,
   getSystemStatus,
 } from '../controllers/admin.controller.js';
-import { verifyToken, isAdmin , isAdminOrSubAdmin} from '../middlewares/authMiddleware.js';
+import { verifyToken, requireAdmin, requireAdminOrSubAdmin, requireSubAdmin } from '../middlewares/authMiddleware.js';
 import { validateBody } from '../middlewares/validateInput.js';
-import { loginSchema, createAdminSchema } from '../utils/validationSchema.js';
+import { createAdminSchema } from '../utils/validationSchema.js';
 
 const router = express.Router();
 
-// 👤 POST /api/admin/create — Create sub-admin (only super admin)
-router.post('/create', verifyToken, isAdmin, validateBody(createAdminSchema), createSubAdmin);
+// 🔐 Check authentication status
+router.get('/auth-check', verifyToken, requireAdminOrSubAdmin, (req, res) => {
+  res.json({ 
+    authenticated: true, 
+    role: req.user?.role,
+    message: 'Access granted' 
+  });
+});
 
-// 📊 GET /api/admin/overview — Dashboard metrics
-router.get('/overview', verifyToken, isAdmin, getAdminOverview);
+// 👤 Create sub-admin (admin only)
+router.post('/create', verifyToken, requireAdmin, validateBody(createAdminSchema), createSubAdmin);
 
-// ⚙️ GET /api/admin/system-status — System health info
-router.get('/system-status', verifyToken, isAdmin, getSystemStatus);
+// 📊 Dashboard metrics (admin only)
+router.get('/overview', verifyToken, requireAdmin, getAdminOverview);
 
+// ⚙️ System health info (admin only)
+router.get('/system-status', verifyToken, requireAdmin, getSystemStatus);
 
-
+// 📋 Sub-admin dashboard (sub-admin only)
+router.get('/sub-admin-dashboard', verifyToken, requireSubAdmin, (req, res) => {
+  res.json({
+    message: 'Sub-admin dashboard',
+    role: req.user?.role,
+    data: {
+      // Add sub-admin specific data here
+    }
+  });
+});
 
 export default router;

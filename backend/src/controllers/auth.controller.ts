@@ -8,10 +8,6 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const { phone, password, name, email, hasWhatsapp } = req.body;
 
-    // Block any role tampering attempts
-    const role = 'user';
-
-    // Check if user already exists with this phone number
     const existingUser = await User.findOne({ phone });
     if (existingUser) {
       return res.status(400).json({ 
@@ -20,22 +16,19 @@ export const signup = async (req: Request, res: Response) => {
       });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
     const newUser = new User({
       phone,
       password: hashedPassword,
       name,
       email: email || undefined,
       hasWhatsapp: hasWhatsapp || false,
-      role
+      role: 'user'
     });
 
     await newUser.save();
 
-    // Prepare response data
     const userResponse = {
       _id: newUser._id,
       phone: newUser.phone,
@@ -53,96 +46,76 @@ export const signup = async (req: Request, res: Response) => {
     });
 
   } catch (error: any) {
-
     return res.status(500).json({ 
       success: false,   
       message: 'Internal server error',
       error: error.message
     });
-
-    if (error.code === 11000 && error.keyPattern?.email) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'User already exists with this email' 
-      });
-    }
-
-    return res.status(500).json({ 
-      success: false,
-      message: 'Internal server error',
-      error: error.message 
-    });
   }
 };
-
-
-
 
 export const login = async (req: Request, res: Response) => {
   try {
     const { phone, password } = req.body;
-    console.log("Login Request Received: ", req.body);
 
-    let user: any = null;
-    let userType: 'admin' | 'sub-admin' | 'user' = 'user';
-
-    // ✅ Hardcoded admin check
+    // Check hardcoded admin first
     const hardcodedAdmin = {
-      phone: '9999999999', // replace with actual phone number
-      password: process.env.ADMIN_PASSWORD || 'admin@123', // can use env var
+      phone: '9999999999',
+      password: process.env.ADMIN_PASSWORD || 'admin@123',
       name: 'Super Admin',
       role: 'admin',
       _id: 'admin-id-001'
     };
 
+    let user: any = null;
+    let userType: 'admin' | 'sub-admin' | 'user' = 'user';
+
     if (phone === hardcodedAdmin.phone) {
-      // ✅ Simple direct password check for hardcoded admin
       if (password !== hardcodedAdmin.password) {
-        return res.status(400).json({ message: 'Incorrect password' });
+        return res.status(400).json({ message: 'Invalid credentials' });
       }
       user = hardcodedAdmin;
       userType = 'admin';
     }
 
-    // 🔍 Check sub-admins
+    // Check sub-admins
     if (!user) {
       user = await SubAdmin.findOne({ phone });
       if (user) userType = 'sub-admin';
     }
 
-    // 🔍 Check regular users
+    // Check regular users
     if (!user) {
       user = await User.findOne({ phone });
       if (user) userType = 'user';
     }
 
-    // ❌ No match in any case
     if (!user) {
-      return res.status(400).json({ message: 'No user exists with this phone number.' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // ✅ Generate token
+    // Verify password for non-admin users
+    if (userType !== 'admin' && !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
     const token = jwt.sign(
-      { id: user._id, role: user.role, userType },
+      { id: user._id, role: user.role },
       process.env.JWT_SECRET!,
       { expiresIn: '7d' }
     );
 
-    // 🔐 Set cookie name
-    let cookieName = 'UserAuthToken';
-    if (userType === 'admin') cookieName = 'AdminAuthToken';
-    else if (userType === 'sub-admin') cookieName = 'SubAdminAuthToken';
+    const cookieName = userType === 'admin' ? 'AdminAuthToken' : 
+                      userType === 'sub-admin' ? 'SubAdminAuthToken' : 'UserAuthToken';
 
-    // 🍪 Set cookie
     res.cookie(cookieName, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       path: '/',
     });
 
-    // ✅ Send response
     return res.status(200).json({
       message: 'Login successful',
       user: {
@@ -150,32 +123,20 @@ export const login = async (req: Request, res: Response) => {
         name: user.name,
         phone: user.phone,
         role: user.role,
-        userType,
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
-    return res.status(500).json({ message: 'Login failed', error });
+    return res.status(500).json({ message: 'Login failed' });
   }
 };
 
-
 export const logout = (req: Request, res: Response) => {
-  try {
-    // Clear all possible auth tokens
-    res.clearCookie('UserAuthToken', { path: '/' });
-    res.clearCookie('SubAdminAuthToken', { path: '/' });
-    res.clearCookie('AdminAuthToken', { path: '/' });
+  res.clearCookie('UserAuthToken', { path: '/' });
+  res.clearCookie('SubAdminAuthToken', { path: '/' });
+  res.clearCookie('AdminAuthToken', { path: '/' });
 
-    return res.status(200).json({
-      success: true,
-      message: 'Logout successful',
-    });
-  } catch (error: any) {
-    return res.status(500).json({
-      success: false,
-      message: 'Logout failed',
-      error: error.message,
-    });
-  }
+  return res.status(200).json({
+    success: true,
+    message: 'Logout successful',
+  });
 };

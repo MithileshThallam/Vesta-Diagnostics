@@ -6,8 +6,8 @@ import {
 
 import {
   verifyToken,
-  isUser,
-  isAdminOrSubAdmin,
+  requireRole,
+  requireAdminOrSubAdmin,
 } from '../middlewares/authMiddleware.js';
 
 import { validateBody } from '../middlewares/validateInput.js';
@@ -17,10 +17,10 @@ const router = express.Router();
 
 // 🧑‍⚕️ USER ROUTES
 // Create a new booking (user only)
-router.post('/', verifyToken, isUser, validateBody(createBookingSchema), createBooking);
+router.post('/', verifyToken, requireRole(['user']), validateBody(createBookingSchema), createBooking);
 
 // 🛡️ ADMIN / SUB-ADMIN ROUTES
 // Get bookings for admin/sub-admin (filtered by location for sub-admin)
-router.get('/', verifyToken, isAdminOrSubAdmin, getBookingsForAdmin);
+router.get('/', verifyToken, requireAdminOrSubAdmin, getBookingsForAdmin);
 
 export default router;

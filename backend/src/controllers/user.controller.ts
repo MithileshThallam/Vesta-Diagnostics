@@ -5,6 +5,12 @@ import SubAdmin from '../models/SubAdmin.js';
 
 export const getUserProfile = async (req: Request, res: Response) => {
   try {
+    console.log("getUserProfile - req.user:", req.user);
+    
+    if (!req.user || !req.user.id || !req.user.role) {
+      return res.status(401).json({ message: 'User information missing' });
+    }
+
     const { id, role } = req.user as { id: string; role: string };
 
     let user;
@@ -14,7 +20,18 @@ export const getUserProfile = async (req: Request, res: Response) => {
         user = await User.findById(id).select('_id name email phone role');
         break;
       case 'admin':
-        user = await Admin.findById(id).select('_id name email phone role');
+        // For hardcoded admin, return the admin data directly
+        if (id === 'admin-id-001') {
+          user = {
+            _id: 'admin-id-001',
+            name: 'Super Admin',
+            email: 'admin@vesta.com',
+            phone: '9999999999',
+            role: 'admin'
+          };
+        } else {
+          user = await Admin.findById(id).select('_id name email phone role');
+        }
         break;
       case 'sub-admin':
         user = await SubAdmin.findById(id).select('_id name email phone role');
@@ -35,6 +52,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
         role: user.role,
     });
   } catch (error) {
+    console.error('getUserProfile error:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
