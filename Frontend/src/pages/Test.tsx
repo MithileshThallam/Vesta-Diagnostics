@@ -7,10 +7,11 @@ import TestsHeroSection from "@/components/tests/TestsHeroSection"
 import SearchAndFilters from "@/components/tests/SearchAndFilters"
 import CategoryFilter from "@/components/tests/CategoryFilter"
 import TestsGrid from "@/components/tests/TestsGrid"
+import InstantBookingModal from "@/components/InstantBookingModal"
 import { useTestSearch } from "@/hooks/useTestSearch"
 import { useTestFilters } from "@/hooks/useTestFilters"
 import { testCategories, locations, medicalTests } from "@/data/testData"
-import type { FilterState } from "@/types/test"
+import type { FilterState, MedicalTest } from "@/types/test"
 
 const Tests = () => {
   // Filter state
@@ -25,8 +26,10 @@ const Tests = () => {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
+  const [bookingTest, setBookingTest] = useState<MedicalTest | null>(null)
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   // Debounce search query for performance
   useEffect(() => {
@@ -51,6 +54,19 @@ const Tests = () => {
     }
 
     return () => observer.disconnect()
+  }, [])
+
+  // Listen for instant booking events from TestModal
+  useEffect(() => {
+    const handleInstantBooking = (event: CustomEvent) => {
+      setBookingTest(event.detail)
+      setIsBookingModalOpen(true)
+    }
+
+    window.addEventListener("openInstantBooking", handleInstantBooking as EventListener)
+    return () => {
+      window.removeEventListener("openInstantBooking", handleInstantBooking as EventListener)
+    }
   }, [])
 
   // Custom hooks for search and filtering
@@ -92,6 +108,11 @@ const Tests = () => {
     })
   }, [])
 
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false)
+    setBookingTest(null)
+  }
+
   // Keyboard navigation support
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -113,7 +134,7 @@ const Tests = () => {
 
       <TestsHeroSection />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SearchAndFilters
           filters={filters}
           locations={locations}
@@ -145,6 +166,9 @@ const Tests = () => {
           />
         </div>
       </section>
+
+      {/* Instant Booking Modal */}
+      <InstantBookingModal test={bookingTest} isOpen={isBookingModalOpen} onClose={closeBookingModal} />
     </div>
   )
 }

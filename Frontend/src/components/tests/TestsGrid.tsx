@@ -84,9 +84,9 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, isVisib
                 </div>
               </div>
 
-              {/* Horizontal Scrollable Row */}
-              <div className="relative">
-                <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+              {/* Horizontal Scrollable Row (Scrollbar Hidden) */}
+              <div className="overflow-hidden">
+                <div className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
                   <div className="flex gap-6 min-w-max">
                     {tests.map((test, index) => (
                       <TestCard

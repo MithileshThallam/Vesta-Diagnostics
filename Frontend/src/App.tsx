@@ -13,18 +13,17 @@ import AdminPanel from "@/pages/AdminPanel";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import NotFound from "@/pages/NotFound";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthErrorBoundary } from "./components/AuthErrorBoundary";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
-import { useUserStore } from "@/stores/userStore";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   const location = useLocation();
-  const { role, isAuthenticated } = useUserStore();
-  const hideHeaderPaths = ["/login", "/signup", "/admin"];
+  const hideHeaderPaths = ["/login", "/signup", "/admin", "/sub-admin"];
   const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
 
-  // Fetch user data (runs on first load & when auth state changes)
   useAuthFetch();
 
   return (
@@ -34,31 +33,49 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route
           path="/login"
-          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+          element={<Login />}
         />
         <Route
           path="/signup"
-          element={isAuthenticated ? <Navigate to="/" replace /> : <Signup />}
+          element={<Signup />}
         />
         <Route path="/tests" element={<Tests />} />
         <Route path="/franchise" element={<Franchise />} />
         <Route path="/contactus" element={<Contact />} />
 
-        {/* Admin Protected Routes */}
+        {/* Admin Routes */}
         <Route
           path="/admin"
           element={
-            isAuthenticated && (role === "admin" || role === "sub-admin")
-              ? <AdminPanel />
-              : <Navigate to="/" replace />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminPanel />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/*"
           element={
-            isAuthenticated && (role === "admin" || role === "sub-admin")
-              ? <AdminPanel />
-              : <Navigate to="/" replace />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Sub-Admin Routes */}
+        <Route
+          path="/sub-admin"
+          element={
+            <ProtectedRoute allowedRoles={["sub-admin"]}>
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sub-admin/*"
+          element={
+            <ProtectedRoute allowedRoles={["sub-admin"]}>
+              <AdminPanel />
+            </ProtectedRoute>
           }
         />
 
@@ -75,7 +92,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AppContent />
+        <AuthErrorBoundary>
+          <AppContent />
+        </AuthErrorBoundary>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

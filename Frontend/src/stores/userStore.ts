@@ -4,14 +4,17 @@ import { persist } from "zustand/middleware"
 export interface User {
   name: string
   phone: string
-  role: "patient" | "admin" | "sub-admin"
+  role: "user" | "admin" | "sub-admin"
 }
 
-interface UserState extends User {
+interface UserState {
+  name: string
+  phone: string
+  role: "user" | "admin" | "sub-admin"
   isAuthenticated: boolean
   setUser: (user: User) => void
   updateUser: (userData: Partial<User>) => void
-  logout: () => void
+  logout: () => Promise<void>
   clearUser: () => void
 }
 
@@ -20,7 +23,7 @@ export const useUserStore = create<UserState>()(
     (set) => ({
       name: "",
       phone: "",
-      role: "patient",
+      role: "user",
       isAuthenticated: false,
 
       setUser: (user: User) => {
@@ -59,7 +62,7 @@ export const useUserStore = create<UserState>()(
           set({
             name: "",
             phone: "",
-            role: "patient",
+            role: "user",
             isAuthenticated: false,
           })
         }
@@ -69,7 +72,7 @@ export const useUserStore = create<UserState>()(
         set({
           name: "",
           phone: "",
-          role: "patient",
+          role: "user",
           isAuthenticated: false,
         })
       },
@@ -86,3 +89,7 @@ export const useUserStore = create<UserState>()(
     },
   ),
 )
+
+// Export standalone actions for direct import
+export const clearUser = () => useUserStore.getState().clearUser()
+export const logout = () => useUserStore.getState().logout()

@@ -96,10 +96,6 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
       <CardContent className="pt-0 flex flex-col flex-grow">
         {/* Test Details */}
         <div className="space-y-4 mb-4">
-          {/* Price Section */}
-          <div className="flex items-center">
-            <span className="text-2xl font-bold text-slate-900">{test.priceDisplay}</span>
-          </div>
 
           <div className="space-y-3">
             <div className="flex items-center text-sm text-slate-600">
