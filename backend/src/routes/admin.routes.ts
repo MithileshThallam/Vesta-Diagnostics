@@ -20,7 +20,6 @@ router.get('/overview', verifyToken, isAdmin, getAdminOverview);
 router.get('/system-status', verifyToken, isAdmin, getSystemStatus);
 
 
-router.use('/admin', verifyToken, isAdminOrSubAdmin);
 
 
 export default router;

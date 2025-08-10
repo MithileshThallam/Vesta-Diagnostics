@@ -88,7 +88,7 @@ export const login = async (req: Request, res: Response) => {
 
     // ✅ Hardcoded admin check
     const hardcodedAdmin = {
-      phone: '999-999-9999', // replace with actual phone number
+      phone: '9999999999', // replace with actual phone number
       password: process.env.ADMIN_PASSWORD || 'admin@123', // can use env var
       name: 'Super Admin',
       role: 'admin',
