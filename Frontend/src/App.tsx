@@ -9,7 +9,6 @@ import Signup from "@/pages/SignUp";
 import Tests from "@/pages/Test";
 import Franchise from './pages/Franchise';
 import Contact from "./pages/Contact";
-import Cart from "./pages/Cart";
 import AdminPanel from "@/pages/AdminPanel";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -38,7 +37,6 @@ const AppContent = () => {
         <Route path="/tests" element={<Tests />} />
         <Route path="/franchise" element={<Franchise />} />
         <Route path="/contactus" element={<Contact />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/admin" element={<AdminPanel />} />
         {/* <Route 
           path="/admin" 

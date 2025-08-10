@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-import { Clock, MapPin, ChevronRight, Plus, Check, Activity, Zap } from "lucide-react"
+import { Clock, MapPin, ChevronRight, Calendar, Activity, Zap } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useTestCartStore } from "@/stores/testCartStore"
 import type { MedicalTest } from "@/types/test"
 
 interface TestCardProps {
@@ -12,28 +11,10 @@ interface TestCardProps {
   index: number
   isVisible: boolean
   onTestClick: (test: MedicalTest) => void
+  onInstantBook: (test: MedicalTest) => void
 }
 
-const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick }) => {
-  const { addTest, removeTest, isTestInCart } = useTestCartStore()
-  const inCart = isTestInCart(test.id)
-
-  const handleCartAction = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (inCart) {
-      removeTest(test.id)
-    } else {
-      addTest({
-        id: test.id,
-        name: test.name,
-        price: test.price,
-        priceDisplay: test.priceDisplay,
-        category: test.category,
-        duration: test.duration,
-      })
-    }
-  }
-
+const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick, onInstantBook }) => {
   const formatReportTime = (hours: number) => {
     if (hours < 24) {
       return `${hours} hours`
@@ -60,6 +41,11 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
     return locationIds.map((id) => locationMap[id] || id).join(", ")
   }
 
+  const handleInstantBook = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onInstantBook(test)
+  }
+
   return (
     <Card
       className={`group hover:shadow-xl border-2 border-gray-200 mt-4 shadow-soft bg-white/90 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 test-card cursor-pointer flex-shrink-0 w-80 flex flex-col h-[400px] ${
@@ -79,7 +65,7 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
           >
             {test.name}
           </CardTitle>
-          
+
           {/* Highlights section */}
           <div className="flex flex-col gap-1 text-sm text-slate-700">
             <div className="flex items-center">
@@ -111,9 +97,9 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
         {/* Test Details */}
         <div className="space-y-4 mb-4">
           {/* Price Section */}
-          {/* <div className="flex items-center">
+          <div className="flex items-center">
             <span className="text-2xl font-bold text-slate-900">{test.priceDisplay}</span>
-          </div> */}
+          </div>
 
           <div className="space-y-3">
             <div className="flex items-center text-sm text-slate-600">
@@ -131,26 +117,12 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
         <div className="mt-auto pt-4 pb-2">
           <div className="flex gap-2">
             <Button
-              onClick={handleCartAction}
-              variant={inCart ? "default" : "outline"}
-              className={`flex-1 transition-all duration-300 ${
-                inCart
-                  ? "bg-vesta-orange text-white border-vesta-orange hover:bg-vesta-orange/90"
-                  : "group-hover:bg-vesta-orange group-hover:text-white group-hover:border-vesta-orange bg-transparent border-slate-200 hover:shadow-md"
-              }`}
-              aria-label={inCart ? `Remove ${test.name} from cart` : `Add ${test.name} to cart`}
+              onClick={handleInstantBook}
+              className="flex-1 bg-gradient-to-r from-vesta-orange to-vesta-navy hover:from-vesta-orange/90 hover:to-vesta-navy/90 text-white border-0 transition-all duration-300"
+              aria-label={`Instant book ${test.name}`}
             >
-              {inCart ? (
-                <>
-                  <Check className="w-4 h-4 mr-2" />
-                  <span>Added</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="w-4 h-4 mr-2" />
-                  <span>Add to Cart</span>
-                </>
-              )}
+              <Calendar className="w-4 h-4 mr-2" />
+              <span>Instant Book</span>
             </Button>
 
             <Button

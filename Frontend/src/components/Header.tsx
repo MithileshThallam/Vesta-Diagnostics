@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
-import CartBadge from "./cartBadge"
 import UserProfile from "./UserProfile"
 import { useNavigate, Link } from "react-router-dom"
 
@@ -183,7 +182,6 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <CartBadge onClick={handleCartClick} />
             <UserProfile />
           </div>
 
@@ -206,7 +204,6 @@ const Header = () => {
               ))}
               <div className="pt-4 space-y-3 border-t border-gray-100">
                 <div className="flex items-center justify-between">
-                  <CartBadge onClick={handleCartClick} className="flex-1 mr-2" />
                   <div className="flex-1">
                     <UserProfile />
                   </div>
