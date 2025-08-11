@@ -6,38 +6,37 @@ import Booking from '../models/Booking.model.js';
 import Test from '../models/Test.model.js';
 import mongoose from 'mongoose';
 
+
 // CREATE SUB-ADMIN
 export const createSubAdmin = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, location } = req.body;
+    const { phone, branch, password, role } = req.body;
 
-    if (!name || !email || !password || !location) {
+    if (!phone || !branch || !password || !role) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const existing = await SubAdmin.findOne({ email });
+    const existing = await SubAdmin.findOne({ phone });
     if (existing) {
-      return res.status(400).json({ message: 'Email already in use' });
+      return res.status(400).json({ message: 'Phone number already in use' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const subAdmin = await SubAdmin.create({
-      name,
-      email,
+      phone,
       password: hashedPassword,
-      role: 'sub-admin',
-      location,
+      role, // Now using the role from request instead of hardcoding
+      branch,
     });
 
     res.status(201).json({
       message: 'Sub-admin created successfully',
       subAdmin: {
         id: subAdmin._id,
-        name: subAdmin.name,
-        email: subAdmin.email,
-        location: subAdmin.location,
+        phone: subAdmin.phone, // Changed from name to phone
         role: subAdmin.role,
+        branch: subAdmin.branch, // Added branch
       },
     });
   } catch (error) {

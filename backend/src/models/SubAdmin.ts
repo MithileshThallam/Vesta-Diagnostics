@@ -1,25 +1,16 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ISubAdmin extends Document {
-  name: string;
-  email: string;
   phone: string;
   password: string;
-  role: 'sub-admin';
-  location?: string;
+  role: string;  // Changed from fixed 'sub-admin' to allow multiple roles
+  branch: string; // Added branch field
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 const SubAdminSchema = new Schema<ISubAdmin>(
   {
-    name: { type: String, required: true },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      match: [/.+\@.+\..+/, 'Please enter a valid email'],
-    },
     phone: {
       type: String,
       required: true,
@@ -27,12 +18,22 @@ const SubAdminSchema = new Schema<ISubAdmin>(
       match: [/^[0-9]{10,15}$/, 'Please enter a valid phone number'],
     },
     password: { type: String, required: true },
-    role: { type: String, enum: ['sub-admin'], default: 'sub-admin' },
-    location: { type: String },
+    role: { 
+      type: String, 
+      required: true,
+      enum: ['sub-admin', 'branch-admin', 'supervisor'], // Example roles - adjust as needed
+      default: 'sub-admin' 
+    },
+    branch: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
+// Indexes
 SubAdminSchema.index({ phone: 1 });
+SubAdminSchema.index({ branch: 1 }); // Added index for branch field
 
 export default mongoose.model<ISubAdmin>('SubAdmin', SubAdminSchema);

@@ -52,7 +52,8 @@ export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdmin
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/create-sub-admin", {
+      console.log("Sub-admin data: ", formData);
+      const response = await fetch("http://localhost:5000/api/admin/create", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -63,6 +64,7 @@ export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdmin
 
       if (!response.ok) {
         const error = await response.json()
+        console.log(error)
         throw new Error(error.message || "Failed to create sub-admin")
       }
 

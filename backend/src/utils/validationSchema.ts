@@ -55,10 +55,10 @@ export const loginSchema = z.object({
 });
 
 export const createAdminSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  location: z.string().min(1, 'Location is required'),
+  phone: z.string().min(1, 'Phone is required'),
+  role: z.string().min(1, 'Role is required'),
+  branch: z.string().min(1, 'Branch is required'),
+  password: z.string().min(6, 'Password must be at least 6 characters')
 });
 
 export const createTestSchema = z.object({

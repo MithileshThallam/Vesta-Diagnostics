@@ -10,7 +10,8 @@ const ALLOWED_FIELDS = [
   'password',
   'role',
   'location',
-  'hasWhatsapp'
+  'hasWhatsapp',
+  'branch'
 ];
 
 export const validateBody = (schema: ZodType<any>) => {

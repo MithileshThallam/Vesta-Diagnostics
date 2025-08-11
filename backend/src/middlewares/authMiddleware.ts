@@ -18,7 +18,7 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest['user'];
     req.user = decoded;
-    console.log("Got access from verifyToken and body is: ", req.body)
+    // console.log("Got access from verifyToken and body is: ", req.body)
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Invalid token' });
@@ -30,7 +30,7 @@ export const requireRole = (allowedRoles: string[]) => {
     if (!req.user || !allowedRoles.includes(req.user.role)) {
       return res.status(403).json({ message: 'Access denied' });
     }
-    console.log("Got access from requireRole")
+    // console.log("Got access from requireRole")
     next();
   };
 };
