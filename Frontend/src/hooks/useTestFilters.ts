@@ -13,17 +13,13 @@ export const useTestFilters = (tests: MedicalTest[], searchResults: MedicalTest[
     }
 
     // Filter by location
-    if (filters.selectedLocation !== "all") {
-      filtered = filtered.filter((test) => test.locations.includes(filters.selectedLocation))
+    if (filters.location !== "all") {
+      filtered = filtered.filter((test) => test.locations.includes(filters.location))
     }
 
     // Sort tests
     const sorted = [...filtered].sort((a, b) => {
       switch (filters.sortBy) {
-        case "price-low":
-          return a.price - b.price
-        case "price-high":
-          return b.price - a.price
         case "name":
         default:
           return a.name.localeCompare(b.name)

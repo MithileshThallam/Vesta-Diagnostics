@@ -12,14 +12,13 @@ export interface User {
   export interface Booking {
     id: string
     userId: string
-    userName: string
+    phone: string
+    name: string
     testId: string
-    testName: string
-    price: number
-    priceDisplay: string
+    test: string
     status: "pending" | "confirmed" | "completed" | "cancelled"
     bookingDate: string
-    testDate: string
+    date: string
     location: string
     createdAt: string
   }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTest, getAllTests } from '../controllers/test.controller.js';
+import { createTest, getAllTests, updateTest, deleteTest } from '../controllers/test.controller.js';
 
 import { verifyToken, requireAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
 import { upload } from '../middlewares/multer.js';
@@ -12,6 +12,22 @@ router.post(
   verifyToken,
   requireAdminOrSubAdmin,
   createTest
+);
+
+// ✅ Admin/Sub-Admin: Update a test
+router.put(
+  '/:id',
+  verifyToken,
+  requireAdminOrSubAdmin,
+  updateTest
+);
+
+// ✅ Admin/Sub-Admin: Delete a test
+router.delete(
+  '/:id',
+  verifyToken,
+  requireAdminOrSubAdmin,
+  deleteTest
 );
 
 // ✅ Frontend: Get all tests

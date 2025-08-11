@@ -14,7 +14,7 @@ interface BookingFormData {
   phone: string
   location: string
   date: string
-  testName: string
+  test: string
 }
 
 interface InstantBookingModalProps {
@@ -39,7 +39,7 @@ const InstantBookingModal: React.FC<InstantBookingModalProps> = ({
     phone: "",
     location: "",
     date: "",
-    testName: "",
+    test: "",
   })
 
   const locationNameMap: Record<string, string> = {
@@ -53,12 +53,13 @@ const InstantBookingModal: React.FC<InstantBookingModalProps> = ({
     ahmedabad: "Ahmedabad",
   };
 
-  // const locations = [
-  //   { id: "mumbai", name: "Mumbai" },
-  //   { id: "delhi", name: "Delhi NCR" },
-  //   { id: "bangalore", name: "Bangalore" },
-  //   { id: "hyderabad", name: "Hyderabad" },
-  // ]
+  // Get all location IDs from locationNameMap
+  const allLocationIds = Object.keys(locationNameMap);
+
+  // Determine which locations to show based on test's availableLocations
+  const locationsToShow = availableLocations.includes("All locations") 
+    ? allLocationIds 
+    : availableLocations;
 
   useEffect(() => {
     if (isOpen) {
@@ -86,7 +87,7 @@ const InstantBookingModal: React.FC<InstantBookingModalProps> = ({
     if (test) {
       setFormData(prev => ({
         ...prev,
-        testName: test.name
+        test: test.id || ""
       }))
     }
   }, [isAuthenticated, userName, userPhone, test])
@@ -96,21 +97,37 @@ const InstantBookingModal: React.FC<InstantBookingModalProps> = ({
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitting(true)
-
+    e.preventDefault();
+    setSubmitting(true);
+    console.log(formData)
+  
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log("Booking submitted:", formData)
-      alert("Booking confirmed! You'll receive a confirmation shortly.")
-      onClose()
-    } catch (error) {
-      console.error("Booking error:", error)
+      const response = await fetch('http://localhost:5000/api/bookings/create-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Essential for cookies
+        body: JSON.stringify(formData)
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        throw new Error(errorData.message || 'Booking failed');
+      }
+  
+      const result = await response.json();
+      console.log("Booking submitted:", result);
+      alert("Booking confirmed!");
+      onClose();
+    } catch (error: any) {
+      console.error("Error:", error);
+      alert(error.message || "Failed to submit booking");
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const getTomorrowDate = () => {
     const tomorrow = new Date()
@@ -224,7 +241,7 @@ const InstantBookingModal: React.FC<InstantBookingModalProps> = ({
                   <SelectValue placeholder="Select your city" />
                 </SelectTrigger>
                 <SelectContent className="bg-white rounded-lg shadow-lg z-50">
-                  {availableLocations?.map((locationId) => (
+                  {locationsToShow.map((locationId) => (
                     <SelectItem
                       key={locationId}
                       value={locationId}

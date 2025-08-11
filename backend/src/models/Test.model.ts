@@ -9,7 +9,6 @@ export interface ITest extends Document {
  
   duration: string;
   locations: string[];
-  locationNames: string[];
   popular: boolean;
   keywords: string[];
 
@@ -28,7 +27,6 @@ const TestSchema = new Schema<ITest>(
     description: { type: String, required: true },
     duration: { type: String, required: true },
     locations: [{ type: String, required: true }],
-    locationNames: [{ type: String, required: true }],
     popular: { type: Boolean, default: false },
     keywords: [{ type: String, required: true }],
 
