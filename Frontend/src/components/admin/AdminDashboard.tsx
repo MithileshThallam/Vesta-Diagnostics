@@ -3,9 +3,13 @@ import { Users, Calendar, TestTube, BarChart3, UserPlus, Activity, TrendingUp, C
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useAdminStore } from "@/stores/adminStore"
+import { useState } from "react"
+import { CreateSubAdminModal } from "./CreateSubAdminModal"
+import { updateStats } from "@/utils/updateStats" // Declare the updateStats variable
 
 const AdminDashboard = () => {
   const { stats, setActiveSection } = useAdminStore()
+  const [showCreateSubAdmin, setShowCreateSubAdmin] = useState(false)
 
   const quickActions = [
     {
@@ -19,7 +23,7 @@ const AdminDashboard = () => {
       title: "Add Sub-admin",
       description: "Create sub-admin account",
       icon: UserPlus,
-      action: () => setActiveSection("users"),
+      action: () => setShowCreateSubAdmin(true),
       color: "from-[hsl(248_81%_20%)] to-[hsl(248_81%_15%)]",
     },
     {
@@ -102,9 +106,7 @@ const AdminDashboard = () => {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-[hsl(15_96%_53%)] to-[hsl(248_81%_20%)] bg-clip-text text-transparent">
             Mission Control
           </h1>
-          <p className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] mt-2">
-            Advanced diagnostic system oversight
-          </p>
+          <p className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] mt-2">Advanced diagnostic system oversight</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-[hsl(120_60%_50%)]">
@@ -116,7 +118,7 @@ const AdminDashboard = () => {
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {metrics.map((metric, index) => (
+        {metrics.map((metric) => (
           <Card
             key={metric.title}
             className="relative overflow-hidden border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] hover:border-[hsl(15_96%_53%/0.5)] transition-all duration-500 group shadow-soft hover:shadow-medium"
@@ -163,11 +165,11 @@ const AdminDashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {quickActions.map((action, index) => (
+            {quickActions.map((action) => (
               <Button
                 key={action.title}
                 onClick={action.action}
-                className={`h-auto p-6 bg-gradient-to-r ${action.color} hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-hover border-0 group`}
+                className={`h-auto p-6 bg-gradient-to-r ${action.color} hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border-0 group`}
                 variant="default"
               >
                 <div className="flex flex-col items-center gap-3 text-white">
@@ -261,6 +263,13 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
+      <CreateSubAdminModal
+        open={showCreateSubAdmin}
+        onClose={() => setShowCreateSubAdmin(false)}
+        onSuccess={() => {
+          updateStats()
+        }}
+      />
     </div>
   )
 }

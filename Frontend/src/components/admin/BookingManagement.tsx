@@ -48,7 +48,7 @@ const BookingManagement = () => {
       </Card>
 
       {/* Bookings Table */}
-      <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
+      <Card className="bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
         <CardHeader>
           <CardTitle className="text-xl text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] flex items-center gap-2">
             <Calendar className="h-5 w-5 text-[hsl(15_96%_53%)]" />

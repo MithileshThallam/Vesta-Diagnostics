@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react"
 import {
   LayoutDashboard,
   Calendar,
@@ -8,23 +9,34 @@ import {
   ToggleRight,
   Zap,
   Shield,
+  UserPlus,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAdminStore } from "@/stores/adminStore"
 import { useUserStore } from "@/stores/userStore"
 import AdminDashboard from "@/components/admin/AdminDashboard"
 import BookingManagement from "@/components/admin/BookingManagement"
-import TestManagement from "@/components/admin/TestManagement"
+import { TestManagement } from "@/components/admin/TestManagement"
+import { CreateSubAdminModal } from "@/components/admin/CreateSubAdminModal"
 import Home from "./Home"
+
+interface MenuItem {
+  id: string
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+  action?: () => void
+}
 
 const AdminPanel = () => {
   const { isUserMode, activeSection, toggleUserMode, setActiveSection } = useAdminStore()
   const { logout } = useUserStore()
+  const [showCreateSubAdmin, setShowCreateSubAdmin] = useState(false)
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     { id: "dashboard", label: "Mission Control", icon: LayoutDashboard },
     { id: "bookings", label: "Booking Nexus", icon: Calendar },
     { id: "tests", label: "Test Arsenal", icon: TestTube },
+    { id: "create-sub-admin", label: "Create Sub-Admin", icon: UserPlus, action: () => setShowCreateSubAdmin(true) },
   ]
 
   const renderContent = () => {
@@ -122,7 +134,13 @@ const AdminPanel = () => {
               {menuItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => {
+                    if (item.action) {
+                      item.action()
+                    } else {
+                      setActiveSection(item.id)
+                    }
+                  }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 group ${
                     activeSection === item.id
                       ? "bg-gradient-to-r from-[hsl(15_96%_53%/0.1)] to-[hsl(248_81%_20%/0.1)] border border-[hsl(15_96%_53%/0.3)] text-[hsl(15_96%_53%)] dark:text-[hsl(15_90%_55%)]"
@@ -161,6 +179,16 @@ const AdminPanel = () => {
           <div className="p-8">{renderContent()}</div>
         </div>
       </div>
+
+      {/* Create Sub-Admin Modal */}
+      <CreateSubAdminModal
+        open={showCreateSubAdmin}
+        onClose={() => setShowCreateSubAdmin(false)}
+        onSuccess={() => {
+          setShowCreateSubAdmin(false)
+          setActiveSection("dashboard")
+        }}
+      />
     </div>
   )
 }

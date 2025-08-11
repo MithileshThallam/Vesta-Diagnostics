@@ -5,7 +5,7 @@ import slugify from 'slugify';
 // ✅ CREATE Test (without image)
 export const createTest = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
+    console.log("New Test received on backend: ", req.body);
     const {
       name,
       category,
@@ -26,14 +26,13 @@ export const createTest = async (req: Request, res: Response) => {
       !name?.trim() ||
       !category?.trim() ||
       !description?.trim() ||
-      typeof duration !== "number" ||
+      typeof duration !== "string" ||
       !Array.isArray(locations) ||
-      !Array.isArray(locationNames) ||
       !Array.isArray(keywords) ||
       !Array.isArray(parts) ||
       typeof parameterCount !== "number" ||
       !Array.isArray(parameters) ||
-      !reportIn?.trim() ||
+      typeof reportIn !== "number" ||
       !about?.trim()
     ) {
       return res.status(400).json({ message: 'All required fields must be provided in the correct format' });

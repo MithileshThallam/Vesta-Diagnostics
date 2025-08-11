@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { medicalTests } from "@/data/testData"
 import CreateTestModal from "./CreateTestModal"
 
-const TestManagement = () => {
+export const TestManagement = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterCategory, setFilterCategory] = useState<string>("all")
   const [showCreateForm, setShowCreateForm] = useState(false)
@@ -17,6 +17,9 @@ const TestManagement = () => {
     let res = await fetch('http://localhost:5000/api/tests/create', {
       method: 'POST',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },  
       body: JSON.stringify(newTest)
     })
     let response = await res.json();
@@ -200,11 +203,9 @@ const TestManagement = () => {
       </div>
       <CreateTestModal
         open={showCreateForm}
-        onClose={() => setShowCreateForm(true)}
+        onClose={() => setShowCreateForm(false)}
         onSubmit={(newTest) => {createTestHandler(newTest)}}
       />
     </div>
   )
 }
-
-export default TestManagement
