@@ -1,12 +1,13 @@
 // src/utils/validationSchemas.ts
 import { z } from 'zod';
 
+
 export const createBookingSchema = z.object({
-  tests: z.array(z.string()).min(1, 'At least one test must be selected'),
-  selectedLocation: z.string().min(1, 'Location is required'),
-  paymentMethod: z.string().min(1, 'Payment method is required'),
-  paymentStatus: z.string().min(1, 'Payment status is required'),
-  transactionId: z.string().optional(),
+  user: z.string().min(24, 'Invalid user ID').max(24), // MongoDB ObjectId
+  test: z.string().min(1, 'Test type is required'), // No enum restriction
+  date: z.coerce.date()
+          .min(new Date(), 'Booking date must be in the future'),
+  selectedLocation: z.string().min(1, 'Location is required')
 });
 
 export const signupSchema = z.object({

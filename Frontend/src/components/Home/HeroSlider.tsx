@@ -123,9 +123,9 @@ const HeroSlider = () => {
     }
   };
 
-  const handleBookSlot = () => {
-    setIsFormOpen(true);
-  };
+  // const handleBookSlot = () => {
+  //   setIsFormOpen(true);
+  // };
 
   const handleCloseForm = () => {
     setIsFormOpen(false);
