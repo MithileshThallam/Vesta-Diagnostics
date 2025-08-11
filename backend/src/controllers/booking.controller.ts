@@ -6,13 +6,13 @@ import Booking from '../models/Booking.model.js';
 export const createBooking = async (req: Request, res: Response) => {
   try {
     const {
-      tests, // array of string test ids (e.g. ["cbc", "lft"])
+      test, // single test id (e.g. "cbc")
       selectedLocation,
       date // booking date
     } = req.body;
 
-    if (!tests || !Array.isArray(tests) || tests.length === 0) {
-      return res.status(400).json({ message: 'Tests are required' });
+    if (!test || typeof test !== 'string') {
+      return res.status(400).json({ message: 'Test is required' });
     }
     if (!selectedLocation) {
       return res.status(400).json({ message: 'Selected location is required' });
@@ -23,7 +23,7 @@ export const createBooking = async (req: Request, res: Response) => {
 
     const booking = await Booking.create({
       user: req.user!.id,
-      tests,
+      test,
       selectedLocation,
       date
     });
@@ -38,6 +38,7 @@ export const createBooking = async (req: Request, res: Response) => {
 };
 
 // ✅ Get Bookings (Admin / Sub-Admin)
+// ✅ Get Bookings (Admin / Sub-Admin)
 export const getBookingsForAdmin = async (req: Request, res: Response) => {
   try {
     let filter: any = {};
@@ -47,10 +48,22 @@ export const getBookingsForAdmin = async (req: Request, res: Response) => {
     }
 
     const bookings = await Booking.find(filter)
-      .populate('user', '-password') // populate user details except password
-      .sort({ createdAt: -1 });
+      .populate('user', 'name phone') // fetch only name & phone from User
+      .sort({ createdAt: -1 })
+      .select('test date selectedLocation user'); // only these fields from Booking
 
-    return res.status(200).json({ bookings });
+    const formattedBookings = bookings.map(b => {
+      const user = b.user as { name?: string; phone?: string };
+      return {
+        name: user?.name || '',
+        phone: user?.phone || '',
+        test: b.test,
+        date: b.date,
+        location: b.selectedLocation
+      };
+    });
+
+    return res.status(200).json({ bookings: formattedBookings });
   } catch (err) {
     return res.status(500).json({
       message: 'Failed to fetch bookings',
