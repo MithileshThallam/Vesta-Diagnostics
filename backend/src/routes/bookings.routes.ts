@@ -17,10 +17,10 @@ const router = express.Router();
 
 // 🧑‍⚕️ USER ROUTES
 // Create a new booking (user only)
-router.post('/', verifyToken, requireRole(['user']), validateBody(createBookingSchema), createBooking);
+router.post('/create-booking', verifyToken, requireRole(['user']), validateBody(createBookingSchema), createBooking);
 
 // 🛡️ ADMIN / SUB-ADMIN ROUTES
 // Get bookings for admin/sub-admin (filtered by location for sub-admin)
-router.get('/', verifyToken, requireAdminOrSubAdmin, getBookingsForAdmin);
+router.get('/get-bookings', verifyToken, requireAdminOrSubAdmin, getBookingsForAdmin);
 
 export default router;
