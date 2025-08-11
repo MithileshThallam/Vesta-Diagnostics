@@ -45,9 +45,6 @@ export const createSubAdmin = async (req: Request, res: Response) => {
   }
 };
 
-
-
-
 export const getAdminOverview = async (req: Request, res: Response) => {
   try {
     const now = new Date();
@@ -104,7 +101,6 @@ export const getAdminOverview = async (req: Request, res: Response) => {
 //   "totalTests": 25,
 //   "testGrowth": 3
 // }
-
 
 export const getSystemStatus = async (req: Request, res: Response) => {
   try {
