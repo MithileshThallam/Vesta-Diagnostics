@@ -168,18 +168,7 @@ const HeroSlider = () => {
                     <p className="text-base sm:text-lg lg:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
                       {slide.description}
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 cursor-pointer">
-                      <Button variant="premium" size="lg" className="text-sm sm:text-lg">
-                        Get Started
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="text-sm sm:text-lg bg-white/90 text-black border-white/90 hover:bg-white cursor-pointer"
-                      >
-                        Explore Tests
-                      </Button>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
