@@ -65,6 +65,5 @@ export const createTestSchema = z.object({
   name: z.string().min(1),
   category: z.enum(['radiology', 'lab-test']),
   description: z.string().optional(),
-  price: z.number().optional(),
   preparation: z.string().optional(),
 });
