@@ -1,11 +1,12 @@
 "use client"
-import { Users, Calendar, TestTube, BarChart3, UserPlus, Activity, TrendingUp, Clock } from "lucide-react"
+
+import { Users, Calendar, TestTube, BarChart3, UserPlus, Activity, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useAdminStore } from "@/stores/adminStore"
 import { useState } from "react"
 import { CreateSubAdminModal } from "./CreateSubAdminModal"
-import { updateStats } from "@/utils/updateStats" // Declare the updateStats variable
+import { updateStats } from "@/utils/updateStats"
 
 const AdminDashboard = () => {
   const { stats, setActiveSection } = useAdminStore()
@@ -25,13 +26,6 @@ const AdminDashboard = () => {
       icon: UserPlus,
       action: () => setShowCreateSubAdmin(true),
       color: "from-[hsl(248_81%_20%)] to-[hsl(248_81%_15%)]",
-    },
-    {
-      title: "Manage Users",
-      description: "View and manage users",
-      icon: Users,
-      action: () => setActiveSection("users"),
-      color: "from-[hsl(15_96%_53%/0.8)] to-[hsl(248_81%_20%/0.8)]",
     },
     {
       title: "View Bookings",
@@ -77,27 +71,6 @@ const AdminDashboard = () => {
     },
   ]
 
-  const recentActivity = [
-    {
-      type: "booking",
-      message: "New booking for MRI Brain Scan",
-      time: "2 minutes ago",
-      status: "pending",
-    },
-    {
-      type: "user",
-      message: "New user registration",
-      time: "15 minutes ago",
-      status: "active",
-    },
-    {
-      type: "test",
-      message: "Test parameters updated",
-      time: "1 hour ago",
-      status: "completed",
-    },
-  ]
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -129,7 +102,6 @@ const AdminDashboard = () => {
                 background: `linear-gradient(135deg, hsl(15_96%_53%), hsl(248_81%_20%))`,
               }}
             />
-
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
               <CardTitle className="text-sm font-medium text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                 {metric.title}
@@ -164,7 +136,7 @@ const AdminDashboard = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {quickActions.map((action) => (
               <Button
                 key={action.title}
@@ -185,84 +157,51 @@ const AdminDashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Recent Activity & System Status */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Activity */}
-        <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
-          <CardHeader>
-            <CardTitle className="text-xl text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] flex items-center gap-2">
-              <Clock className="h-5 w-5 text-[hsl(120_60%_50%)]" />
-              Recent Activity
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-4 p-3 rounded-lg bg-[hsl(0_0%_96%)] dark:bg-[hsl(215_15%_20%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)]"
-                >
-                  <div
-                    className={`w-2 h-2 rounded-full ${
-                      activity.status === "pending"
-                        ? "bg-[hsl(45_100%_50%)]"
-                        : activity.status === "active"
-                          ? "bg-[hsl(120_60%_50%)]"
-                          : "bg-[hsl(200_100%_50%)]"
-                    } animate-pulse`}
-                  />
-                  <div className="flex-1">
-                    <p className="text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] text-sm">{activity.message}</p>
-                    <p className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] text-xs">{activity.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Visual Separator */}
+      <div className="border-t border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] my-8" />
 
-        {/* System Status */}
-        <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
-          <CardHeader>
-            <CardTitle className="text-xl text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-[hsl(248_81%_20%)]" />
-              System Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Database</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[hsl(120_60%_50%)] rounded-full animate-pulse" />
-                  <span className="text-[hsl(120_60%_50%)] text-sm">Online</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">API Services</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[hsl(120_60%_50%)] rounded-full animate-pulse" />
-                  <span className="text-[hsl(120_60%_50%)] text-sm">Operational</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Payment Gateway</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[hsl(45_100%_50%)] rounded-full animate-pulse" />
-                  <span className="text-[hsl(45_100%_50%)] text-sm">Maintenance</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Notification Service</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[hsl(120_60%_50%)] rounded-full animate-pulse" />
-                  <span className="text-[hsl(120_60%_50%)] text-sm">Active</span>
-                </div>
+      {/* System Status */}
+      <Card className="border-0 bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
+        <CardHeader>
+          <CardTitle className="text-xl text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-[hsl(248_81%_20%)]" />
+            System Status
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Database</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[hsl(120_60%_50%)] rounded-full animate-pulse" />
+                <span className="text-[hsl(120_60%_50%)] text-sm">Online</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">API Services</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[hsl(120_60%_50%)] rounded-full animate-pulse" />
+                <span className="text-[hsl(120_60%_50%)] text-sm">Operational</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Payment Gateway</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[hsl(45_100%_50%)] rounded-full animate-pulse" />
+                <span className="text-[hsl(45_100%_50%)] text-sm">Maintenance</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Notification Service</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[hsl(120_60%_50%)] rounded-full animate-pulse" />
+                <span className="text-[hsl(120_60%_50%)] text-sm">Active</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <CreateSubAdminModal
         open={showCreateSubAdmin}
         onClose={() => setShowCreateSubAdmin(false)}
