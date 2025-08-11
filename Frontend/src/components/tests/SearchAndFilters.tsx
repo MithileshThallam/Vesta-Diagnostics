@@ -34,7 +34,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
   const hasActiveFilters =
     filters.searchQuery ||
     filters.activeCategory !== "all" ||
-    filters.selectedLocation !== "all" ||
+    filters.location !== "all" ||
     filters.sortBy !== "name"
 
   return (
@@ -87,7 +87,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
           {/* Location Filter */}
           <div className="relative">
             <select
-              value={filters.selectedLocation}
+              value={filters.location}
               onChange={(e) => onLocationChange(e.target.value)}
               className="appearance-none bg-white/80 border border-slate-200 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-vesta-orange/50 transition-all duration-300"
               aria-label="Filter by location"

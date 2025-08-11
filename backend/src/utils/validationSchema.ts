@@ -3,11 +3,13 @@ import { z } from 'zod';
 
 
 export const createBookingSchema = z.object({
-  user: z.string().min(24, 'Invalid user ID').max(24), // MongoDB ObjectId
-  test: z.string().min(1, 'Test type is required'), // No enum restriction
-  date: z.coerce.date()
-          .min(new Date(), 'Booking date must be in the future'),
-  selectedLocation: z.string().min(1, 'Location is required')
+  name: z.string().min(2).max(50),
+  phone: z.string().min(10).max(15).regex(/^[0-9]+$/),
+  location: z.string().min(3).max(100),
+  date: z.string().regex(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)
+            .transform(str => new Date(str))
+            .refine(date => date > new Date(), "Date must be in the future"),
+  test: z.string().min(1).max(100)
 });
 
 export const signupSchema = z.object({
@@ -21,10 +23,6 @@ export const signupSchema = z.object({
 
   name: z.string()
     .min(1, "Name is required"),
-
-  email: z.string()
-    .email("Invalid email format")
-    .optional(),
 
   hasWhatsapp: z.boolean()
     .default(false)

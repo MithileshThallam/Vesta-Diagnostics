@@ -5,34 +5,34 @@ import Booking from '../models/Booking.model.js';
 // ✅ Create Booking (User Only)
 export const createBooking = async (req: Request, res: Response) => {
   try {
-    const {
-      test, // single test id (e.g. "cbc")
-      selectedLocation,
-      date // booking date
+    // Destructure all validated fields from req.body
+    const { 
+      name,        // Patient name
+      phone,       // Patient phone
+      test,        // Test ID (e.g. "cbc")
+      location,    // Location (e.g. "Medanta Gurgaon")
+      date         // Booking date (ISO string)
     } = req.body;
 
-    if (!test || typeof test !== 'string') {
-      return res.status(400).json({ message: 'Test is required' });
-    }
-    if (!selectedLocation) {
-      return res.status(400).json({ message: 'Selected location is required' });
-    }
-    if (!date) {
-      return res.status(400).json({ message: 'Date is required' });
-    }
-
+    // Create booking with all validated data
     const booking = await Booking.create({
-      user: req.user!.id,
-      test,
-      selectedLocation,
-      date
+      user: req.user!.id,  // From auth middleware
+      test,                // Store test ID
+      date: new Date(date),
+      location
     });
 
-    return res.status(201).json({ message: 'Booking created', booking });
+    return res.status(201).json({ 
+      message: 'Booking created successfully'
+    });
+
   } catch (err) {
+    console.error('Booking creation error:', err);
     return res.status(500).json({
       message: 'Failed to create booking',
-      error: (err as Error).message,
+      error: process.env.NODE_ENV === 'development' 
+        ? (err as Error).message 
+        : 'Internal server error'
     });
   }
 };
@@ -44,13 +44,13 @@ export const getBookingsForAdmin = async (req: Request, res: Response) => {
     let filter: any = {};
 
     if (req.user!.role === 'sub-admin') {
-      filter.selectedLocation = req.user!.location;
+      filter.location = req.user!.location;
     }
 
     const bookings = await Booking.find(filter)
       .populate('user', 'name phone') // fetch only name & phone from User
       .sort({ createdAt: -1 })
-      .select('test date selectedLocation user'); // only these fields from Booking
+      .select('test date location user'); // only these fields from Booking
 
     const formattedBookings = bookings.map(b => {
       const user = b.user as { name?: string; phone?: string };
@@ -59,7 +59,7 @@ export const getBookingsForAdmin = async (req: Request, res: Response) => {
         phone: user?.phone || '',
         test: b.test,
         date: b.date,
-        location: b.selectedLocation
+        location: b.location
       };
     });
 

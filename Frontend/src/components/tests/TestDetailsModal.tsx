@@ -219,24 +219,6 @@ const TestModal: React.FC<TestModalProps> = ({ test, isOpen, onClose }) => {
               </Card>
 
               <div className="space-y-3">
-                {/* <Button
-                  onClick={handleCartAction}
-                  variant={inCart ? "default" : "premium"}
-                  size="lg"
-                  className="w-full text-base md:text-lg min-h-12 py-3"
-                >
-                  {inCart ? (
-                    <>
-                      <Check className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                      Added to Cart
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                      Add to Cart
-                    </>
-                  )}
-                </Button> */}
 
                 <Button
                   variant="outline"

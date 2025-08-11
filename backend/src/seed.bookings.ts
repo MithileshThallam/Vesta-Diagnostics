@@ -2,8 +2,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import User from "./models/user.model";
-import Booking from "./models/booking.model";
+import User from "./models/User.model";
+import Booking from "./models/Booking.model";
 
 dotenv.config();
 
@@ -71,7 +71,7 @@ const seed = async () => {
         await Booking.create({
           user: user._id,
           test: test.id,
-          selectedLocation: location,
+          location: location,
           date: randomDate(),
         })
       );

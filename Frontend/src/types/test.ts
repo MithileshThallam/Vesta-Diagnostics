@@ -32,6 +32,6 @@ export interface MedicalTest {
 export interface FilterState {
   activeCategory: string
   searchQuery: string
-  selectedLocation: string
+  location: string
   sortBy: string
 }

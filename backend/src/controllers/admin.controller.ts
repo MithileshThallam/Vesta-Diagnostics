@@ -40,6 +40,7 @@ export const createSubAdmin = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Sub-admin creation failed', error: (error as Error).message });
   }
 };
@@ -89,18 +90,6 @@ export const getAdminOverview = async (req: Request, res: Response) => {
   }
 };
 
-//response 
-// {
-//   "totalUsers": 2,
-//   "userGrowthPercent": 12,
-//   "totalSubAdmins": 1,
-//   "subAdminGrowth": 2,
-//   "totalBookings": 2,
-//   "bookingGrowthPercent": 8,
-//   "totalTests": 25,
-//   "testGrowth": 3
-// }
-
 export const getSystemStatus = async (req: Request, res: Response) => {
   try {
     // If this controller works, API is operational
@@ -144,10 +133,3 @@ export const getSystemStatus = async (req: Request, res: Response) => {
     });
   }
 };
-//sample response for above
-// {
-//   "system": "online",
-//   "database": "online",
-//   "api": "operational",
-//   "paymentGateway": "maintenance"
-// }

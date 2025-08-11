@@ -17,7 +17,7 @@ const Tests = () => {
   const [filters, setFilters] = useState<FilterState>({
     activeCategory: "all",
     searchQuery: "",
-    selectedLocation: "all",
+    location: "all",
     sortBy: "name",
   })
 
@@ -64,7 +64,7 @@ const Tests = () => {
   }, [])
 
   const handleLocationChange = useCallback((value: string) => {
-    setFilters((prev) => ({ ...prev, selectedLocation: value }))
+    setFilters((prev) => ({ ...prev, location: value }))
   }, [])
 
   const handleSortChange = useCallback((value: string) => {
@@ -87,7 +87,7 @@ const Tests = () => {
     setFilters({
       activeCategory: "all",
       searchQuery: "",
-      selectedLocation: "all",
+      location: "all",
       sortBy: "name",
     })
   }, [])

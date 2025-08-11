@@ -6,14 +6,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CreateTestModal from "./CreateTestModal"
 import { adminApiCall } from "@/utils/apiUtils"
+import { useToast } from "@/hooks/use-toast"
+import type { MedicalTest } from "@/types/test"
 
 export const TestManagement = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterCategory, setFilterCategory] = useState<string>("all")
   const [showCreateForm, setShowCreateForm] = useState(false)
-  const [tests, setTests] = useState<any[]>([])
+  const [tests, setTests] = useState<MedicalTest[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { toast } = useToast()
 
   useEffect(() => {
     const fetchTests = async () => {
@@ -30,18 +33,60 @@ export const TestManagement = () => {
     fetchTests()
   }, [])
 
-  const createTestHandler = async (newTest: any) => {
-    console.log(newTest)
-    let res = await fetch('http://localhost:5000/api/tests/create', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },  
-      body: JSON.stringify(newTest)
-    })
-    let response = await res.json();
-    console.log("Response Received from backend: ", response)
+  const createTestHandler = async (newTest: Omit<MedicalTest, "id">) => {
+    try {
+      // Format the test data according to backend requirements
+      const testData = {
+        name: newTest.name,
+        category: newTest.category,
+        description: newTest.description,
+        duration: newTest.duration,
+        locationNames: newTest.locations, // Backend expects locationNames for validation
+        locations: newTest.locations, // Keep locations for model compatibility
+        popular: newTest.popular,
+        keywords: newTest.keywords,
+        parts: newTest.parts,
+        parameterCount: newTest.parameterCount,
+        parameters: newTest.parameters,
+        reportIn: newTest.reportIn,
+        about: newTest.about,
+      }
+
+      console.log("Sending test data to backend:", testData)
+
+      const res = await adminApiCall("/api/tests/create", {
+        method: 'POST',
+        body: JSON.stringify(testData)
+      })
+
+      console.log("Backend response:", res)
+
+      if (res.data && res.data.test) {
+        // Add the newly created test to the top of the list
+        const createdTest = res.data.test
+        setTests(prevTests => [createdTest, ...prevTests])
+        
+        // Show success toast
+        toast({
+          title: "Test Created Successfully",
+          description: `"${createdTest.name}" has been added to the test database.`,
+        })
+        
+        // Close the modal
+        setShowCreateForm(false)
+      } else {
+        throw new Error(res.error || "Failed to create test")
+      }
+    } catch (error) {
+      console.error("Error creating test:", error)
+      
+      // Show error toast
+      toast({
+        title: "Error Creating Test",
+        description: error instanceof Error ? error.message : "An unexpected error occurred while creating the test.",
+        variant: "destructive",
+      })
+    }
   }
 
   const filteredTests = tests.filter((test) => {

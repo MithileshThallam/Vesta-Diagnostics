@@ -28,6 +28,7 @@ export const createTest = async (req: Request, res: Response) => {
       !description?.trim() ||
       typeof duration !== "string" ||
       !Array.isArray(locations) ||
+      !Array.isArray(locationNames) ||
       !Array.isArray(keywords) ||
       !Array.isArray(parts) ||
       typeof parameterCount !== "number" ||
@@ -51,7 +52,7 @@ export const createTest = async (req: Request, res: Response) => {
       category,
       description,
       duration,
-      locations,
+      locations: locationNames, // Use locationNames for both fields
       locationNames,
       popular: Boolean(popular),
       keywords,
