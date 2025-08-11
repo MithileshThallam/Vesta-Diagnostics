@@ -52,6 +52,8 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
+                  <Route path="/admin-dev" element={<AdminPanel />} />
+
         <Route
           path="/admin/*"
           element={
