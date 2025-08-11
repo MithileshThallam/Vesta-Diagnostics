@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { CreateSubAdminModal } from "./CreateSubAdminModal"
 import { adminApiCall } from "@/utils/apiUtils"
 
-const AdminDashboard = () => {
+export const AdminDashboard = () => {
   const { setActiveSection } = useAdminStore()
   const [showCreateSubAdmin, setShowCreateSubAdmin] = useState(false)
   const [stats, setStats] = useState<any>(null)
@@ -210,5 +210,3 @@ const AdminDashboard = () => {
     </div>
   )
 }
-
-export default AdminDashboard

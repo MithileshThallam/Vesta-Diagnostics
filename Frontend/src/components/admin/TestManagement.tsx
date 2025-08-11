@@ -5,6 +5,7 @@ import { Search, Filter, Plus, Edit, Trash2, Clock, Activity, MapPin, Zap } from
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CreateTestModal from "./CreateTestModal"
+import TestModal from "./TestModal"
 import { adminApiCall } from "@/utils/apiUtils"
 import { useToast } from "@/hooks/use-toast"
 import type { MedicalTest } from "@/types/test"
@@ -13,9 +14,12 @@ export const TestManagement = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterCategory, setFilterCategory] = useState<string>("all")
   const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
+  const [editingTest, setEditingTest] = useState<MedicalTest | null>(null)
   const [tests, setTests] = useState<MedicalTest[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [deletingTestId, setDeletingTestId] = useState<string | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -35,14 +39,12 @@ export const TestManagement = () => {
 
   const createTestHandler = async (newTest: Omit<MedicalTest, "id">) => {
     try {
-      // Format the test data according to backend requirements
       const testData = {
         name: newTest.name,
         category: newTest.category,
         description: newTest.description,
         duration: newTest.duration,
-        locationNames: newTest.locations, // Backend expects locationNames for validation
-        locations: newTest.locations, // Keep locations for model compatibility
+        locations: newTest.locations,
         popular: newTest.popular,
         keywords: newTest.keywords,
         parts: newTest.parts,
@@ -52,40 +54,152 @@ export const TestManagement = () => {
         about: newTest.about,
       }
 
-      console.log("Sending test data to backend:", testData)
-
-      const res = await adminApiCall("/api/tests/create", {
-        method: 'POST',
-        body: JSON.stringify(testData)
+      const response = await fetch("http://localhost:5000/api/tests/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(testData),
       })
 
-      console.log("Backend response:", res)
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
 
+
+      const res = await response.json();
+      console.log(res);
       if (res.data && res.data.test) {
-        // Add the newly created test to the top of the list
         const createdTest = res.data.test
-        setTests(prevTests => [createdTest, ...prevTests])
-        
-        // Show success toast
+        setTests((prevTests) => [createdTest, ...prevTests])
         toast({
           title: "Test Created Successfully",
           description: `"${createdTest.name}" has been added to the test database.`,
         })
-        
-        // Close the modal
-        setShowCreateForm(false)
+        // setShowCreateForm(false)
       } else {
         throw new Error(res.error || "Failed to create test")
       }
     } catch (error) {
       console.error("Error creating test:", error)
-      
-      // Show error toast
       toast({
         title: "Error Creating Test",
         description: error instanceof Error ? error.message : "An unexpected error occurred while creating the test.",
         variant: "destructive",
       })
+    }
+  }
+
+  const openEditModal = (test: MedicalTest) => {
+    setEditingTest({
+      ...test,
+      locations: test.locations || [],
+      parameters: test.parameters || [],
+      parts: test.parts || [],
+      keywords: test.keywords || [],
+    })
+    setShowEditForm(true)
+  }
+
+  const editTestHandler = async (updatedTest: MedicalTest) => {
+    try {
+      const testData = {
+        name: updatedTest.name,
+        category: updatedTest.category,
+        description: updatedTest.description,
+        duration: updatedTest.duration,
+        locations: updatedTest.locations,
+        popular: updatedTest.popular,
+        keywords: updatedTest.keywords,
+        parts: updatedTest.parts,
+        parameterCount: updatedTest.parameterCount,
+        parameters: updatedTest.parameters,
+        reportIn: updatedTest.reportIn,
+        about: updatedTest.about,
+      }
+
+      const res = await adminApiCall(`/api/tests/${updatedTest.id}`, {
+        method: "PUT",
+        body: JSON.stringify(testData),
+      })
+
+      if (res.data && res.data.test) {
+        const updatedTestData = res.data.test
+        const frontendTestData: MedicalTest = {
+          id: updatedTestData.id,
+          name: updatedTestData.name,
+          category: updatedTestData.category,
+          description: updatedTestData.description,
+          duration: updatedTestData.duration,
+          locations: updatedTestData.locations || [],
+          popular: updatedTestData.popular,
+          keywords: updatedTestData.keywords || [],
+          parts: updatedTestData.parts || [],
+          parameterCount: updatedTestData.parameterCount,
+          parameters: updatedTestData.parameters || [],
+          reportIn: updatedTestData.reportIn,
+          about: updatedTestData.about,
+        }
+
+        setTests((prevTests) => prevTests.map((test) => (test.id === frontendTestData.id ? frontendTestData : test)))
+
+        toast({
+          title: "Test Updated Successfully",
+          description: `"${frontendTestData.name}" has been updated.`,
+        })
+
+        setShowEditForm(false)
+        setEditingTest(null)
+      } else {
+        throw new Error(res.error || "Failed to update test - invalid response")
+      }
+    } catch (error) {
+      console.error("Error updating test:", error)
+      toast({
+        title: "Error Updating Test",
+        description: error instanceof Error ? error.message : "An unexpected error occurred while updating the test.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const confirmAndDelete = async (testId: string) => {
+    const test = tests.find((t) => t.id === testId)
+    if (!test) return
+
+    const confirmed = window.confirm(`Are you sure you want to delete "${test.name}"? This action cannot be undone.`)
+
+    if (!confirmed) return
+
+    try {
+      setDeletingTestId(testId)
+
+      const res = await adminApiCall(`/api/tests/${testId}`, {
+        method: "DELETE",
+      })
+
+      if (res.data && res.data.success) {
+        setTests((prevTests) => prevTests.filter((t) => t.id !== testId))
+
+        toast({
+          title: "Test Deleted Successfully",
+          description: `"${test.name}" has been removed from the database.`,
+        })
+      } else {
+        throw new Error(res.error || "Failed to delete test")
+      }
+    } catch (error) {
+      console.error("Error deleting test:", error)
+
+      toast({
+        title: "Error Deleting Test",
+        description: error instanceof Error ? error.message : "An unexpected error occurred while deleting the test.",
+        variant: "destructive",
+      })
+    } finally {
+      setDeletingTestId(null)
     }
   }
 
@@ -100,21 +214,21 @@ export const TestManagement = () => {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "dermatology":
-        return "bg-[hsl(330_50%_60%)]" // Softer purple-pink for skin
+        return "bg-[hsl(330_50%_60%)]"
       case "microbiology":
-        return "bg-[hsl(10_80%_55%)]" // Vibrant red-orange for microbes
+        return "bg-[hsl(10_80%_55%)]"
       case "immunology":
-        return "bg-[hsl(210_80%_55%)]" // Cool blue for immune system
+        return "bg-[hsl(210_80%_55%)]"
       case "endocrinology":
-        return "bg-[hsl(280_60%_65%)]" // Soft purple for hormones
+        return "bg-[hsl(280_60%_65%)]"
       case "cardiology":
-        return "bg-[hsl(0_75%_60%)]" // Strong red for heart
+        return "bg-[hsl(0_75%_60%)]"
       case "haematology":
-        return "bg-[hsl(180_70%_45%)]" // Teal for blood studies
+        return "bg-[hsl(180_70%_45%)]"
       case "serology":
-        return "bg-[hsl(45_90%_60%)]" // Warm gold for serum
+        return "bg-[hsl(45_90%_60%)]"
       default:
-        return "bg-[hsl(0_0%_65%)]" // Lighter neutral gray
+        return "bg-[hsl(0_0%_65%)]"
     }
   }
 
@@ -122,11 +236,6 @@ export const TestManagement = () => {
     if (hours < 24) return `${hours} hours`
     if (hours < 168) return `${Math.floor(hours / 24)} days`
     return `${Math.floor(hours / 168)} weeks`
-  }
-
-  const getLocationNames = (parts: string[]) => {
-    if (parts.length >= 8) return "All Locations"
-    return parts.join(", ")
   }
 
   return (
@@ -137,9 +246,7 @@ export const TestManagement = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-[hsl(15_96%_53%)] to-[hsl(248_81%_20%)] bg-clip-text text-transparent">
             Test Management
           </h2>
-          <p className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] mt-1">
-            Manage diagnostic tests and parameters
-          </p>
+          <p className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] mt-1">Manage diagnostic tests and parameters</p>
         </div>
         <Button
           onClick={() => setShowCreateForm(true)}
@@ -200,13 +307,11 @@ export const TestManagement = () => {
               className="group hover:shadow-xl border-2 border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 cursor-pointer"
             >
               <CardHeader className="pb-4">
-                {/* Package Title and Highlights */}
                 <div className="flex flex-col gap-2">
                   <CardTitle className="text-xl font-bold text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] group-hover:text-[hsl(15_96%_53%)] transition-colors duration-300 leading-tight">
                     {test.name}
                   </CardTitle>
 
-                  {/* Highlights section */}
                   <div className="flex flex-col gap-1 text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                     <div className="flex items-center">
                       <Zap className="w-4 h-4 mr-2 text-[hsl(15_96%_53%)]" />
@@ -219,9 +324,10 @@ export const TestManagement = () => {
                   </div>
                 </div>
 
-                {/* Badges */}
                 <div className="flex gap-2 mt-3">
-                  <span className={`text-white text-xs px-3 py-1 rounded-full font-medium ${getCategoryColor(test.category)}`}>
+                  <span
+                    className={`text-white text-xs px-3 py-1 rounded-full font-medium ${getCategoryColor(test.category)}`}
+                  >
                     {test.category}
                   </span>
                   {test.popular && (
@@ -233,10 +339,7 @@ export const TestManagement = () => {
               </CardHeader>
 
               <CardContent className="pt-0">
-                {/* Test Details */}
                 <div className="space-y-4 mb-4">
-                 
-
                   <div className="space-y-3">
                     <div className="flex items-center text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                       <Clock className="w-4 h-4 mr-2 text-[hsl(200_100%_50%)]" />
@@ -244,15 +347,16 @@ export const TestManagement = () => {
                     </div>
                     <div className="flex items-start text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                       <MapPin className="w-4 h-4 mr-2 text-[hsl(15_96%_53%)] mt-0.5 flex-shrink-0" />
-                      <span className="line-clamp-1">{getLocationNames(test.parts)}</span>
+                      <span>{test.locations?.join(", ") || "No locations available"}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
+                    onClick={() => openEditModal(test)}
+                    disabled={deletingTestId === test.id}
                     className="flex-1 text-[hsl(0_0%_45%)] hover:text-[hsl(0_0%_20%)] dark:hover:text-[hsl(0_0%_95%)] hover:bg-[hsl(0_0%_90%)] dark:hover:bg-[hsl(215_15%_25%)] border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] group-hover:bg-[hsl(15_96%_53%)] group-hover:text-white group-hover:border-[hsl(15_96%_53%)]"
                   >
                     <Edit className="w-4 h-4 mr-2" />
@@ -260,9 +364,15 @@ export const TestManagement = () => {
                   </Button>
                   <Button
                     variant="outline"
+                    onClick={() => confirmAndDelete(test.id)}
+                    disabled={deletingTestId === test.id}
                     className="text-[hsl(0_84%_60%)] hover:text-[hsl(0_84%_55%)] hover:bg-[hsl(0_84%_60%/0.1)] border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)]"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    {deletingTestId === test.id ? (
+                      <div className="w-4 h-4 border-2 border-[hsl(0_84%_60%)] border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Trash2 className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
               </CardContent>
@@ -270,10 +380,26 @@ export const TestManagement = () => {
           ))}
         </div>
       )}
+
+      {/* Create Test Modal */}
       <CreateTestModal
         open={showCreateForm}
         onClose={() => setShowCreateForm(false)}
-        onSubmit={(newTest) => {createTestHandler(newTest)}}
+        onSubmit={(newTest) => {
+          createTestHandler(newTest)
+        }}
+      />
+
+      {/* Edit Test Modal */}
+      <TestModal
+        open={showEditForm}
+        onClose={() => {
+          setShowEditForm(false)
+          setEditingTest(null)
+        }}
+        onSubmit={(updatedTest) => editTestHandler(updatedTest as MedicalTest)}
+        editTest={editingTest}
+        mode="edit"
       />
     </div>
   )
