@@ -49,6 +49,7 @@ const Login = () => {
           phone: res.user.phone,
           role: res.user.role
         });
+        console.log("User details: ", res.user)
 
         toast({
           title: "Welcome Back!",

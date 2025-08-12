@@ -37,6 +37,7 @@ export const ProtectedRoute = ({
         }
 
         const data = await response.json();
+        console.log("Data:", data)
         
         if (!allowedRoles.includes(data.role)) {
           useUserStore.getState().clearUser();
