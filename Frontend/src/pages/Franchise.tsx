@@ -24,15 +24,45 @@ const Franchise = () => {
     message: ""
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    toast({
-      title: "Application Submitted",
-      description: "Our team will reach out to you within 48 hours.",
-    //   variant: "success"
-    })
-    console.log("Franchise application:", formData)
-  }
+ const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+
+  // Show toast notification
+  toast({
+    title: "Redirecting to Application Form",
+    description: "Please complete the final step in the new tab.",
+  });
+
+  // Google Form URL with prefilled data
+  const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe4bFtDIS1vUPbKAxaNZ5EuBO08OD5cJb9ANB2i0_9uCv7K2Q/viewform";
+  
+  const params = new URLSearchParams({
+    'usp': 'pp_url',
+    'entry.378161094': formData.fullName,       // Full Name
+    'entry.1245931028': formData.email,          // Email
+    'entry.60975159': formData.phone,          // Phone
+    'entry.1850936708': formData.city,            // City
+    'entry.1784975464': formData.profession,     // Profession
+    'entry.876262631': formData.commercialSpace,// Commercial Space (Yes/No)
+    'entry.639695431': formData.investmentBudget,// Investment Budget
+    'entry.2094482150': formData.message         // Message (corrected ID)
+  });
+
+  // Open prefilled form in new tab
+  window.open(`${baseUrl}?${params.toString()}`, '_blank', 'noopener,noreferrer');
+
+  // Reset form
+  setFormData({
+    fullName: "",
+    email: "",
+    phone: "",
+    city: "",
+    profession: "",
+    commercialSpace: "",
+    investmentBudget: "",
+    message: ""
+  });
+};
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
