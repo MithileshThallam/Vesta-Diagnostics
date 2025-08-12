@@ -10,38 +10,63 @@ import mongoose from 'mongoose';
 // CREATE SUB-ADMIN
 export const createSubAdmin = async (req: Request, res: Response) => {
   try {
-    const { phone, branch, password, role } = req.body;
+    const { name, phone, branch, password, role } = req.body;
 
-    if (!phone || !branch || !password || !role) {
-      return res.status(400).json({ message: 'All fields are required' });
+    // Validate required fields
+    if (!name || !phone || !branch || !password || !role) {
+      return res.status(400).json({ 
+        message: 'All fields are required',
+        requiredFields: ['name', 'phone', 'branch', 'password', 'role']
+      });
     }
 
+    // Validate phone format
+    const phoneRegex = /^[0-9]{10,15}$/;
+    if (!phoneRegex.test(phone)) {
+      return res.status(400).json({ message: 'Please enter a valid phone number' });
+    }
+
+    // Check for existing sub-admin
     const existing = await SubAdmin.findOne({ phone });
     if (existing) {
-      return res.status(400).json({ message: 'Phone number already in use' });
+      return res.status(409).json({ message: 'Phone number already in use' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Validate password length
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
 
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 12); // Increased salt rounds for better security
+
+    // Create new sub-admin
     const subAdmin = await SubAdmin.create({
+      name,
       phone,
       password: hashedPassword,
-      role, // Now using the role from request instead of hardcoding
+      role,
       branch,
     });
 
+    // Return response without sensitive data
     res.status(201).json({
       message: 'Sub-admin created successfully',
       subAdmin: {
         id: subAdmin._id,
-        phone: subAdmin.phone, // Changed from name to phone
+        name: subAdmin.name,
+        phone: subAdmin.phone,
         role: subAdmin.role,
-        branch: subAdmin.branch, // Added branch
+        branch: subAdmin.branch,
+        createdAt: subAdmin.createdAt
       },
     });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: 'Sub-admin creation failed', error: (error as Error).message });
+    console.error('Error creating sub-admin:', error);
+    res.status(500).json({ 
+      message: 'Sub-admin creation failed',
+      error: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
   }
 };
 

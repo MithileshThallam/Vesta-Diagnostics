@@ -16,7 +16,7 @@ import NotFound from "@/pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthErrorBoundary } from "./components/AuthErrorBoundary";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
-
+import SubAdminPanel from "./pages/SubAdminPanel";
 const queryClient = new QueryClient();
 
 const AppContent = () => {
@@ -52,7 +52,6 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
-                  <Route path="/admin-dev" element={<AdminPanel />} />
 
         <Route
           path="/admin/*"
@@ -68,7 +67,7 @@ const AppContent = () => {
           path="/sub-admin"
           element={
             <ProtectedRoute allowedRoles={["sub-admin"]}>
-              <AdminPanel />
+              <SubAdminPanel />
             </ProtectedRoute>
           }
         />

@@ -54,6 +54,7 @@ export const loginSchema = z.object({
 });
 
 export const createAdminSchema = z.object({
+  name: z.string().min(1, 'Name is required'), // Simply added name field
   phone: z.string().min(1, 'Phone is required'),
   role: z.string().min(1, 'Role is required'),
   branch: z.string().min(1, 'Branch is required'),

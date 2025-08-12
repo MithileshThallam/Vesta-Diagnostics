@@ -70,36 +70,7 @@ const mockUsers: User[] = [
   },
 ]
 
-const mockBookings: Booking[] = [
-  {
-    id: "1",
-    userId: "1",
-    userName: "John Doe",
-    testId: "complete-blood-count",
-    testName: "Complete Blood Count (CBC)",
-    price: 450,
-    priceDisplay: "₹450",
-    status: "confirmed",
-    bookingDate: "2024-02-01T10:00:00Z",
-    testDate: "2024-02-05T09:00:00Z",
-    location: "Mumbai",
-    createdAt: "2024-02-01T10:00:00Z",
-  },
-  {
-    id: "2",
-    userId: "3",
-    userName: "Mike Johnson",
-    testId: "mri-brain",
-    testName: "MRI Brain Scan",
-    price: 8500,
-    priceDisplay: "₹8,500",
-    status: "pending",
-    bookingDate: "2024-02-01T14:30:00Z",
-    testDate: "2024-02-08T11:00:00Z",
-    location: "Delhi NCR",
-    createdAt: "2024-02-01T14:30:00Z",
-  },
-]
+
 
 export const useAdminStore = create<AdminState>()(
   persist(
@@ -108,7 +79,7 @@ export const useAdminStore = create<AdminState>()(
       isUserMode: false,
       activeSection: "dashboard",
       users: mockUsers,
-      bookings: mockBookings,
+      bookings: [],
       stats: {
         totalUsers: 0,
         totalSubAdmins: 0,

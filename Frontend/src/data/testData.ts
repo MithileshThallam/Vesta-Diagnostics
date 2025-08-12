@@ -166,7 +166,7 @@ export const medicalTests: MedicalTest[] = [
     name: "T3, T4, TSH",
     category: "endocrinology",
     duration: "15 min",
-    locations: ["Kokilaben Hospital, Mumbai", "Apollo Health City, Hyderabad", "Medanta Gurgaon"],
+    locations: ["Kokilaben Hospital, Mumbai", "Apollo Health City, Hyderabad", "Medanta Gurgaon","Anantapur"],
     description: "Thyroid function test measuring triiodothyronine (T3), thyroxine (T4), and thyroid-stimulating hormone levels",
     popular: true,
     keywords: ["thyroid panel", "hypothyroidism", "hyperthyroidism"],

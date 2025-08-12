@@ -71,7 +71,7 @@ const seed = async () => {
         await Booking.create({
           user: user._id,
           test: test.id,
-          location: location,
+          selectedLocation: location,
           date: randomDate(),
         })
       );
