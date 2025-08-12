@@ -13,6 +13,7 @@ import {
 
 const UserProfile = () => {
   const { name, phone, role, isAuthenticated, logout } = useUserStore()
+  console.log("Sub-Admin name", name)
 
   if (!isAuthenticated) {
     return (
