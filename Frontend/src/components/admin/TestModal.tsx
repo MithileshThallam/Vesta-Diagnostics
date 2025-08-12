@@ -2,17 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect, useCallback, useMemo } from "react"
-import {
-  Plus,
-  Minus,
-  Clock,
-  Activity,
-  MapPin,
-  Zap,
-  FileText,
-  AlertTriangle,
-  Stethoscope,
-} from "lucide-react"
+import { Plus, Minus, Clock, Activity, MapPin, Zap, FileText, AlertTriangle, Stethoscope } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
@@ -72,7 +62,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Validation function
   const validateForm = useCallback((): Record<string, string> => {
     const newErrors: Record<string, string> = {}
 
@@ -83,7 +72,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     if (!formData.reportIn || isNaN(Number(formData.reportIn)) || Number(formData.reportIn) <= 0) {
       newErrors.reportIn = "Valid report time is required"
     }
-    if (!formData.parameterCount || isNaN(Number(formData.parameterCount)) || Number(formData.parameterCount) <= 0) {
+    if (!formData.parameterCount || isNaN(Number(formData.parameterCount))) {
       newErrors.parameterCount = "Valid parameter count is required"
     }
     if (formData.parts.filter((part) => part.trim()).length === 0) {
@@ -97,22 +86,21 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     return newErrors
   }, [formData])
 
-  // Initialize form data
   useEffect(() => {
     if (open) {
       if (mode === "edit" && editTest) {
         setFormData({
-          name: editTest.name,
-          description: editTest.description,
-          category: editTest.category,
-          duration: editTest.duration,
-          reportIn: editTest.reportIn.toString(),
-          parameterCount: editTest.parameterCount.toString(),
-          parameters: editTest.parameters?.length > 0 ? editTest.parameters : [""],
-          parts: editTest.parts.length > 0 ? editTest.parts : [""],
-          popular: editTest.popular,
-          locations: editTest.locations?.length > 0 ? editTest.locations : [""],
-          keywords: editTest.keywords?.length > 0 ? editTest.keywords : [""],
+          name: editTest.name || "",
+          description: editTest.description || "",
+          category: editTest.category || "laboratory",
+          duration: editTest.duration || "",
+          reportIn: editTest.reportIn?.toString() || "",
+          parameterCount: editTest.parameterCount?.toString() || "",
+          parameters: editTest.parameters?.length > 0 ? [...editTest.parameters] : [""],
+          parts: editTest.parts?.length > 0 ? [...editTest.parts] : [""],
+          popular: editTest.popular || false,
+          locations: editTest.locations?.length > 0 ? [...editTest.locations] : [""],
+          keywords: editTest.keywords?.length > 0 ? [...editTest.keywords] : [""],
           about: editTest.about || "",
         })
       } else {
@@ -135,8 +123,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
       setIsSubmitting(false)
     }
   }, [open, mode, editTest])
-
-
 
   // Report time display
   const reportTimeDisplay = useMemo(() => {
@@ -198,7 +184,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           name: formData.name.trim(),
           description: formData.description.trim(),
           category: formData.category,
-         
+
           duration: formData.duration.trim(),
           reportIn: Number(formData.reportIn),
           parameterCount: Number(formData.parameterCount),
@@ -355,7 +341,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
                   <div className="space-y-3">
                     <Label
                       htmlFor="duration"
@@ -537,17 +522,17 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                 </div>
               </div>
 
-              {/* Locations & Keywords */}
+              {/* Locations & Keywords Section */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Locations */}
                 {/* Locations */}
                 <div className="space-y-6 p-6 bg-[hsl(0_0%_98%)] dark:bg-[hsl(215_15%_15%)] rounded-xl border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
                   <h3 className="font-bold text-lg text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)]">Locations</h3>
-
                   <div className="space-y-3">
                     <Label className="text-sm font-semibold text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)]">
                       Available Locations
                     </Label>
-                    {formData.locations.map((location, index) => (
+                    {(formData.locations.length > 0 ? formData.locations : ['']).map((location, index) => (
                       <div key={index} className="flex gap-3">
                         <input
                           type="text"
@@ -556,7 +541,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                           className="flex-1 px-4 py-3 bg-[hsl(0_0%_100%)] dark:bg-[hsl(215_15%_20%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] rounded-lg text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)] focus:outline-none focus:ring-2 focus:ring-[hsl(15_96%_53%/0.5)] focus:border-[hsl(15_96%_53%/0.5)] transition-all duration-300"
                           placeholder={`Location ${index + 1}`}
                         />
-                        {formData.locations.length > 1 && (
+                        {(formData.locations.length > 1 || (formData.locations.length === 0 && index > 0)) && (
                           <Button
                             type="button"
                             variant="outline"
@@ -585,7 +570,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                 {/* Keywords */}
                 <div className="space-y-6 p-6 bg-[hsl(0_0%_98%)] dark:bg-[hsl(215_15%_15%)] rounded-xl border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
                   <h3 className="font-bold text-lg text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)]">Keywords</h3>
-
                   <div className="space-y-3">
                     <Label className="text-sm font-semibold text-[hsl(0_0%_20%)] dark:text-[hsl(0_0%_95%)]">
                       Search Keywords
@@ -700,7 +684,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                 </div>
 
                 <div className="space-y-4">
-
                   <div className="space-y-3 text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-3 text-[hsl(200_100%_50%)]" />

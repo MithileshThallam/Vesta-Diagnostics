@@ -16,13 +16,14 @@ export const apiCall = async <T = any>(
   try {
     // Prepend backend base URL if the URL is relative
     const fullUrl = url.startsWith('http') ? url : `${BACKEND_BASE_URL}${url}`;
+    console.log(fullUrl);
     
     console.log(`API call to: ${fullUrl}`);
     const response = await fetch(fullUrl, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        ...options.headers,
+        // ...options.headers,
       },
       ...options,
     });
