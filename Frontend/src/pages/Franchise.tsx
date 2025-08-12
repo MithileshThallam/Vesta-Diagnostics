@@ -24,7 +24,7 @@ const Franchise = () => {
     message: ""
   })
 
- const handleSubmit = (e: React.FormEvent) => {
+const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault();
 
   // Show toast notification
@@ -36,16 +36,28 @@ const Franchise = () => {
   // Google Form URL with prefilled data
   const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe4bFtDIS1vUPbKAxaNZ5EuBO08OD5cJb9ANB2i0_9uCv7K2Q/viewform";
   
+  // Convert your form data to Google Forms expected format
+  const commercialSpaceValue = formData.commercialSpace === "yes" ? "Yes" : "No";
+  
+  // Map your budget values to the exact options in Google Form
+  const budgetMap: Record<string, string> = {
+    "Below-₹10L": "Below ₹10L",
+    "₹10L-₹20L": "₹10–₹20L",
+    "₹20L-₹30L": "₹20–₹30L",
+    "Above-₹30L": "Above ₹30L"
+  };
+  const investmentBudgetValue = budgetMap[formData.investmentBudget] || "";
+
   const params = new URLSearchParams({
     'usp': 'pp_url',
     'entry.378161094': formData.fullName,       // Full Name
-    'entry.1245931028': formData.email,          // Email
+    'entry.1245931028': formData.email,        // Email
     'entry.60975159': formData.phone,          // Phone
-    'entry.1850936708': formData.city,            // City
-    'entry.1784975464': formData.profession,     // Profession
-    'entry.876262631': formData.commercialSpace,// Commercial Space (Yes/No)
-    'entry.639695431': formData.investmentBudget,// Investment Budget
-    'entry.2094482150': formData.message         // Message (corrected ID)
+    'entry.1850936708': formData.city,         // City
+    'entry.1784975464': formData.profession,   // Profession
+    'entry.876262631': commercialSpaceValue,   // Commercial Space (must match exact option text)
+    'entry.639695431': investmentBudgetValue,  // Investment Budget (must match exact option text)
+    'entry.2094482150': formData.message       // Message
   });
 
   // Open prefilled form in new tab
@@ -63,7 +75,6 @@ const Franchise = () => {
     message: ""
   });
 };
-
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
@@ -298,10 +309,10 @@ const Franchise = () => {
                             <SelectValue placeholder="Select range" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="below-10l">Below ₹10L</SelectItem>
-                            <SelectItem value="10-20l">₹10–20L</SelectItem>
-                            <SelectItem value="20-30l">₹20–30L</SelectItem>
-                            <SelectItem value="above-30l">Above ₹30L</SelectItem>
+                            <SelectItem value="Below-₹10L">Below ₹10L</SelectItem>
+                            <SelectItem value="₹10L-₹20L">₹10–₹20L</SelectItem>
+                            <SelectItem value="₹20L-₹30L">₹20–30L</SelectItem>
+                            <SelectItem value="Above-₹30L">Above ₹30L</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>

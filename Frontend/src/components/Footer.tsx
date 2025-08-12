@@ -45,27 +45,22 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
+                <a href="/tests" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
                   <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
                   Tests
                 </a>
               </li>
+              
               <li>
-                <a href="#" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
+                <a href="/franchise" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
                   <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
-                  Services
+                 Franchise
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
+                <a href="/contact" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
                   <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
                   Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
-                  <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
-                  Book a Demo
                 </a>
               </li>
             </ul>
