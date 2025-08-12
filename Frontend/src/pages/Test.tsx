@@ -11,7 +11,6 @@ import { useTestSearch } from "@/hooks/useTestSearch"
 import { useTestFilters } from "@/hooks/useTestFilters"
 import { testCategories, locations } from "@/data/testData"
 import type { FilterState, MedicalTest } from "@/types/test"
-import { adminApiCall } from "@/utils/apiUtils"
 
 const Tests = () => {
   // Filter state
@@ -131,7 +130,7 @@ const Tests = () => {
       <Header />
       <TestsHeroSection />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-2 mt-10 sm:px-6 lg:px-8">
         <SearchAndFilters
           filters={filters}
           locations={locations}

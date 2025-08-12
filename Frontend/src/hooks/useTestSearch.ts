@@ -19,20 +19,20 @@ export const useTestSearch = (tests: MedicalTest[], categories: TestCategory[]) 
         }
 
         // Description match
-        if (test.description.toLowerCase().includes(searchTerm)) {
+        if (test.description?.toLowerCase().includes(searchTerm)) {
           results.add(test)
           return
         }
 
-        // Test keywords match
-        if (test.keywords.some((keyword) => keyword.toLowerCase().includes(searchTerm))) {
+        // Test keywords match (with optional chaining)
+        if (test.keywords?.some((keyword) => keyword.toLowerCase().includes(searchTerm))) {
           results.add(test)
           return
         }
 
         // Category keyword mapping
         const matchingCategory = categories.find((category) =>
-          category.keywords.some((keyword) => keyword.toLowerCase().includes(searchTerm)),
+          category.keywords?.some((keyword) => keyword.toLowerCase().includes(searchTerm)),
         )
 
         if (matchingCategory && test.category === matchingCategory.id) {
