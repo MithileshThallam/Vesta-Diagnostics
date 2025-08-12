@@ -1,168 +1,151 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Shield, Check, MessageSquare } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { validateSignupForm } from '@/lib/validation';
-import signupImage from '/SignupPic.jpg';
-import { useNavigate } from "react-router";
-import { useToast } from '@/hooks/use-toast';
+"use client"
+
+import type React from "react"
+import { useState, useCallback, useMemo } from "react"
+import { Link } from "react-router-dom"
+import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Shield, Check, MessageSquare } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { validateSignupForm } from "@/lib/validation"
+import signupImage from "/SignupPic.jpg"
+import { useNavigate } from "react-router"
+import { useToast } from "@/hooks/use-toast"
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
-    phone: '',
-    email: '',
+    phone: "",
+    email: "",
     hasWhatsApp: false,
-    otp: '',
-    name: '',
-    password: '',
-    confirmPassword: ''
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState(1);
-  // const [otpSent, setOtpSent] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const navigate = useNavigate();
-  const { toast } = useToast();
+    name: "",
+    password: "",
+    confirmPassword: "",
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [step, setStep] = useState(1)
+  const [errors, setErrors] = useState<Record<string, string[]>>({})
+  const navigate = useNavigate()
+  const { toast } = useToast()
 
   const togglePassword = useCallback(() => {
-    setShowPassword(prev => !prev);
-  }, []);
+    setShowPassword((prev) => !prev)
+  }, [])
 
   const toggleConfirmPassword = useCallback(() => {
-    setShowConfirmPassword(prev => !prev);
-  }, []);
+    setShowConfirmPassword((prev) => !prev)
+  }, [])
 
-  const handleInputChange = useCallback((field: string, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = useCallback(
+    (field: string, value: string | boolean) => {
+      setFormData((prev) => ({ ...prev, [field]: value }))
 
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
-  }, [errors]);
+      // Clear error when user starts typing
+      if (errors[field]) {
+        setErrors((prev) => {
+          const newErrors = { ...prev }
+          delete newErrors[field]
+          return newErrors
+        })
+      }
+    },
+    [errors],
+  )
 
   const handleNext = useCallback(() => {
     // Clear previous errors
-    setErrors({});
+    setErrors({})
 
-    // Step-specific validation
     if (step === 1) {
       // Validate contact info
       if (!formData.phone.trim()) {
-        setErrors({ phone: ['Phone number is required'] });
-        return;
+        setErrors({ phone: ["Phone number is required"] })
+        return
       }
       if (!/^\+?\d{10,15}$/.test(formData.phone)) {
-        setErrors({ phone: ['Please enter a valid phone number (10-15 digits)'] });
-        return;
-      }
-    } else if (step === 2) {
-      // Validate OTP
-      if (!formData.otp || formData.otp.length !== 6) {
-        setErrors({ otp: ['OTP must be 6 digits'] });
-        return;
-      }
-      if (!/^\d+$/.test(formData.otp)) {
-        setErrors({ otp: ['OTP can only contain numbers'] });
-        return;
+        setErrors({ phone: ["Please enter a valid phone number (10-15 digits)"] })
+        return
       }
     }
 
-    // Proceed to next step if validation passes
-    if (step < 3) {
-      setStep(prev => prev + 1);
+    if (step < 2) {
+      setStep((prev) => prev + 1)
     }
-  }, [step, formData.phone, formData.otp]);
+  }, [step, formData.phone])
 
   const handleBack = useCallback(() => {
-    setErrors({});
+    setErrors({})
     if (step > 1) {
-      setStep(prev => prev - 1);
+      setStep((prev) => prev - 1)
     }
-  }, [step]);
+  }, [step])
 
-  const sendOtp = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      // setOtpSent(true);
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault()
+      setIsLoading(true)
 
-  const verifyOtp = useCallback(() => {
-    if (formData.otp.length !== 6) {
-      setErrors({ otp: ['OTP must be 6 digits'] });
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      handleNext();
-    }, 1000);
-  }, [formData.otp, handleNext]);
+      const validation = validateSignupForm(formData)
+      if (!validation.success) {
+        setErrors(validation.errors || {})
+        setIsLoading(false)
+        return
+      }
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
-    const validation = validateSignupForm(formData);
-    if (!validation.success) {
-      setErrors(validation.errors || {});
-      setIsLoading(false);
-      return;
-    }
+      if (response.ok) {
+        toast({
+          title: "Welcome!",
+          description: "Patient Logged in successfully.",
+          className: "bg-white text-black",
+        })
+        navigate("/login")
+      } else {
+        const res = await response.json()
+        toast({
+          title: "Error!",
+          description: res.message,
+          className: "bg-white text-black",
+        })
+      }
 
-    let response = await fetch("http://localhost:5000/api/auth/signup",{
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json"
-      },
-    })
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      setIsLoading(false)
+      console.log("Account created successfully!")
+    },
+    [formData],
+  )
 
-    if (response.ok) {
-      toast({
-        title: "Welcome!",
-        description: "Patient Logged in successfully.",
-        className: "bg-white text-black",
-      });
-      navigate('/login');
-    }
-    else{
-      let res = await response.json();
-      toast({
-        title: "Error!",
-        description: res.message,
-        className: "bg-white text-black",
-      });
-    }
+  const floatingElements = useMemo(
+    () => (
+      <>
+        <div
+          className="absolute top-16 right-20 w-14 h-14 bg-gradient-primary rounded-full opacity-15 animate-pulse"
+          style={{ animationDelay: "0s", animationDuration: "4s" }}
+        />
+        <div
+          className="absolute top-32 left-16 w-10 h-10 bg-gradient-primary rounded-full opacity-20 animate-pulse"
+          style={{ animationDelay: "1.5s", animationDuration: "3s" }}
+        />
+        <div
+          className="absolute bottom-24 right-12 w-18 h-18 bg-gradient-primary rounded-full opacity-10 animate-pulse"
+          style={{ animationDelay: "2.5s", animationDuration: "5s" }}
+        />
+      </>
+    ),
+    [],
+  )
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsLoading(false);
-    console.log('Account created successfully!');
-  }, [formData]);
-
-  const floatingElements = useMemo(() => (
-    <>
-      <div className="absolute top-16 right-20 w-14 h-14 bg-gradient-primary rounded-full opacity-15 animate-pulse"
-        style={{ animationDelay: '0s', animationDuration: '4s' }} />
-      <div className="absolute top-32 left-16 w-10 h-10 bg-gradient-primary rounded-full opacity-20 animate-pulse"
-        style={{ animationDelay: '1.5s', animationDuration: '3s' }} />
-      <div className="absolute bottom-24 right-12 w-18 h-18 bg-gradient-primary rounded-full opacity-10 animate-pulse"
-        style={{ animationDelay: '2.5s', animationDuration: '5s' }} />
-    </>
-  ), []);
-
-  const progressWidth = useMemo(() => (step / 3) * 100, [step]);
+  const progressWidth = useMemo(() => (step / 2) * 100, [step])
 
   return (
     <div className="h-screen bg-white flex overflow-hidden">
@@ -170,7 +153,7 @@ const Signup = () => {
       <div className="hidden lg:flex flex-1 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-vesta-navy/70 to-transparent z-10" />
         <img
-          src={signupImage}
+          src={signupImage || "/placeholder.svg"}
           alt="Medical team discussing diagnosis"
           className="w-full h-full object-cover"
         />
@@ -187,24 +170,20 @@ const Signup = () => {
 
         <div className="w-full max-w-lg relative z-10">
           <div className="backdrop-blur-xl bg-white/85 border border-white/30 rounded-2xl shadow-2xl p-6">
-
             {/* Header */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-primary rounded-full mb-3">
                 <Shield className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold mb-1 bg-gradient-primary bg-clip-text text-transparent">
-                Join Vesta
-              </h1>
+              <h1 className="text-2xl font-bold mb-1 bg-gradient-primary bg-clip-text text-transparent">Join Vesta</h1>
               <p className="text-text-dark/70 text-sm">Create your secure health account</p>
             </div>
 
             {/* Progress Bar */}
             <div className="mb-6">
               <div className="flex justify-between text-xs text-text-dark/60 mb-1">
-                <span className={step >= 1 ? 'text-vesta-orange font-medium' : ''}>Contact</span>
-                <span className={step >= 2 ? 'text-vesta-orange font-medium' : ''}>Verification</span>
-                <span className={step >= 3 ? 'text-vesta-orange font-medium' : ''}>Security</span>
+                <span className={step >= 1 ? "text-vesta-orange font-medium" : ""}>Contact</span>
+                <span className={step >= 2 ? "text-vesta-orange font-medium" : ""}>Security</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
                 <div
@@ -220,7 +199,9 @@ const Signup = () => {
                 <div className="space-y-4">
                   {/* Phone Number */}
                   <div className="space-y-1">
-                    <Label htmlFor="phone" className="text-text-dark font-medium text-sm">Phone Number</Label>
+                    <Label htmlFor="phone" className="text-text-dark font-medium text-sm">
+                      Phone Number
+                    </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                         <Phone className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
@@ -229,7 +210,7 @@ const Signup = () => {
                         id="phone"
                         type="tel"
                         value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        onChange={(e) => handleInputChange("phone", e.target.value)}
                         placeholder="+91 98243 62001"
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
@@ -245,13 +226,16 @@ const Signup = () => {
                         <input
                           type="checkbox"
                           checked={formData.hasWhatsApp}
-                          onChange={(e) => handleInputChange('hasWhatsApp', e.target.checked)}
+                          onChange={(e) => handleInputChange("hasWhatsApp", e.target.checked)}
                           className="sr-only"
                         />
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-300 ${formData.hasWhatsApp
-                          ? 'bg-vesta-orange border-vesta-orange'
-                          : 'border-gray-300 group-hover:border-vesta-orange'
-                          }`}>
+                        <div
+                          className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-300 ${
+                            formData.hasWhatsApp
+                              ? "bg-vesta-orange border-vesta-orange"
+                              : "border-gray-300 group-hover:border-vesta-orange"
+                          }`}
+                        >
                           {formData.hasWhatsApp && <Check className="w-3 h-3 text-white" />}
                         </div>
                       </div>
@@ -277,7 +261,7 @@ const Signup = () => {
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
                         placeholder="your.email@example.com"
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                       />
@@ -289,7 +273,7 @@ const Signup = () => {
                   <Button
                     type="button"
                     onClick={handleNext}
-                    disabled={step === 1 && !formData.phone.trim()} // Only disable if no phone number entered
+                    disabled={step === 1 && !formData.phone.trim()}
                     className="w-full h-11 bg-gradient-primary text-white font-semibold rounded-xl text-sm hover:shadow-md transform transition-all duration-300 hover:scale-[1.02] group"
                   >
                     <div className="flex items-center space-x-2">
@@ -298,86 +282,13 @@ const Signup = () => {
                     </div>
                   </Button>
                 </div>
-
-              ) : step === 2 ? (
-                <div className="space-y-4">
-                  <div className="text-center mb-4">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-vesta-orange/10 rounded-full mb-2">
-                      <Mail className="w-5 h-5 text-vesta-orange" />
-                    </div>
-                    <h2 className="text-lg font-semibold text-text-dark mb-1">Verify Your Phone</h2>
-                    <p className="text-text-dark/70 text-xs">
-                      We've sent a 6-digit code to {formData.phone}
-                    </p>
-                  </div>
-
-                  {/* OTP Input */}
-                  <div className="space-y-1">
-                    <Label htmlFor="otp" className="text-text-dark font-medium text-sm">Verification Code</Label>
-                    <div className="relative group">
-                      <Input
-                        id="otp"
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        maxLength={6}
-                        value={formData.otp}
-                        onChange={(e) => handleInputChange('otp', e.target.value)}
-                        placeholder="Enter 6-digit code"
-                        className="text-center tracking-widest text-lg h-11 border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
-                        required
-                      />
-                    </div>
-                    {errors.otp && <p className="text-red-500 text-xs mt-1">{errors.otp[0]}</p>}
-                  </div>
-
-                  {/* Resend OTP */}
-                  <div className="text-center text-xs">
-                    <button
-                      type="button"
-                      onClick={sendOtp}
-                      disabled={isLoading}
-                      className="text-vesta-orange hover:text-vesta-navy font-medium transition-colors duration-300 disabled:opacity-50"
-                    >
-                      {isLoading ? 'Sending...' : 'Resend Code'}
-                    </button>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex space-x-3">
-                    <Button
-                      type="button"
-                      onClick={handleBack}
-                      variant="outline"
-                      className="flex-1 h-10 border text-sm hover:border-vesta-orange hover:bg-vesta-orange/5 transition-all duration-300"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={verifyOtp}
-                      disabled={isLoading || formData.otp.length < 6}
-                      className="flex-1 h-10 bg-gradient-primary text-white font-semibold rounded-xl text-sm hover:shadow-md transform transition-all duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed group"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Verifying...</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center space-x-2">
-                          <span>Verify</span>
-                          <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-                        </div>
-                      )}
-                    </Button>
-                  </div>
-                </div>
               ) : (
                 <div className="space-y-4">
                   {/* Name */}
                   <div className="space-y-1">
-                    <Label htmlFor="name" className="text-text-dark font-medium text-sm">Name</Label>
+                    <Label htmlFor="name" className="text-text-dark font-medium text-sm">
+                      Name
+                    </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                         <User className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
@@ -386,7 +297,7 @@ const Signup = () => {
                         id="name"
                         type="text"
                         value={formData.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        onChange={(e) => handleInputChange("name", e.target.value)}
                         placeholder="your name"
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
@@ -397,16 +308,18 @@ const Signup = () => {
 
                   {/* Password */}
                   <div className="space-y-1">
-                    <Label htmlFor="password" className="text-text-dark font-medium text-sm">Password</Label>
+                    <Label htmlFor="password" className="text-text-dark font-medium text-sm">
+                      Password
+                    </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                         <Lock className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
                       </div>
                       <Input
                         id="password"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         value={formData.password}
-                        onChange={(e) => handleInputChange('password', e.target.value)}
+                        onChange={(e) => handleInputChange("password", e.target.value)}
                         placeholder="Create a strong password"
                         className="pl-10 pr-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
@@ -424,16 +337,18 @@ const Signup = () => {
 
                   {/* Confirm Password */}
                   <div className="space-y-1">
-                    <Label htmlFor="confirmPassword" className="text-text-dark font-medium text-sm">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className="text-text-dark font-medium text-sm">
+                      Confirm Password
+                    </Label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                         <Lock className="h-4 w-4 text-text-dark/40 group-focus-within:text-vesta-orange transition-colors duration-300" />
                       </div>
                       <Input
                         id="confirmPassword"
-                        type={showConfirmPassword ? 'text' : 'password'}
+                        type={showConfirmPassword ? "text" : "password"}
                         value={formData.confirmPassword}
-                        onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                        onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
                         placeholder="Confirm your password"
                         className="pl-10 pr-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
@@ -458,10 +373,14 @@ const Signup = () => {
                         required
                       />
                       <span className="text-xs text-text-dark/70 group-hover:text-text-dark transition-colors duration-300">
-                        I agree to the{' '}
-                        <Link to="/terms" className="text-vesta-orange hover:text-vesta-navy font-medium">Terms</Link>
-                        {' '}and{' '}
-                        <Link to="/privacy" className="text-vesta-orange hover:text-vesta-navy font-medium">Privacy Policy</Link>
+                        I agree to the{" "}
+                        <Link to="/terms" className="text-vesta-orange hover:text-vesta-navy font-medium">
+                          Terms
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/privacy" className="text-vesta-orange hover:text-vesta-navy font-medium">
+                          Privacy Policy
+                        </Link>
                       </span>
                     </label>
                   </div>
@@ -472,7 +391,7 @@ const Signup = () => {
                       type="button"
                       onClick={handleBack}
                       variant="outline"
-                      className="flex-1 h-10 border text-sm hover:border-vesta-orange hover:bg-vesta-orange/5 transition-all duration-300"
+                      className="flex-1 h-10 border text-sm hover:border-vesta-orange hover:bg-vesta-orange/5 transition-all duration-300 bg-transparent"
                     >
                       Back
                     </Button>
@@ -498,15 +417,15 @@ const Signup = () => {
               )}
             </form>
 
-            {/* Sign In Link */}
-            <div className="text-center mt-6">
-              <p className="text-text-dark/70 text-xs">
-                Already have an account?{' '}
+            {/* Footer */}
+            <div className="text-center mt-4 pt-4 border-t border-gray-200">
+              <p className="text-xs text-text-dark/60">
+                Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="text-vesta-orange hover:text-vesta-navy font-semibold transition-colors duration-300 hover:underline"
+                  className="text-vesta-orange hover:text-vesta-navy font-medium transition-colors duration-300"
                 >
-                  Sign in here
+                  Sign In
                 </Link>
               </p>
             </div>
@@ -514,7 +433,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

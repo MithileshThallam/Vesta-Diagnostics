@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 export const signup = async (req: Request, res: Response) => {
   try {
     const { phone, password, name, email, hasWhatsapp } = req.body;
+    console.log('Email: ', email);
 
     const existingUser = await User.findOne({ phone });
     if (existingUser) {
@@ -27,7 +28,12 @@ export const signup = async (req: Request, res: Response) => {
       role: 'user'
     });
 
-    await newUser.save();
+    // console.log('User created successfully');
+    try {
+      await newUser.save();
+    } catch (error) {
+      console.log('Error saving user', error);
+    }
 
     const userResponse = {
       _id: newUser._id,
