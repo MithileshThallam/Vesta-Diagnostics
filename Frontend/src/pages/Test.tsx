@@ -9,8 +9,9 @@ import CategoryFilter from "@/components/tests/CategoryFilter"
 import TestsGrid from "@/components/tests/TestsGrid"
 import { useTestSearch } from "@/hooks/useTestSearch"
 import { useTestFilters } from "@/hooks/useTestFilters"
-import { testCategories, locations, medicalTests } from "@/data/testData"
+import { testCategories, locations } from "@/data/testData"
 import type { FilterState, MedicalTest } from "@/types/test"
+import { adminApiCall } from "@/utils/apiUtils"
 
 const Tests = () => {
   // Filter state
@@ -27,6 +28,7 @@ const Tests = () => {
   const [showFilters, setShowFilters] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([])
 
   // Debounce search query for performance
   useEffect(() => {
@@ -51,6 +53,23 @@ const Tests = () => {
     }
 
     return () => observer.disconnect()
+  }, [])
+
+  const fetchTests = async () => {
+    const res = await fetch("http://localhost:5000/api/tests/all", {
+      method: 'GET'
+    })
+    let response = await res.json();
+    console.log(response)
+    if (response.tests) {
+      setMedicalTests(response.tests)
+    } else {
+      console.log(response.error || "Failed to fetch tests")
+    }
+  }
+
+  useEffect(() => {
+    fetchTests()
   }, [])
 
   // Custom hooks for search and filtering
