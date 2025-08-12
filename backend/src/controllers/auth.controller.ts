@@ -9,8 +9,13 @@ export const signup = async (req: Request, res: Response) => {
     const { phone, password, name, email, hasWhatsapp } = req.body;
     console.log('Email: ', email);
 
-    const existingUser = await User.findOne({ phone });
-    if (existingUser) {
+    // Check in both User and SubAdmin collections
+    const [existingUser, existingSubAdmin] = await Promise.all([
+      User.findOne({ phone }),
+      SubAdmin.findOne({ phone })
+    ]);
+
+    if (existingUser || existingSubAdmin) {
       return res.status(400).json({ 
         success: false,
         message: 'User already exists with this phone number' 
@@ -28,11 +33,11 @@ export const signup = async (req: Request, res: Response) => {
       role: 'user'
     });
 
-    // console.log('User created successfully');
     try {
       await newUser.save();
     } catch (error) {
       console.log('Error saving user', error);
+      throw error; // Re-throw to be caught by the outer catch block
     }
 
     const userResponse = {
@@ -59,7 +64,6 @@ export const signup = async (req: Request, res: Response) => {
     });
   }
 };
-
 export const login = async (req: Request, res: Response) => {
   try {
     const { phone, password } = req.body;
