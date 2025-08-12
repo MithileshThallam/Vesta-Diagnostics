@@ -1,13 +1,11 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserPlus, Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
@@ -18,27 +16,16 @@ interface CreateSubAdminModalProps {
 }
 
 interface SubAdminFormData {
+  name: string
   phone: string
   role: string
   branch: string
   password: string
 }
 
-const branches = [
-  "Mumbai Central",
-  "Delhi NCR",
-  "Bangalore",
-  "Chennai",
-  "Kolkata",
-  "Hyderabad",
-  "Pune",
-  "Ahmedabad",
-  "Jaipur",
-  "Lucknow",
-]
-
 export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdminModalProps) => {
   const [formData, setFormData] = useState<SubAdminFormData>({
+    name: "",
     phone: "",
     role: "sub-admin",
     branch: "",
@@ -78,6 +65,7 @@ export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdmin
       console.log("Sub-admin created:", result)
 
       setFormData({
+        name: "",
         phone: "",
         role: "sub-admin",
         branch: "",
@@ -114,6 +102,21 @@ export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdmin
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
+            <Label htmlFor="name" className="text-[hsl(0_0%_20%)]">
+              Name
+            </Label>
+            <Input
+              id="name"
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              placeholder="Enter full name"
+              required
+              className="bg-[hsl(0_0%_98%)] border-[hsl(0_0%_90%)] focus:border-[hsl(15_96%_53%)] focus:ring-[hsl(15_96%_53%/0.2)]"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="phone" className="text-[hsl(0_0%_20%)]">
               Phone Number
             </Label>
@@ -128,22 +131,20 @@ export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdmin
             />
           </div>
 
+          {/* Changed from Select to Input for branch */}
           <div className="space-y-2">
             <Label htmlFor="branch" className="text-[hsl(0_0%_20%)]">
               Branch Location
             </Label>
-            <Select value={formData.branch} onValueChange={(value) => handleInputChange("branch", value)}>
-              <SelectTrigger className="bg-[hsl(0_0%_98%)] border-[hsl(0_0%_90%)] focus:border-[hsl(15_96%_53%)] focus:ring-[hsl(15_96%_53%/0.2)]">
-                <SelectValue placeholder="Select branch location" />
-              </SelectTrigger>
-              <SelectContent>
-                {branches.map((branch) => (
-                  <SelectItem key={branch} value={branch}>
-                    {branch}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Input
+              id="branch"
+              type="text"
+              value={formData.branch}
+              onChange={(e) => handleInputChange("branch", e.target.value)}
+              placeholder="Enter branch location"
+              required
+              className="bg-[hsl(0_0%_98%)] border-[hsl(0_0%_90%)] focus:border-[hsl(15_96%_53%)] focus:ring-[hsl(15_96%_53%/0.2)]"
+            />
           </div>
 
           <div className="space-y-2">

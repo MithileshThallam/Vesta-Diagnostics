@@ -43,14 +43,16 @@ export const getBookingsForAdmin = async (req: Request, res: Response) => {
   try {
     let filter: any = {};
 
-    if (req.user!.role === 'sub-admin') {
-      filter.location = req.user!.location;
+    // For sub-admin, filter by their location
+    if (req.user?.role === 'sub-admin') {
+      filter.location = req.user.location;
     }
+    // For admin, no filter is applied (gets all bookings)
 
     const bookings = await Booking.find(filter)
-      .populate('user', 'name phone') // fetch only name & phone from User
+      .populate('user', 'name phone')
       .sort({ createdAt: -1 })
-      .select('test date location user'); // only these fields from Booking
+      .select('test date location user');
 
     const formattedBookings = bookings.map(b => {
       const user = b.user as { name?: string; phone?: string };
