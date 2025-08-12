@@ -70,11 +70,8 @@ const mockUsers: User[] = [
   },
 ]
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
 export const useAdminStore = create<AdminState>()(
   persist(
     (set, get) => ({

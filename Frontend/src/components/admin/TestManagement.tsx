@@ -14,18 +14,12 @@ export const TestManagement = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterCategory, setFilterCategory] = useState<string>("all")
   const [showCreateForm, setShowCreateForm] = useState(false)
-<<<<<<< HEAD
-  const [tests, setTests] = useState<MedicalTest[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-=======
   const [showEditForm, setShowEditForm] = useState(false)
   const [editingTest, setEditingTest] = useState<MedicalTest | null>(null)
   const [tests, setTests] = useState<MedicalTest[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [deletingTestId, setDeletingTestId] = useState<string | null>(null)
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
   const { toast } = useToast()
 
   useEffect(() => {
@@ -45,21 +39,12 @@ export const TestManagement = () => {
 
   const createTestHandler = async (newTest: Omit<MedicalTest, "id">) => {
     try {
-<<<<<<< HEAD
-      // Format the test data according to backend requirements
-=======
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
       const testData = {
         name: newTest.name,
         category: newTest.category,
         description: newTest.description,
         duration: newTest.duration,
-<<<<<<< HEAD
-        locationNames: newTest.locations, // Backend expects locationNames for validation
-        locations: newTest.locations, // Keep locations for model compatibility
-=======
         locations: newTest.locations,
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
         popular: newTest.popular,
         keywords: newTest.keywords,
         parts: newTest.parts,
@@ -69,23 +54,6 @@ export const TestManagement = () => {
         about: newTest.about,
       }
 
-<<<<<<< HEAD
-      console.log("Sending test data to backend:", testData)
-
-      const res = await adminApiCall("/api/tests/create", {
-        method: 'POST',
-        body: JSON.stringify(testData)
-      })
-
-      console.log("Backend response:", res)
-
-      if (res.data && res.data.test) {
-        // Add the newly created test to the top of the list
-        const createdTest = res.data.test
-        setTests(prevTests => [createdTest, ...prevTests])
-        
-        // Show success toast
-=======
       const response = await fetch("http://localhost:5000/api/tests/create", {
         method: "POST",
         headers: {
@@ -106,36 +74,22 @@ export const TestManagement = () => {
       if (res.data && res.data.test) {
         const createdTest = res.data.test
         setTests((prevTests) => [createdTest, ...prevTests])
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
         toast({
           title: "Test Created Successfully",
           description: `"${createdTest.name}" has been added to the test database.`,
         })
-<<<<<<< HEAD
-        
-        // Close the modal
-        setShowCreateForm(false)
-=======
         // setShowCreateForm(false)
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
       } else {
         throw new Error(res.error || "Failed to create test")
       }
     } catch (error) {
       console.error("Error creating test:", error)
-<<<<<<< HEAD
-      
-      // Show error toast
-=======
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
       toast({
         title: "Error Creating Test",
         description: error instanceof Error ? error.message : "An unexpected error occurred while creating the test.",
         variant: "destructive",
       })
     }
-<<<<<<< HEAD
-=======
   }
 
   const openEditModal = (test: MedicalTest) => {
@@ -247,7 +201,6 @@ export const TestManagement = () => {
     } finally {
       setDeletingTestId(null)
     }
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
   }
 
   const filteredTests = tests.filter((test) => {

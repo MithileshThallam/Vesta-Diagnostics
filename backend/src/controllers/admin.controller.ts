@@ -62,16 +62,11 @@ export const createSubAdmin = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-<<<<<<< HEAD
     console.error('Error creating sub-admin:', error);
     res.status(500).json({ 
       message: 'Sub-admin creation failed',
       error: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
     });
-=======
-    console.log(error)
-    res.status(500).json({ message: 'Sub-admin creation failed', error: (error as Error).message });
->>>>>>> bdc9de6d7617f9f37e6688fccbe10cec9075c43a
   }
 };
 
