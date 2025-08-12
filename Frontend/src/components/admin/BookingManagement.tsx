@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { Search, Calendar, MapPin } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,8 +13,8 @@ const BookingManagement = () => {
     let isMounted = true
     setLoading(true)
     setError(null)
-    
-    const fetchBookings = async () =>{
+
+    const fetchBookings = async () => {
       let res = await fetch("http://localhost:5000/api/bookings/get-bookings", {
         credentials: 'include',
         headers: {
@@ -25,13 +23,13 @@ const BookingManagement = () => {
       })
       let response = await res.json()
       setBookings(response.bookings)
-    setLoading(false)
+      setLoading(false)
       console.log(response.bookings)
     }
     fetchBookings()
-      return () => {
-        isMounted = false
-      }
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const filteredBookings = bookings.filter((booking: Booking) => {

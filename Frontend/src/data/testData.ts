@@ -26,29 +26,6 @@ export const testCategories: TestCategory[] = [
     ],
   },
   {
-    id: "dermatology",
-    name: "Dermatology",
-    icon: "🤚",  // Hand representing skin
-    color: "from-blue-500 to-cyan-600",
-    description: "Skin and integumentary system tests",
-    keywords: [
-      "skin",
-      "dermatology",
-      "rash",
-      "allergy",
-      "eczema",
-      "psoriasis",
-      "acne",
-      "biopsy",
-      "fungal",
-      "bacterial",
-      "vitiligo",
-      "melanoma",
-      "mole",
-      "patch test",
-    ],
-  },
-  {
     id: "haematology",
     name: "Haematology",
     icon: "💉",  // Blood drop

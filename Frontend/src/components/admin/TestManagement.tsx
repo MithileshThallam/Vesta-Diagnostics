@@ -22,18 +22,19 @@ export const TestManagement = () => {
   const [deletingTestId, setDeletingTestId] = useState<string | null>(null)
   const { toast } = useToast()
 
-  useEffect(() => {
-    const fetchTests = async () => {
-      setLoading(true)
-      setError(null)
-      const res = await adminApiCall("/api/tests/all")
-      if (res.data && res.data.tests) {
-        setTests(res.data.tests)
-      } else {
-        setError(res.error || "Failed to fetch tests")
-      }
-      setLoading(false)
+  const fetchTests = async () => {
+    setLoading(true)
+    setError(null)
+    const res = await adminApiCall("/api/tests/all")
+    if (res.data && res.data.tests) {
+      setTests(res.data.tests)
+    } else {
+      setError(res.error || "Failed to fetch tests")
     }
+    setLoading(false)
+  }
+
+  useEffect(() => {
     fetchTests()
   }, [])
 
@@ -120,40 +121,22 @@ export const TestManagement = () => {
         about: updatedTest.about,
       }
 
-      const res = await adminApiCall(`/api/tests/${updatedTest.id}`, {
+      const res = await fetch(`http://localhost:5000/api/tests/${updatedTest.id}`, {
         method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
         body: JSON.stringify(testData),
       })
 
-      if (res.data && res.data.test) {
-        const updatedTestData = res.data.test
-        const frontendTestData: MedicalTest = {
-          id: updatedTestData.id,
-          name: updatedTestData.name,
-          category: updatedTestData.category,
-          description: updatedTestData.description,
-          duration: updatedTestData.duration,
-          locations: updatedTestData.locations || [],
-          popular: updatedTestData.popular,
-          keywords: updatedTestData.keywords || [],
-          parts: updatedTestData.parts || [],
-          parameterCount: updatedTestData.parameterCount,
-          parameters: updatedTestData.parameters || [],
-          reportIn: updatedTestData.reportIn,
-          about: updatedTestData.about,
-        }
-
-        setTests((prevTests) => prevTests.map((test) => (test.id === frontendTestData.id ? frontendTestData : test)))
-
-        toast({
-          title: "Test Updated Successfully",
-          description: `"${frontendTestData.name}" has been updated.`,
-        })
-
+      if (res.ok) {
+        fetchTests()
         setShowEditForm(false)
         setEditingTest(null)
       } else {
-        throw new Error(res.error || "Failed to update test - invalid response")
+        let response = await res.json();
+        throw new Error(response.error || "Failed to update test - invalid response")
       }
     } catch (error) {
       console.error("Error updating test:", error)

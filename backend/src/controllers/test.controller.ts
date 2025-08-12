@@ -75,6 +75,7 @@ export const createTest = async (req: Request, res: Response) => {
 // ✅ UPDATE Test
 export const updateTest = async (req: Request, res: Response) => {
   try {
+    console.log("req for updating test", req.body)
     const { id } = req.params;
     const {
       name,
@@ -211,6 +212,21 @@ export const updateTest = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ✅ DELETE Test
 export const deleteTest = async (req: Request, res: Response) => {

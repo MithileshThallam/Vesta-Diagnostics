@@ -6,6 +6,7 @@ import Services from "@/components/Home/Services"
 import RadiologyDepartment from "@/components/Home/RadiologyDepartment"
 import WhyChooseUs from "@/components/Home/WhyChooseUs"
 import Header from "@/components/Header"
+import OurVisionaries from "@/components/Home/OurVisionaries"
 
 const Home = () => {
 
@@ -17,6 +18,7 @@ const Home = () => {
       <Services />
       <WhyChooseUs />
       <RadiologyDepartment/>
+      <OurVisionaries/>
 
     </div>
   )
