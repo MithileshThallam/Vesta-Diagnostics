@@ -249,11 +249,14 @@ import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import UserProfile from "./UserProfile"
+import { useUserStore } from "@/stores/userStore";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isTestsHovered, setIsTestsHovered] = useState(false)
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
+
+  const { role } = useUserStore();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -452,6 +455,18 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
+            {(role === 'admin' || role === 'sub-admin') && (
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="text-primary border-primary hover:bg-primary/10"
+              >
+                <a href={role === 'admin' ? '/admin' : '/sub-admin'}>
+                  Admin Panel
+                </a>
+              </Button>
+            )}
             <UserProfile />
           </div>
 
@@ -473,6 +488,21 @@ const Header = () => {
                 </Button>
               ))}
               <div className="pt-4 border-t border-gray-100">
+                {(role === 'admin' || role === 'sub-admin') && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className="w-full justify-start text-left border-primary text-primary hover:bg-primary/10"
+                  >
+                    <a
+                      href={role === 'admin' ? '/admin' : '/sub-admin'}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Admin Panel
+                    </a>
+                  </Button>
+                )}
                 <UserProfile />
               </div>
             </div>
