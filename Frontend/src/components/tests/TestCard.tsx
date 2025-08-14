@@ -67,7 +67,7 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
 
   return (
     <Card
-      className={`group hover:shadow-xl border-2 border-gray-200 mt-4 shadow-soft bg-white/90 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 test-card cursor-pointer flex-shrink-0 w-80 flex flex-col h-[400px] ${
+      className={`group hover:shadow-2xl border-2 border-gray-200 mt-4 shadow-soft bg-white/90 backdrop-blur-sm transition-all duration-00 hover:translate-y-10 test-card cursor-pointer flex-shrink-0 w-80 flex flex-col h-[400px] ${
         isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
       }`}
       style={{
@@ -83,7 +83,7 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
         <div className="flex flex-col gap-2">
           <CardTitle
             id={`test-${test.id}-title`}
-            className="text-xl font-bold text-slate-900 group-hover:text-vesta-orange transition-colors duration-300 leading-tight"
+            className="text-xl font-bold text-slate-900 group-hover:text-vesta-orange transition-colors duration-100 leading-tight"
           >
             {test.name}
           </CardTitle>

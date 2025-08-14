@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react"
 import { Search, Filter, Plus, Edit, Trash2, Clock, Activity, MapPin, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,6 +9,34 @@ import TestModal from "./TestModal"
 import { adminApiCall } from "@/utils/apiUtils"
 import { useToast } from "@/hooks/use-toast"
 import type { MedicalTest } from "@/types/test"
+
+// Extract category color mapping to a constant
+const CATEGORY_COLORS: Record<string, string> = {
+  dermatology: "bg-[hsl(330_50%_60%)]",
+  microbiology: "bg-[hsl(10_80%_55%)]",
+  immunology: "bg-[hsl(210_80%_55%)]",
+  endocrinology: "bg-[hsl(280_60%_65%)]",
+  cardiology: "bg-[hsl(0_75%_60%)]",
+  haematology: "bg-[hsl(180_70%_45%)]",
+  serology: "bg-[hsl(45_90%_60%)]",
+  default: "bg-[hsl(0_0%_65%)]"
+}
+
+// Helper function to create test data payload
+const createTestPayload = (test: Omit<MedicalTest, "id"> | MedicalTest) => ({
+  name: test.name,
+  category: test.category,
+  description: test.description,
+  duration: test.duration,
+  locations: test.locations,
+  popular: test.popular,
+  keywords: test.keywords,
+  parts: test.parts,
+  parameterCount: test.parameterCount,
+  parameters: test.parameters,
+  reportIn: test.reportIn,
+  about: test.about
+})
 
 export const TestManagement = () => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -22,78 +50,95 @@ export const TestManagement = () => {
   const [deletingTestId, setDeletingTestId] = useState<string | null>(null)
   const { toast } = useToast()
 
-  const fetchTests = async () => {
+  // Memoized fetch function
+  const fetchTests = useCallback(async () => {
     setLoading(true)
     setError(null)
-    const res = await adminApiCall("/api/tests/all")
-    if (res.data && res.data.tests) {
-      setTests(res.data.tests)
-    } else {
-      setError(res.error || "Failed to fetch tests")
+    try {
+      const res = await adminApiCall("/api/tests/all")
+      if (res.data?.tests) {
+        setTests(res.data.tests)
+      } else {
+        setError(res.error || "Failed to fetch tests")
+      }
+    } catch (err) {
+      setError("Failed to fetch tests")
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
-  }
+  }, [])
 
   useEffect(() => {
     fetchTests()
-  }, [])
+  }, [fetchTests])
 
-  const createTestHandler = async (newTest: Omit<MedicalTest, "id">) => {
+  // Debounced search term
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm)
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm)
+    }, 300)
+    return () => clearTimeout(handler)
+  }, [searchTerm])
+
+  // Memoized filtered tests
+  const filteredTests = useMemo(() => {
+    return tests.filter((test) => {
+      const matchesSearch =
+        test.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        test.description.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+      const matchesCategory = filterCategory === "all" || test.category === filterCategory
+      return matchesSearch && matchesCategory
+    })
+  }, [tests, debouncedSearchTerm, filterCategory])
+
+  // Stable handler references
+  const createTestHandler = useCallback(async (newTest: Omit<MedicalTest, "id">) => {
     try {
-      const testData = {
-        name: newTest.name,
-        category: newTest.category,
-        description: newTest.description,
-        duration: newTest.duration,
-        locations: newTest.locations,
-        popular: newTest.popular,
-        keywords: newTest.keywords,
-        parts: newTest.parts,
-        parameterCount: newTest.parameterCount,
-        parameters: newTest.parameters,
-        reportIn: newTest.reportIn,
-        about: newTest.about,
-      }
+      const testData = createTestPayload(newTest)
+      
+      // Optimistic update
+      const tempId = `temp-${Date.now()}`
+      const optimisticTest = { ...newTest, id: tempId } as MedicalTest
+      setTests(prev => [optimisticTest, ...prev])
 
       const response = await fetch("http://localhost:5000/api/tests/create", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(testData),
       })
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
+        throw new Error(await response.text())
       }
 
-
-      const res = await response.json();
-      console.log(res);
-      if (res.data && res.data.test) {
-        const createdTest = res.data.test
-        setTests((prevTests) => [createdTest, ...prevTests])
+      const res = await response.json()
+      if (res.data?.test) {
+        // Replace optimistic update with real data
+        setTests(prev => [
+          res.data.test,
+          ...prev.filter(t => t.id !== tempId)
+        ])
         toast({
           title: "Test Created Successfully",
-          description: `"${createdTest.name}" has been added to the test database.`,
+          description: `"${res.data.test.name}" has been added.`,
         })
-        // setShowCreateForm(false)
       } else {
         throw new Error(res.error || "Failed to create test")
       }
     } catch (error) {
-      console.error("Error creating test:", error)
+      // Rollback optimistic update
+      setTests(prev => prev.filter(t => !t.id.startsWith('temp-')))
       toast({
         title: "Error Creating Test",
-        description: error instanceof Error ? error.message : "An unexpected error occurred while creating the test.",
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
         variant: "destructive",
       })
     }
-  }
+  }, [toast])
 
-  const openEditModal = (test: MedicalTest) => {
+  const openEditModal = useCallback((test: MedicalTest) => {
     setEditingTest({
       ...test,
       locations: test.locations || [],
@@ -102,124 +147,115 @@ export const TestManagement = () => {
       keywords: test.keywords || [],
     })
     setShowEditForm(true)
-  }
+  }, [])
 
-  const editTestHandler = async (updatedTest: MedicalTest) => {
+  const editTestHandler = useCallback(async (updatedTest: MedicalTest | Omit<MedicalTest, "id">) => {
+    // Ensure we have an id for editing
+    if (!('id' in updatedTest)) {
+      toast({
+        title: "Error",
+        description: "Test ID is required for editing",
+        variant: "destructive",
+      })
+      return
+    }
     try {
-      const testData = {
-        name: updatedTest.name,
-        category: updatedTest.category,
-        description: updatedTest.description,
-        duration: updatedTest.duration,
-        locations: updatedTest.locations,
-        popular: updatedTest.popular,
-        keywords: updatedTest.keywords,
-        parts: updatedTest.parts,
-        parameterCount: updatedTest.parameterCount,
-        parameters: updatedTest.parameters,
-        reportIn: updatedTest.reportIn,
-        about: updatedTest.about,
-      }
+      const testData = createTestPayload(updatedTest)
+      
+      // Optimistic update
+      setTests(prev => prev.map(t => 
+        t.id === updatedTest.id ? { ...t, ...updatedTest } : t
+      ))
 
       const res = await fetch(`http://localhost:5000/api/tests/${updatedTest.id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(testData),
       })
 
-      if (res.ok) {
-        fetchTests()
-        setShowEditForm(false)
-        setEditingTest(null)
-      } else {
-        let response = await res.json();
-        throw new Error(response.error || "Failed to update test - invalid response")
+      if (!res.ok) {
+        throw new Error((await res.json()).error || "Failed to update test")
       }
+
+      setShowEditForm(false)
+      setEditingTest(null)
     } catch (error) {
-      console.error("Error updating test:", error)
+      // On error, refetch to ensure consistency
+      fetchTests()
       toast({
         title: "Error Updating Test",
-        description: error instanceof Error ? error.message : "An unexpected error occurred while updating the test.",
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
         variant: "destructive",
       })
     }
-  }
+  }, [fetchTests, toast])
 
-  const confirmAndDelete = async (testId: string) => {
-    const test = tests.find((t) => t.id === testId)
+  const confirmAndDelete = useCallback(async (testId: string) => {
+    const test = tests.find(t => t.id === testId)
     if (!test) return
 
-    const confirmed = window.confirm(`Are you sure you want to delete "${test.name}"? This action cannot be undone.`)
-
+    const confirmed = window.confirm(`Delete "${test.name}"? This cannot be undone.`)
     if (!confirmed) return
 
     try {
       setDeletingTestId(testId)
+      
+      // Optimistic update
+      setTests(prev => prev.filter(t => t.id !== testId))
 
       const res = await adminApiCall(`/api/tests/${testId}`, {
         method: "DELETE",
       })
 
-      if (res.data && res.data.success) {
-        setTests((prevTests) => prevTests.filter((t) => t.id !== testId))
-
-        toast({
-          title: "Test Deleted Successfully",
-          description: `"${test.name}" has been removed from the database.`,
-        })
-      } else {
+      if (!res.data?.success) {
         throw new Error(res.error || "Failed to delete test")
       }
-    } catch (error) {
-      console.error("Error deleting test:", error)
 
       toast({
+        title: "Test Deleted Successfully",
+        description: `"${test.name}" has been removed.`,
+      })
+    } catch (error) {
+      // On error, refetch to ensure consistency
+      fetchTests()
+      toast({
         title: "Error Deleting Test",
-        description: error instanceof Error ? error.message : "An unexpected error occurred while deleting the test.",
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
         variant: "destructive",
       })
     } finally {
       setDeletingTestId(null)
     }
-  }
+  }, [tests, fetchTests, toast])
 
-  const filteredTests = tests.filter((test) => {
-    const matchesSearch =
-      test.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      test.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = filterCategory === "all" || test.category === filterCategory
-    return matchesSearch && matchesCategory
-  })
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "dermatology":
-        return "bg-[hsl(330_50%_60%)]"
-      case "microbiology":
-        return "bg-[hsl(10_80%_55%)]"
-      case "immunology":
-        return "bg-[hsl(210_80%_55%)]"
-      case "endocrinology":
-        return "bg-[hsl(280_60%_65%)]"
-      case "cardiology":
-        return "bg-[hsl(0_75%_60%)]"
-      case "haematology":
-        return "bg-[hsl(180_70%_45%)]"
-      case "serology":
-        return "bg-[hsl(45_90%_60%)]"
-      default:
-        return "bg-[hsl(0_0%_65%)]"
-    }
-  }
-
-  const formatReportTime = (hours: number) => {
+  const formatReportTime = useCallback((hours: number) => {
     if (hours < 24) return `${hours} hours`
     if (hours < 168) return `${Math.floor(hours / 24)} days`
     return `${Math.floor(hours / 168)} weeks`
-  }
+  }, [])
+
+  const getCategoryColor = useCallback((category: string) => {
+    return CATEGORY_COLORS[category] || CATEGORY_COLORS.default
+  }, [])
+
+  // Skeleton loader component
+  const TestCardSkeleton = () => (
+    <Card className="border-2 border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] animate-pulse">
+      <CardHeader>
+        <div className="h-6 bg-[hsl(0_0%_90%)] dark:bg-[hsl(215_15%_20%)] rounded w-3/4 mb-4"></div>
+        <div className="h-4 bg-[hsl(0_0%_90%)] dark:bg-[hsl(215_15%_20%)] rounded w-full mb-2"></div>
+        <div className="h-4 bg-[hsl(0_0%_90%)] dark:bg-[hsl(215_15%_20%)] rounded w-5/6"></div>
+      </CardHeader>
+      <CardContent>
+        <div className="h-8 bg-[hsl(0_0%_90%)] dark:bg-[hsl(215_15%_20%)] rounded w-full mb-4"></div>
+        <div className="flex gap-2">
+          <div className="h-8 bg-[hsl(0_0%_90%)] dark:bg-[hsl(215_15%_20%)] rounded flex-1"></div>
+          <div className="h-8 bg-[hsl(0_0%_90%)] dark:bg-[hsl(215_15%_20%)] rounded w-8"></div>
+        </div>
+      </CardContent>
+    </Card>
+  )
 
   return (
     <div className="space-y-6">
@@ -244,7 +280,6 @@ export const TestManagement = () => {
       <Card className="bg-[hsl(0_0%_100%)] dark:bg-[hsl(220_15%_8%)] border border-[hsl(0_0%_90%)] dark:border-[hsl(215_15%_25%)] shadow-soft">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[hsl(0_0%_45%)] h-4 w-4" />
               <input
@@ -256,7 +291,6 @@ export const TestManagement = () => {
               />
             </div>
 
-            {/* Category Filter */}
             <div className="relative">
               <select
                 value={filterCategory}
@@ -279,7 +313,9 @@ export const TestManagement = () => {
 
       {/* Tests Grid */}
       {loading ? (
-        <div className="text-center py-12 text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">Loading tests...</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => <TestCardSkeleton key={i} />)}
+        </div>
       ) : error ? (
         <div className="text-center py-12 text-[hsl(0_84%_60%)]">{error}</div>
       ) : (
@@ -364,23 +400,20 @@ export const TestManagement = () => {
         </div>
       )}
 
-      {/* Create Test Modal */}
+      {/* Modals */}
       <CreateTestModal
         open={showCreateForm}
         onClose={() => setShowCreateForm(false)}
-        onSubmit={(newTest) => {
-          createTestHandler(newTest)
-        }}
+        onSubmit={createTestHandler}
       />
 
-      {/* Edit Test Modal */}
       <TestModal
         open={showEditForm}
         onClose={() => {
           setShowEditForm(false)
           setEditingTest(null)
         }}
-        onSubmit={(updatedTest) => editTestHandler(updatedTest as MedicalTest)}
+        onSubmit={editTestHandler}
         editTest={editingTest}
         mode="edit"
       />
