@@ -6,9 +6,22 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "preserve", // or "react-jsx" for React
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"] // Optional path aliasing
+    },
+    "outDir": "./dist", // Explicit output directory
+    "rootDir": "./src", // Explicit source directory
+    "allowJs": true, // Allow JavaScript files
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false // Important for build processes
   },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
   "ts-node": {
-    "esm": true
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }
