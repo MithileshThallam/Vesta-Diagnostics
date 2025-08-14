@@ -181,7 +181,7 @@ export const AdminDashboard = () => {
                 { label: "Database", status: "Online", color: "hsl(120_60%_50%)" },
                 { label: "API Services", status: "Operational", color: "hsl(120_60%_50%)" },
                 { label: "Payment Gateway", status: "Maintenance", color: "hsl(45_100%_50%)" },
-                { label: "Notification Service", status: "Active", color: "hsl(120_60%_50%)" },
+                { label: "Notification Service", status: "Maintenance", color: "hsl(120_60%_50%)" },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between">
                   <span className="text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)] text-xs md:text-sm">

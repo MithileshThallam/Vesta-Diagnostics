@@ -211,7 +211,7 @@ const Signup = () => {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => handleInputChange("phone", e.target.value)}
-                        placeholder="+91 98243 62001"
+                        placeholder="98xxxxxxxxx"
                         className="pl-10 h-11 text-sm border-2 border-gray-200 bg-white/50 focus:border-vesta-orange focus:bg-white transition-all duration-300 hover:border-gray-300"
                         required
                       />
@@ -365,25 +365,7 @@ const Signup = () => {
                   </div>
 
                   {/* Terms Agreement */}
-                  <div className="space-y-2">
-                    <label className="flex items-start space-x-2 cursor-pointer group">
-                      <input
-                        type="checkbox"
-                        className="w-3 h-3 mt-0.5 text-vesta-orange border-gray-300 rounded focus:ring-vesta-orange transition-colors duration-300"
-                        required
-                      />
-                      <span className="text-xs text-text-dark/70 group-hover:text-text-dark transition-colors duration-300">
-                        I agree to the{" "}
-                        <Link to="/terms" className="text-vesta-orange hover:text-vesta-navy font-medium">
-                          Terms
-                        </Link>{" "}
-                        and{" "}
-                        <Link to="/privacy" className="text-vesta-orange hover:text-vesta-navy font-medium">
-                          Privacy Policy
-                        </Link>
-                      </span>
-                    </label>
-                  </div>
+                 
 
                   {/* Action Buttons */}
                   <div className="flex space-x-3">

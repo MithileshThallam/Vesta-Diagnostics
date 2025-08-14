@@ -127,24 +127,7 @@ const handleSubmit = (e: React.FormEvent) => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 bg-gradient-to-b from-vesta-navy/5 to-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {[
-              { value: "150+", label: "Centers Nationwide" },
-              { value: "95%", label: "Success Rate" },
-              { value: "2-3 Years", label: "ROI Period" },
-              { value: "24/7", label: "Support" }
-            ].map((stat, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                <p className="text-3xl font-bold text-vesta-navy mb-2">{stat.value}</p>
-                <p className="text-gray-600">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+     
 
       {/* Brand Introduction */}
       <section className="py-20 bg-white">

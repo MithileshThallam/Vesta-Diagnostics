@@ -14,7 +14,7 @@ const Footer = () => {
               </span>
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              Advanced molecular diagnostics and AI-powered analysis for accurate, timely results.
+              Advanced medical testing with accuracy and care in Anantapur, Andhra Pradesh.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-500 hover:text-vesta-orange transition-colors duration-300">
@@ -50,11 +50,10 @@ const Footer = () => {
                   Tests
                 </a>
               </li>
-              
               <li>
                 <a href="/franchise" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
                   <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
-                 Franchise
+                  Franchise
                 </a>
               </li>
               <li>
@@ -74,15 +73,19 @@ const Footer = () => {
             <address className="not-italic text-gray-600 space-y-4">
               <div className="flex items-start gap-4">
                 <FaMapMarkerAlt className="text-vesta-orange mt-1 flex-shrink-0" />
-                <p>123 Diagnostic Lane, San Francisco, CA 94107</p>
+                <p>Door no 12/3/162, 5th Cross Rd, Sai Nagar, Anantapur, Andhra Pradesh 515001</p>
               </div>
               <div className="flex items-center gap-4">
                 <FaPhone className="text-vesta-orange" />
-                <p>(555) 123-4567</p>
+                <a href="tel:+918554310414" className="hover:text-vesta-orange transition-colors duration-300">
+                  +91 8554 310414
+                </a>
               </div>
               <div className="flex items-center gap-4">
                 <FaEnvelope className="text-vesta-orange" />
-                <p>info@vestadiagnostics.com</p>
+                <a href="mailto:vestagloballabs@gmail.com" className="hover:text-vesta-orange transition-colors duration-300">
+                  vestagloballabs@gmail.com
+                </a>
               </div>
             </address>
           </div>
