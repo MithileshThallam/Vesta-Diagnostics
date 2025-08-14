@@ -1,7 +1,7 @@
 import express from 'express';
-import { createTest, getAllTests, updateTest, deleteTest } from '../controllers/test.controller.js';
+import { createTest, getAllTests, updateTest, deleteTest } from '../controllers/test.controller';
 
-import { verifyToken, requireAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
+import { verifyToken, requireAdminOrSubAdmin } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Test from '../models/Test.model.js';
+import Test from '../models/Test.model';
 import slugify from 'slugify';
 
 // ✅ CREATE Test (without image)

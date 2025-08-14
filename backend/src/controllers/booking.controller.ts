@@ -1,7 +1,7 @@
 // src/controllers/booking.controller.ts
 import { Request, Response } from 'express';
-import Booking from '../models/Booking.model.js';
-import SubAdmin from '../models/SubAdmin.js';
+import Booking from '../models/Booking.model';
+import SubAdmin from '../models/SubAdmin';
 
 // ✅ Create Booking (User Only)
 export const createBooking = async (req: Request, res: Response) => {

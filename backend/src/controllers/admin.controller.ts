@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import SubAdmin from '../models/SubAdmin.js';
+import SubAdmin from '../models/SubAdmin';
 import bcrypt from 'bcrypt';
-import User from '../models/User.model.js';
-import Booking from '../models/Booking.model.js';
-import Test from '../models/Test.model.js';
+import User from '../models/User.model';
+import Booking from '../models/Booking.model';
+import Test from '../models/Test.model';
 import mongoose from 'mongoose';
 
 

@@ -2,16 +2,16 @@ import express from 'express';
 import {
   createBooking,
   getBookingsForAdmin,
-} from '../controllers/booking.controller.js';
+} from '../controllers/booking.controller';
 
 import {
   verifyToken,
   requireRole,
   requireAdminOrSubAdmin,
-} from '../middlewares/authMiddleware.js';
+} from '../middlewares/authMiddleware';
 
-import { validateBody } from '../middlewares/validateInput.js';
-import { createBookingSchema } from '../utils/validationSchema.js';
+import { validateBody } from '../middlewares/validateInput';
+import { createBookingSchema } from '../utils/validationSchema';
 
 const router = express.Router();
 
