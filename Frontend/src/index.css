@@ -10,43 +10,30 @@ All colors MUST be HSL.
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 20%;
-
     --card: 0 0% 100%;
     --card-foreground: 0 0% 20%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 20%;
-
     --primary: 15 96% 53%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 20%;
-
     --muted: 0 0% 98%;
     --muted-foreground: 0 0% 45%;
-
     --accent: 15 96% 53%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 0 0% 90%;
     --input: 0 0% 90%;
     --ring: 15 96% 53%;
-
     --radius: 0.5rem;
 
-    /* Vesta Medical Design System - Clean & Professional */
+    /* Vesta Medical Design System */
     --vesta-orange: 15 96% 53%;
-    /* #F05A28 */
     --vesta-navy: 248 81% 20%;
-    /* #1A1449 */
     --text-dark: 0 0% 20%;
-    /* #333333 */
     --text-black: 0 0% 0%;
-    /* #000000 */
 
     --gradient-primary: linear-gradient(90deg, hsl(15 96% 53%), hsl(248 81% 20%));
     --gradient-subtle: linear-gradient(90deg, hsl(15 96% 53% / 0.1), hsl(248 81% 20% / 0.1));
@@ -60,47 +47,32 @@ All colors MUST be HSL.
     --transition-bounce: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
     --background: 0 0% 100%;
     --foreground: 0 0% 20%;
-
     --card: 0 0% 100%;
     --card-foreground: 0 0% 20%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 20%;
-
     --primary: 218 100% 20%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 210 40% 96%;
     --secondary-foreground: 0 0% 20%;
-
     --muted: 210 40% 98%;
     --muted-foreground: 215 20% 45%;
-
     --accent: 15 90% 55%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 15 90% 55%;
@@ -127,101 +99,58 @@ All colors MUST be HSL.
   }
 }
 
+/* Scrollbar & Scrolling Optimization */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.scrolling {
+  will-change: transform;
+  -webkit-overflow-scrolling: touch; /* Smooth momentum scrolling on iOS */
+}
+
 @layer utilities {
-  .scale-102 {
-    transform: scale(1.02);
-  }
-
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
-
-  .text-shadow-lg {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  .will-change-transform {
-    will-change: transform;
-  }
+  .scale-102 { transform: scale(1.02); }
+  .perspective-1000 { perspective: 1000px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+  .text-shadow-lg { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+  .will-change-transform { will-change: transform; }
 }
 
-@keyframes float {
+/* Animations */
+@keyframes float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -20px, 0); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes float-gentle { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -20px, 0); } }
+@keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+@keyframes slideInUp { 0% { opacity: 0; transform: translate3d(0, 30px, 0); } 100% { opacity: 1; transform: translate3d(0, 0, 0); } }
 
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -20px, 0);
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg) translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: rotate(360deg) translate3d(0, 0, 0);
-  }
-}
-
-@keyframes float-gentle {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -20px, 0); }
-}
-
-@keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes rotate-reverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
-/* Background blobs - static positioning with minimal animation */
+/* Background blobs */
 .background-blob-1 {
-  position: absolute;
-  top: 5rem;
-  left: 5rem;
-  width: 18rem;
-  height: 18rem;
+  position: absolute; top: 5rem; left: 5rem;
+  width: 18rem; height: 18rem;
   background: linear-gradient(45deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.15));
-  border-radius: 50%;
-  filter: blur(40px);
+  border-radius: 50%; filter: blur(40px);
   animation: float-gentle 20s ease-in-out infinite;
 }
-
 .background-blob-2 {
-  position: absolute;
-  bottom: 5rem;
-  right: 5rem;
-  width: 24rem;
-  height: 24rem;
+  position: absolute; bottom: 5rem; right: 5rem;
+  width: 24rem; height: 24rem;
   background: linear-gradient(45deg, rgba(147, 51, 234, 0.15), rgba(236, 72, 153, 0.15));
-  border-radius: 50%;
-  filter: blur(40px);
+  border-radius: 50%; filter: blur(40px);
   animation: float-gentle 25s ease-in-out infinite reverse;
   animation-delay: 2s;
 }
 
-/* Rotating rings - only elements that continuously animate */
+/* Rotating rings */
 .rotating-ring-outer {
-  position: absolute;
-  inset: 0;
-  width: 24rem;
-  height: 24rem;
+  position: absolute; inset: 0;
+  width: 24rem; height: 24rem;
   border-radius: 50%;
   border: 2px solid;
   border-image: linear-gradient(90deg, #F05A28, #1A1449) 1;
@@ -229,94 +158,45 @@ All colors MUST be HSL.
   animation: rotate-slow 20s linear infinite;
   will-change: transform;
 }
-
 .rotating-ring-inner {
-  position: absolute;
-  inset: 1rem;
-  width: 22rem;
-  height: 22rem;
+  position: absolute; inset: 1rem;
+  width: 22rem; height: 22rem;
   border-radius: 50%;
   border: 1px solid rgba(240, 90, 40, 0.2);
   animation: rotate-reverse 15s linear infinite;
   will-change: transform;
 }
 
-/* Feature cards - optimized animations */
+/* Feature cards */
 .feature-card {
   transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease-out;
   transform: translate3d(0, 40px, 0);
   opacity: 0;
 }
-
 .feature-card--active {
   transform: translate3d(0, 0, 0) scale(1.1);
   opacity: 1;
   z-index: 10;
 }
-
 .feature-card--previous {
   transform: translate3d(0, 0, 0) scale(0.95);
   opacity: 1;
   z-index: 5;
 }
 
-/* Icon hover animation */
+/* Icon hover */
 .icon-container {
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .group:hover .icon-container {
   transform: scale(1.05);
 }
 
-/* Respect reduced motion preferences */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .background-blob-1,
   .background-blob-2,
   .rotating-ring-outer,
-  .rotating-ring-inner {
-    animation: none;
-  }
-  
-  .feature-card {
-    transition: none;
-  }
-  
-  .icon-container {
-    transition: none;
-  }
-  @keyframes slideInUp {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-}
-
-@keyframes slideInUp {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 30px, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-
-/* Add this to your global CSS */
-.hide-scrollbar {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-.hide-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-
-.scrolling {
-  will-change: transform;
-  -webkit-overflow-scrolling: touch;
+  .rotating-ring-inner { animation: none; }
+  .feature-card, .icon-container { transition: none; }
 }
