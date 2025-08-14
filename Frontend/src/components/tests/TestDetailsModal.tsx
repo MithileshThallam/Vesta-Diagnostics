@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { MedicalTest } from "@/types/test"
-import { useNavigate } from "react-router-dom"
 import { useState, useEffect, useCallback, useMemo } from "react"
 import { FixedSizeList } from "react-window"
 import { useUserStore } from "@/stores/userStore"
@@ -50,7 +49,6 @@ const ParameterRow = ({ data, index, style }: { data: string[], index: number, s
 )
 
 const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose }) => {
-  const navigate = useNavigate()
   const { name: userName, phone: userPhone, isAuthenticated } = useUserStore()
   const [isMounted, setIsMounted] = useState(false)
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
@@ -189,13 +187,12 @@ const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose 
     return `${Math.floor(hours / 168)} week${hours > 336 ? "s" : ""}`
   }, [])
 
-  const getLocationNames = useCallback((locationIds: string[]) => {
-    // Always use the first location (Anantpur) as specified
+  const getLocationNames = useCallback(() => {
     return ["Anantpur"]
   }, [])
 
   // Precompute derived values
-  const locations = useMemo(() => test ? getLocationNames(test.locations) : [], [test, getLocationNames])
+  const locations = useMemo(() => test ? getLocationNames() : [], [test, getLocationNames])
   const reportTime = useMemo(() => test ? formatReportTime(test.reportIn) : '', [test, formatReportTime])
   const bodyParts = useMemo(() => test ? test.parts.join(", ") : '', [test])
 
