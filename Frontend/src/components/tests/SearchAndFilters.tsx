@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { Search, MapPin, Filter, SortAsc, X } from "lucide-react"
+import { Search, Filter, X } from "lucide-react"
 import type { TestLocation, FilterState } from "@/types/test"
 
 interface SearchAndFiltersProps {
@@ -34,7 +34,6 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
   const hasActiveFilters =
     filters.searchQuery ||
     filters.activeCategory !== "all" ||
-    filters.location !== "all" ||
     filters.sortBy !== "name"
 
   return (
@@ -84,25 +83,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
           id="filter-controls"
           className={`${showFilters ? "flex" : "hidden lg:flex"} flex-wrap items-center gap-4 w-full lg:w-auto`}
         >
-          {/* Location Filter */}
-          <div className="relative">
-            <select
-              value={filters.location}
-              onChange={(e) => onLocationChange(e.target.value)}
-              className="appearance-none bg-white/80 border border-slate-200 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-vesta-orange/50 transition-all duration-300"
-              aria-label="Filter by location"
-            >
-              <option value="all">All Locations</option>
-              {locations.map((location) => (
-                <option key={location.id} value={location.id}>
-                  {location.name}
-                </option>
-              ))}
-            </select>
-            <MapPin className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-          </div>
-
-          {/* Sort Options */}
+          {/* Sort Options (kept but removed price-related options) */}
           <div className="relative">
             <select
               value={filters.sortBy}
@@ -111,10 +92,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
               aria-label="Sort tests"
             >
               <option value="name">Sort by Name</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
             </select>
-            <SortAsc className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
 
           {/* Clear Filters */}
