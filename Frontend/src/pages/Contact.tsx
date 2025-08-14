@@ -1,10 +1,11 @@
+
+
 import { Phone, MapPin, User, Mail } from "lucide-react";
 import contactHeroBg from "/CHero.png";
 
 const ContactInfo = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section - Enhanced Responsive */}
       <section
         className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] flex items-center justify-center bg-gradient-to-br from-background/95 to-secondary/40"
         style={{
@@ -25,7 +26,6 @@ const ContactInfo = () => {
           </div>
         </div>
         
-        {/* Scrolling indicator - Hidden on mobile */}
         <div className="hidden sm:block absolute bottom-6 lg:bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
             <div className="w-1 h-2 bg-white/80 rounded-full mt-2 animate-scroll-indicator"></div>
@@ -33,12 +33,10 @@ const ContactInfo = () => {
         </div>
       </section>
 
-      {/* Contact Content - Enhanced Responsive */}
       <section id="contact-content" className="py-12 sm:py-16 lg:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
 
-            {/* Contact Information - Responsive Cards */}
             <div className="space-y-8 sm:space-y-10 lg:space-y-12">
               <div className="animate-slide-up">
                 <h2 className="font-playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 sm:mb-6">
@@ -48,8 +46,34 @@ const ContactInfo = () => {
                   At Vesta Diagnostics, we combine cutting-edge technology with compassionate care to deliver accurate test results you can trust.
                 </p>
                 
+                <div className="mb-6 sm:mb-8">
+                  <h3 className="font-medium text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">Our Facility</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    <div className="group overflow-hidden rounded-lg border border-border/20 hover:shadow-lg hover:translate-y-[-4px] transition-all duration-300">
+                      <img 
+                        src="/Contact/contact-1.png" 
+                        alt="Vesta Diagnostics building exterior" 
+                        className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="group overflow-hidden rounded-lg border border-border/20 hover:shadow-lg hover:translate-y-[-4px] transition-all duration-300">
+                      <img 
+                        src="/Contact/contact-2.png" 
+                        alt="Vesta Diagnostics reception area" 
+                        className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="group overflow-hidden rounded-lg border border-border/20 hover:shadow-lg hover:translate-y-[-4px] transition-all duration-300 md:col-span-2 lg:col-span-1">
+                      <img 
+                        src="/Contact/contact-3.png" 
+                        alt="Vesta Diagnostics laboratory" 
+                        className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
                 <div className="grid gap-4 sm:gap-6">
-                  {/* Doctor Card */}
                   <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/20 hover:border-primary/30 transition-all hover:shadow-lg hover:translate-y-[-4px]">
                     <div className="flex items-start gap-3 sm:gap-4">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -63,7 +87,6 @@ const ContactInfo = () => {
                     </div>
                   </div>
                   
-                  {/* Contact Card */}
                   <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/20 hover:border-primary/30 transition-all hover:shadow-lg hover:translate-y-[-4px]">
                     <div className="flex items-start gap-3 sm:gap-4">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -83,9 +106,7 @@ const ContactInfo = () => {
                 </div>
               </div>
 
-              {/* Detailed Contact Cards */}
               <div className="space-y-4 sm:space-y-6">
-                {/* Phone Card */}
                 <div className="bg-gradient-to-br from-card to-primary/5 p-4 sm:p-6 rounded-xl border border-border/20 hover:shadow-lg transition-all group">
                   <div className="flex items-start gap-3 sm:gap-5">
                     <div className="relative">
@@ -115,7 +136,6 @@ const ContactInfo = () => {
                   </div>
                 </div>
 
-                {/* Location Card */}
                 <div className="bg-gradient-to-br from-card to-primary/5 p-4 sm:p-6 rounded-xl border border-border/20 hover:shadow-lg transition-all group">
                   <div className="flex items-start gap-3 sm:gap-5">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
@@ -139,7 +159,6 @@ const ContactInfo = () => {
               </div>
             </div>
 
-            {/* Map Section - Enhanced Responsive */}
             <div className="lg:sticky lg:top-24">
               <div className="bg-card rounded-xl overflow-hidden shadow-xl border border-border/20">
                 <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-primary/5 to-primary-accent/5">
@@ -163,7 +182,6 @@ const ContactInfo = () => {
                     className="absolute inset-0"
                   />
 
-                  {/* Map Overlay - Responsive */}
                   <div className="absolute bottom-3 sm:bottom-4 lg:bottom-6 left-3 sm:left-4 lg:left-6 bg-card/95 backdrop-blur-sm rounded-lg p-3 sm:p-4 shadow-2xl border border-border/20 flex items-center gap-2 sm:gap-3 animate-float max-w-[calc(100%-1.5rem)] sm:max-w-[calc(100%-2rem)] lg:max-w-none">
                     <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-accent rounded-full animate-pulse flex-shrink-0"></div>
                     <div className="min-w-0">
