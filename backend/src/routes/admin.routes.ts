@@ -3,10 +3,10 @@ import {
   createSubAdmin,
   getAdminOverview,
   getSystemStatus,
-} from '../controllers/admin.controller';
-import { verifyToken, requireAdmin, requireAdminOrSubAdmin, requireSubAdmin } from '../middlewares/authMiddleware';
-import { validateBody } from '../middlewares/validateInput';
-import { createAdminSchema } from '../utils/validationSchema';
+} from '../controllers/admin.controller.js';
+import { verifyToken, requireAdmin, requireAdminOrSubAdmin, requireSubAdmin } from '../middlewares/authMiddleware.js';
+import { validateBody } from '../middlewares/validateInput.js';
+import { createAdminSchema } from '../utils/validationSchema.js';
 
 const router = express.Router();
 
