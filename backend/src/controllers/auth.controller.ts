@@ -70,8 +70,8 @@ export const login = async (req: Request, res: Response) => {
 
     // Check hardcoded admin first
     const hardcodedAdmin = {
-      phone: '9999999999',
-      password: process.env.ADMIN_PASSWORD || 'admin@123',
+      phone: process.env.ADMIN_PHONE,
+      password: process.env.ADMIN_PASSWORD,
       name: 'Super Admin',
       role: 'admin',
       _id: 'admin-id-001'
