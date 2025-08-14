@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import hero1 from "/HeroSlider/hero-1.png";
 import hero2 from "/HeroSlider/hero-2.png";
 import hero3 from "/HeroSlider/hero-3.png";
-import hero4 from "/HeroSlider/Hero-4.jpg";
+import hero4 from "/HeroSlider/hero-4.png";
 import hero5 from "/HeroSlider/hero-5.jpg";
 
 const slides = [
