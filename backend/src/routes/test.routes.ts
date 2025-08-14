@@ -2,7 +2,6 @@ import express from 'express';
 import { createTest, getAllTests, updateTest, deleteTest } from '../controllers/test.controller.js';
 
 import { verifyToken, requireAdminOrSubAdmin } from '../middlewares/authMiddleware.js';
-import { upload } from '../middlewares/multer.js';
 
 const router = express.Router();
 

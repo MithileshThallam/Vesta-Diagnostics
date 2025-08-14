@@ -85,12 +85,17 @@ app.get('/', (_, res) => {
   res.send('API is running...');
 });
 
-// Start server
-if (!process.env.VERCEL) {
-  const PORT = process.env.PORT || 5000;
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Start local server ONLY in development
+if (!isProduction) {
+  const PORT = 5000;
   app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log(`Local server: http://localhost:${PORT}`);
   });
 }
+
+
 
 export default app;
