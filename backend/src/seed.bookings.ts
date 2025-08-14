@@ -2,8 +2,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import User from "./models/User.model";
-import Booking from "./models/Booking.model";
+import User from "./models/User.model.js";
+import Booking from "./models/Booking.model.js";
 
 dotenv.config();
 

@@ -22,3 +22,4 @@ Thumbs.db
 
 seed.test.ts
 drop_slug.ts
+seed.bookings.ts
