@@ -305,3 +305,18 @@ All colors MUST be HSL.
     transform: translate3d(0, 0, 0);
   }
 }
+
+
+/* Add this to your global CSS */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.scrolling {
+  will-change: transform;
+  -webkit-overflow-scrolling: touch;
+}
