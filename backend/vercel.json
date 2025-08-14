@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/index.ts",  // Entry point (adjust if needed)
-      "use": "@vercel/node"   // Uses Node.js runtime
+      "src": "src/index.ts", 
+      "use": "@vercel/node"  
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "src/index.ts" } // Routes API requests
+    { "src": "/api/(.*)", "dest": "src/index.ts" } 
   ]
 }
