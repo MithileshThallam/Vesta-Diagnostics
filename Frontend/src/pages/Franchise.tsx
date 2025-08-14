@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { CheckCircle, ArrowRight, ChevronRight } from "lucide-react"
-import diagnosticCenter from "/CHero.png"
+import diagnosticCenter from "/CHero.webp"
 
 const Franchise = () => {
   const { toast } = useToast()

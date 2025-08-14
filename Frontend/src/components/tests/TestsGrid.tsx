@@ -6,6 +6,7 @@ import TestModal from "./TestDetailsModal"
 import InstantBookingModal from "../InstantBookingModal"
 import type { MedicalTest, TestCategory } from "@/types/test"
 import { useInView } from "react-intersection-observer"
+import { invert } from "lodash-es"
 
 interface TestsGridProps {
   groupedTests: { [key: string]: MedicalTest[] }
@@ -23,7 +24,6 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, onClear
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [containerRef, isContainerInView] = useInView({ threshold: 0.1 })
 
   // Memoized data
   const categoriesWithTests = useMemo(() => Object.entries(groupedTests), [groupedTests])
@@ -98,7 +98,7 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, onClear
 
   return (
     <>
-      <div ref={containerRef} className="space-y-12">
+      <div className="space-y-12">
         {categoriesWithTests.map(([categoryId, tests]) => {
           const categoryInfo = getCategoryInfo(categoryId)
           return (
@@ -117,11 +117,10 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, onClear
                 <div className={`flex gap-6 overflow-x-auto pb-4 hide-scrollbar ${isScrolling ? 'scrolling' : ''}`}>
                   <div className="flex gap-6 min-w-max">
                     {tests.map((test, index) => (
-                      <MemoizedTestCard
+                      <LazyTestCard
                         key={test.id}
                         test={test}
                         index={index}
-                        isVisible={isContainerInView}
                         onTestClick={handleTestClick}
                         onInstantBook={handleInstantBook}
                       />
@@ -155,11 +154,32 @@ const TestsGrid: React.FC<TestsGridProps> = ({ groupedTests, categories, onClear
   )
 }
 
-// Memoized components
-const MemoizedTestCard = React.memo(TestCard, (prevProps, nextProps) => {
+// Lazy-loaded TestCard component
+const LazyTestCard = React.memo(({ test, index, onTestClick, onInstantBook }: {
+  test: MedicalTest,
+  index: number,
+  onTestClick: (test: MedicalTest) => void,
+  onInstantBook: (test: MedicalTest) => void
+}) => {
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  })
+
   return (
-    prevProps.test.id === nextProps.test.id &&
-    prevProps.isVisible === nextProps.isVisible
+    <div ref={ref} style={{ minWidth: '300px' }}>
+      {inView ? (
+        <TestCard 
+          test={test} 
+          index={index}
+          isVisible={inView}
+          onTestClick={onTestClick} 
+          onInstantBook={onInstantBook} 
+        />
+      ) : (
+        <div style={{ height: '200px', backgroundColor: '#f3f4f6' }} />
+      )}
+    </div>
   )
 })
 

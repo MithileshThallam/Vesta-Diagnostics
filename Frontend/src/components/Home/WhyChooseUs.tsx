@@ -176,7 +176,7 @@ const WhyChooseUs = () => {
               {/* Doctor Image Container */}
               <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden bg-gradient-to-br from-white to-slate-100 shadow-lg lg:shadow-2xl border-4 border-white">
                 <img
-                  src="/Features.jpg"
+                  src="/Features.webp"
                   alt="Vesta Diagnostics Medical Professional"
                   className="w-full h-full object-cover"
                   loading="lazy"

@@ -4,7 +4,7 @@ import { Eye, EyeOff, Phone, Lock, ArrowRight, Stethoscope } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import loginImage from '/Features.jpg';
+import loginImage from '/Features.webp';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useUserStore } from '@/stores/userStore';

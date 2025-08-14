@@ -200,7 +200,7 @@ const Tests = () => {
           <TestsGrid
             groupedTests={memoizedGroupedTests}
             categories={testCategories}
-            isVisible={isVisible}
+            // isVisible={isVisible}
             onClearAllFilters={handleClearAllFilters}
           />
         </div>

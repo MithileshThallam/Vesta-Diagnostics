@@ -5,7 +5,7 @@ const TestsHeroSection = () => {
     <section
       className="relative h-[60vh] min-h-[600px] flex items-center justify-center"
       style={{
-        backgroundImage: "url('/TestHero.jpg')",  // Added url() here
+        backgroundImage: "url('/TestHero.webp')",  // Added url() here
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat"
