@@ -61,7 +61,7 @@ const adminLimiter = rateLimit({
 
 // Middleware
 app.use(cors({
-  origin: "*",
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Explicit origin
   credentials: true,
 }));
 app.use(bodyParser.json());
@@ -86,7 +86,11 @@ app.get('/', (_, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`✅ Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;

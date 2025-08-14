@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import User from '../models/User.model';
-import SubAdmin from '../models/SubAdmin';
+import User from '../models/User.model.js';
+import SubAdmin from '../models/SubAdmin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
