@@ -10,7 +10,7 @@ export const useAuthFetch = () => {
 
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/details/profile", {
+        const response = await fetch("https://vesta-diagnostics-w7rb.vercel.app/api/details/profile", {
           credentials: "include",
           signal: controller.signal
         });
