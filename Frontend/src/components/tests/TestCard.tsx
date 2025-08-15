@@ -44,12 +44,7 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
     return locationDetails.map(loc => loc.name).join(", ")
   }, [locationDetails, test.locations.length])
 
-  const reportTime = useMemo(() => {
-    const hours = test.reportIn
-    if (hours < 24) return `${hours} hours`
-    if (hours < 168) return `${Math.floor(hours / 24)} days`
-    return `${Math.floor(hours / 168)} weeks`
-  }, [test.reportIn])
+ 
 
   const handleInstantBook = (e: React.MouseEvent) => {
     e.stopPropagation()
