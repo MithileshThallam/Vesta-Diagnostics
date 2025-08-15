@@ -40,7 +40,7 @@ export const CreateSubAdminModal = ({ open, onClose, onSuccess }: CreateSubAdmin
 
     try {
       console.log("Sub-admin data: ", formData);
-      const response = await fetch("https://vesta-diagnostics.vercel.app//api/admin/create", {
+      const response = await fetch("https://vesta-diagnostics.vercel.app/api/admin/create", {
         method: "POST",
         credentials: "include",
         headers: {

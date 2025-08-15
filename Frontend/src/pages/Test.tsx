@@ -74,7 +74,7 @@ const Tests = () => {
     const signal = controller.signal
 
     try {
-      const res = await fetch("https://vesta-diagnostics.vercel.app//api/tests/all", {
+      const res = await fetch("https://vesta-diagnostics.vercel.app/api/tests/all", {
         method: 'GET',
         signal
       })
