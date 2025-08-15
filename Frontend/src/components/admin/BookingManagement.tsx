@@ -9,12 +9,35 @@ const BookingManagement = () => {
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
 
-  useEffect(() => {
-    let isMounted = true
-    setLoading(true)
-    setError(null)
+  // useEffect(() => {
+  //   let isMounted = true
+  //   setLoading(true)
+  //   setError(null)
 
-    const fetchBookings = async () => {
+  //   const fetchBookings = async () => {
+  //     let res = await fetch("http://localhost:5000/api/bookings/get-bookings", {
+  //       credentials: 'include',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //     let response = await res.json()
+  //     setBookings(response.bookings)
+  //     setLoading(false)
+  //     console.log(response.bookings)
+  //   }
+  //   fetchBookings()
+  //   return () => {
+  //     isMounted = false
+  //   }
+  // }, [])
+  useEffect(() => {
+  let isMounted = true
+  setLoading(true)
+  setError(null)
+
+  const fetchBookings = async () => {
+    try {
       let res = await fetch("http://localhost:5000/api/bookings/get-bookings", {
         credentials: 'include',
         headers: {
@@ -22,15 +45,26 @@ const BookingManagement = () => {
         },
       })
       let response = await res.json()
-      setBookings(response.bookings)
-      setLoading(false)
-      console.log(response.bookings)
+
+      if (isMounted) {
+        setBookings(response.bookings)
+        setLoading(false)
+      }
+    } catch (err) {
+      if (isMounted) {
+        setError("Failed to load bookings")
+        setLoading(false)
+      }
     }
-    fetchBookings()
-    return () => {
-      isMounted = false
-    }
-  }, [])
+  }
+
+  fetchBookings()
+
+  return () => {
+    isMounted = false
+  }
+}, [])
+
 
   const filteredBookings = bookings.filter((booking: Booking) => {
     return (
