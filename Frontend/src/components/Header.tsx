@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react"
 import { useState, useCallback, useMemo } from "react"
 import UserProfile from "./UserProfile"
 import { useUserStore } from "@/stores/userStore"
+import { Link } from "react-router-dom"
 
 // Static data moved outside component
 const NAV_ITEMS = [
@@ -292,9 +293,9 @@ const Header = () => {
                 asChild
                 className="text-primary border-primary hover:bg-primary/10"
               >
-                <a href={role === 'admin' ? '/admin' : '/sub-admin'}>
+                <Link to={role === 'admin' ? '/admin' : '/sub-admin'}>
                   Admin Panel
-                </a>
+                </Link>
               </Button>
             )}
             <UserProfile />
