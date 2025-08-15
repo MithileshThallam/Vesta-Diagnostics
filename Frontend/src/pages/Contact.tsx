@@ -118,10 +118,39 @@ const ContactInfo = () => {
                     <div className="min-w-0 flex-1">
                       <h3 className="font-playfair text-lg sm:text-xl font-semibold text-foreground mb-2">Appointments</h3>
                       <a
-                        href="tel:+918554310414"
+                        href="tel:08554310414"
                         className="text-lg sm:text-xl font-bold text-primary hover:text-primary-accent transition-colors inline-flex items-center gap-2 flex-wrap"
                       >
-                        +91 8554 310414
+                        08554 310414
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-right">
+                          <path d="M7 7h10v10" />
+                          <path d="M7 17 17 7" />
+                        </svg>
+                      </a>
+                      <p className="text-sm sm:text-base text-muted-foreground mt-2">
+                        24/7
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-card to-primary/5 p-4 sm:p-6 rounded-xl border border-border/20 hover:shadow-lg transition-all group">
+                  <div className="flex items-start gap-3 sm:gap-5">
+                    <div className="relative">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                        <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-primary group-hover:text-primary-accent transition-colors" />
+                      </div>
+                      <div className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center">
+                        <span>2</span>
+                      </div>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-playfair text-lg sm:text-xl font-semibold text-foreground mb-2">Home Sample Collection</h3>
+                      <a
+                        href="tel:8886299108"
+                        className="text-lg sm:text-xl font-bold text-primary hover:text-primary-accent transition-colors inline-flex items-center gap-2 flex-wrap"
+                      >
+                        8886299108
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-right">
                           <path d="M7 7h10v10" />
                           <path d="M7 17 17 7" />

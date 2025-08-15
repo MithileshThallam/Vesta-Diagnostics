@@ -88,10 +88,10 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
             {test.name}
           </CardTitle>
 
-          <div className="flex flex-col gap-1 text-sm text-slate-700">
+           <div className="flex flex-col gap-1 text-sm text-slate-700">
             <div className="flex items-center">
               <MemoZap className="w-4 h-4 mr-2 text-vesta-orange" />
-              <span>Reports in {reportTime}</span>
+              <span></span>
             </div>
             <div className="flex items-center">
               <MemoActivity className="w-4 h-4 mr-2 text-vesta-orange" />
