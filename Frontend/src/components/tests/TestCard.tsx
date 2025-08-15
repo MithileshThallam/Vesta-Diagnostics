@@ -1,5 +1,5 @@
 import React, { useMemo, memo } from "react"
-import { Clock, MapPin, ChevronRight, Calendar, Activity, Zap } from "lucide-react"
+import { Clock, MapPin, ChevronRight, Calendar, Activity,} from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import type { MedicalTest } from "@/types/test"
