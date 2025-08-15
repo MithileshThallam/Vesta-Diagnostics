@@ -246,18 +246,18 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-3 flex-shrink-0">
-            <img 
-              src="/logo.png" 
-              alt="Vesta Logo" 
-              width={48} 
-              height={48} 
-              className="h-10 w-10 lg:h-12 lg:w-12 object-contain rounded-xl" 
-            />
-            <h1 className="text-xl lg:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Vesta Diagnostics
-            </h1>
-          </div>
+         <a href="/" className="flex items-center space-x-3 flex-shrink-0">
+  <img 
+    src="/logo.png" 
+    alt="Vesta Logo" 
+    width={48} 
+    height={48} 
+    className="h-10 w-10 lg:h-12 lg:w-12 object-contain rounded-xl" 
+  />
+  <h1 className="text-xl lg:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+    Vesta Diagnostics
+  </h1>
+</a>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8 relative">
