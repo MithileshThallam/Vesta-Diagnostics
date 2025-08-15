@@ -48,7 +48,7 @@ const AboutUs = () => {
           <div className="relative order-1 lg:order-2 lg:basis-1/2">
             <div className="relative overflow-hidden rounded-xl md:rounded-2xl shadow-hover h-full">
               <img
-                src="/Aboutuspic.jpg"
+                src="/Aboutuspic.webp"
                 alt="Vesta Diagnostics medical team"
                 className="w-full h-full object-cover"
               />
