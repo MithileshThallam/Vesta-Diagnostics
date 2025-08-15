@@ -117,6 +117,7 @@ export const login = async (req: Request, res: Response) => {
 
     const cookieName = userType === 'admin' ? 'AdminAuthToken' : 
                       userType === 'sub-admin' ? 'SubAdminAuthToken' : 'UserAuthToken';
+    console.log(" env variable: ", process.env.NODE_ENV)
 
     res.cookie(cookieName, token, {
       httpOnly: true,
