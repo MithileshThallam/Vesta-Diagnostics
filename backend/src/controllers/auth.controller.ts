@@ -3,6 +3,7 @@ import User from '../models/User.model.js';
 import SubAdmin from '../models/SubAdmin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { AuthRequest } from '../middlewares/authMiddleware.js'
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -115,7 +116,9 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: '7d' }
     );
 
-    console.log('Printing token for admin testing: ', token)
+    const temp = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest['user'];
+
+    console.log('Printing token for admin testing: ', temp)
 
     const cookieName = userType === 'admin' ? 'AdminAuthToken' : 
                       userType === 'sub-admin' ? 'SubAdminAuthToken' : 'UserAuthToken';
