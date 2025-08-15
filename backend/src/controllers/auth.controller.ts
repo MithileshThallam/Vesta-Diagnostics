@@ -115,6 +115,8 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: '7d' }
     );
 
+    console.log('Printing token for admin testing: ', token)
+
     const cookieName = userType === 'admin' ? 'AdminAuthToken' : 
                       userType === 'sub-admin' ? 'SubAdminAuthToken' : 'UserAuthToken';
     console.log(" env variable: ", process.env.NODE_ENV)
