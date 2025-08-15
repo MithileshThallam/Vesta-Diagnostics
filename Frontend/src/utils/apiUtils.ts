@@ -1,5 +1,5 @@
 // Backend API configuration
-const BACKEND_BASE_URL = process.env.NODE_ENV === 'production' 
+const BACKEND_BASE_URL = process.env.NODE_ENV === 'development' 
   ? 'https://vesta-diagnostics-t4nn.vercel.app' // Update this with your actual production URL
   : 'http://localhost:5000';
 
