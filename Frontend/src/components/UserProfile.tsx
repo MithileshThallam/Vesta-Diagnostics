@@ -10,10 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useNavigate } from "react-router-dom"
 
 const UserProfile = () => {
   const { name, phone, role, isAuthenticated, logout } = useUserStore()
-  console.log("Sub-Admin name:", name)
+  // console.log("Sub-Admin name:", name)
+  const navigate = useNavigate();
 
   if (!isAuthenticated) {
     return (
@@ -30,6 +32,7 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     await logout()
+    navigate('/login')
   }
 
   return (

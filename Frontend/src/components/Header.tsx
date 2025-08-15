@@ -93,12 +93,12 @@ const TESTS_BY_CATEGORY = [
 ]
 
 // Extracted dropdown component
-const TestsDropdown = React.memo(({ 
-  isVisible, 
-  hoveredCategory, 
-  onMouseEnter, 
-  onMouseLeave, 
-  onCategoryHover 
+const TestsDropdown = React.memo(({
+  isVisible,
+  hoveredCategory,
+  onMouseEnter,
+  onMouseLeave,
+  onCategoryHover
 }: {
   isVisible: boolean
   hoveredCategory: string | null
@@ -107,24 +107,23 @@ const TestsDropdown = React.memo(({
   onCategoryHover: (category: string) => void
 }) => {
   const selectedTests = useMemo(() => {
-    return hoveredCategory 
+    return hoveredCategory
       ? TESTS_BY_CATEGORY.find((cat) => cat.category === hoveredCategory)?.tests || []
       : []
   }, [hoveredCategory])
 
   return (
     <div
-      className={`absolute top-6 -left-[300px] mt-2 w-[800px] bg-white shadow-dropdown rounded-lg border border-gray-200 z-50 ${
-        isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      } transition-opacity duration-200`}
+      className={`absolute top-6 -left-[300px] mt-2 w-[800px] bg-white shadow-dropdown rounded-lg border border-gray-200 z-50 ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        } transition-opacity duration-200`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <div className="flex h-[400px]">
         {/* Left Panel - Categories */}
-        <CategoryList 
-          hoveredCategory={hoveredCategory} 
-          onCategoryHover={onCategoryHover} 
+        <CategoryList
+          hoveredCategory={hoveredCategory}
+          onCategoryHover={onCategoryHover}
         />
 
         {/* Right Panel - Tests */}
@@ -160,9 +159,9 @@ const TestsDropdown = React.memo(({
 })
 
 // Extracted category list component
-const CategoryList = React.memo(({ 
-  hoveredCategory, 
-  onCategoryHover 
+const CategoryList = React.memo(({
+  hoveredCategory,
+  onCategoryHover
 }: {
   hoveredCategory: string | null
   onCategoryHover: (category: string) => void
@@ -174,11 +173,10 @@ const CategoryList = React.memo(({
         {TESTS_BY_CATEGORY.map((categoryData) => (
           <li key={categoryData.category}>
             <button
-              className={`w-full text-left px-3 py-2 rounded-md text-sm capitalize transition-colors ${
-                hoveredCategory === categoryData.category
+              className={`w-full text-left px-3 py-2 rounded-md text-sm capitalize transition-colors ${hoveredCategory === categoryData.category
                   ? "bg-primary/10 text-primary"
                   : "text-gray-700 hover:bg-gray-50"
-              }`}
+                }`}
               onMouseEnter={() => onCategoryHover(categoryData.category)}
             >
               {categoryData.category}
@@ -246,18 +244,18 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-         <a href="/" className="flex items-center space-x-3 flex-shrink-0">
-  <img 
-    src="/logo.png" 
-    alt="Vesta Logo" 
-    width={48} 
-    height={48} 
-    className="h-10 w-10 lg:h-12 lg:w-12 object-contain rounded-xl" 
-  />
-  <h1 className="text-xl lg:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-    Vesta Diagnostics
-  </h1>
-</a>
+          <a href="/" className="flex items-center space-x-3 flex-shrink-0">
+            <img
+              src="/logo.png"
+              alt="Vesta Logo"
+              width={48}
+              height={48}
+              className="h-10 w-10 lg:h-12 lg:w-12 object-contain rounded-xl"
+            />
+            <h1 className="text-xl lg:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              Vesta Diagnostics
+            </h1>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8 relative">
@@ -303,9 +301,9 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
-            className="lg:hidden p-2" 
-            onClick={toggleMenu} 
+          <button
+            className="lg:hidden p-2"
+            onClick={toggleMenu}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X className="h-6 w-6 text-foreground" /> : <Menu className="h-6 w-6 text-foreground" />}
@@ -317,11 +315,11 @@ const Header = () => {
           <div className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-sm shadow-soft border-b border-gray-100">
             <div className="px-4 py-6 space-y-4">
               {NAV_ITEMS.map((item) => (
-                <Button 
-                  key={item.name} 
-                  variant="nav" 
-                  size="lg" 
-                  asChild 
+                <Button
+                  key={item.name}
+                  variant="nav"
+                  size="lg"
+                  asChild
                   className="w-full justify-start text-left"
                 >
                   <a href={item.href} onClick={closeMenu}>
