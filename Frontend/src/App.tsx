@@ -82,7 +82,7 @@ const AppContent = () => {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      {shouldShowHeader && <Footer />}
     </>
   );
 };
