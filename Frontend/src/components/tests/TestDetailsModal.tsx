@@ -2,7 +2,7 @@
 
 import React from "react"
 import ReactDOM from 'react-dom'
-import { X, Clock, MapPin, FileText, Timer, Activity, Calendar, Stethoscope, Zap, User, Phone, TestTube2 } from "lucide-react"
+import { X, Clock, MapPin, FileText, Activity, Calendar, Stethoscope, User, Phone, TestTube2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,11 +18,9 @@ const MemoizedX = React.memo(X)
 const MemoizedClock = React.memo(Clock)
 const MemoizedMapPin = React.memo(MapPin)
 const MemoizedFileText = React.memo(FileText)
-const MemoizedTimer = React.memo(Timer)
 const MemoizedActivity = React.memo(Activity)
 const MemoizedCalendar = React.memo(Calendar)
 const MemoizedStethoscope = React.memo(Stethoscope)
-const MemoizedZap = React.memo(Zap)
 const MemoizedUser = React.memo(User)
 const MemoizedPhone = React.memo(Phone)
 const MemoizedTestTube2 = React.memo(TestTube2)
@@ -181,11 +179,7 @@ const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose 
     return tomorrow.toISOString().split("T")[0]
   }, [])
 
-  const formatReportTime = useCallback((hours: number) => {
-    if (hours < 24) return `${hours} hours`
-    if (hours < 168) return `${Math.floor(hours / 24)} day${hours > 48 ? "s" : ""}`
-    return `${Math.floor(hours / 168)} week${hours > 336 ? "s" : ""}`
-  }, [])
+ 
 
   const getLocationNames = useCallback(() => {
     return ["Anantpur"]
@@ -193,7 +187,6 @@ const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose 
 
   // Precompute derived values
   const locations = useMemo(() => test ? getLocationNames() : [], [test, getLocationNames])
-  const reportTime = useMemo(() => test ? formatReportTime(test.reportIn) : '', [test, formatReportTime])
   const bodyParts = useMemo(() => test ? test.parts.join(", ") : '', [test])
 
   if (!isOpen || !test || !isMounted) return null
@@ -226,8 +219,7 @@ const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose 
           
           <div className="flex flex-wrap gap-1.5">
             <div className="flex items-center text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded-full">
-              <MemoizedZap className="w-3 h-3 mr-1 text-vesta-orange" />
-              <span>Reports in {reportTime}</span>
+              <span></span>
             </div>
             <div className="flex items-center text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded-full">
               <MemoizedActivity className="w-3 h-3 mr-1 text-vesta-orange" />
@@ -295,13 +287,7 @@ const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose 
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <MemoizedTimer className="w-5 h-5 text-green-600" />
-                  <div>
-                    <div className="text-sm font-medium text-slate-900">Report Ready</div>
-                    <div className="text-sm text-slate-600">In {reportTime}</div>
-                  </div>
-                </div>
+                
 
                 <div className="flex items-start gap-3">
                   <MemoizedMapPin className="w-5 h-5 text-red-600 mt-0.5" />

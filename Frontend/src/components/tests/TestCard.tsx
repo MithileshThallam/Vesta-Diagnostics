@@ -10,7 +10,6 @@ const MemoMapPin = memo(MapPin)
 const MemoChevronRight = memo(ChevronRight)
 const MemoCalendar = memo(Calendar)
 const MemoActivity = memo(Activity)
-const MemoZap = memo(Zap)
 
 interface TestCardProps {
   test: MedicalTest
@@ -85,7 +84,6 @@ const TestCard: React.FC<TestCardProps> = ({ test, index, isVisible, onTestClick
 
            <div className="flex flex-col gap-1 text-sm text-slate-700">
             <div className="flex items-center">
-              <MemoZap className="w-4 h-4 mr-2 text-vesta-orange" />
               <span></span>
             </div>
             <div className="flex items-center">
