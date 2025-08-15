@@ -15,7 +15,7 @@ const BookingManagement = () => {
   //   setError(null)
 
   //   const fetchBookings = async () => {
-      //     let res = await fetch("https://vesta-diagnostics-t4nn.vercel.app/api/bookings/get-bookings", {
+      //     let res = await fetch("https://vesta-diagnostics.vercel.app//api/bookings/get-bookings", {
   //       credentials: 'include',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const BookingManagement = () => {
 
   const fetchBookings = async () => {
     try {
-      let res = await fetch("https://vesta-diagnostics-t4nn.vercel.app/api/bookings/get-bookings", {
+      let res = await fetch("https://vesta-diagnostics.vercel.app//api/bookings/get-bookings", {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',

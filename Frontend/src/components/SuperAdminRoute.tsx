@@ -27,7 +27,7 @@ export const SuperAdminRoute = ({
         }
 
         // Verify authentication with server
-        const response = await fetch("https://vesta-diagnostics-t4nn.vercel.app/api/details/profile", {
+        const response = await fetch("https://vesta-diagnostics.vercel.app//api/details/profile", {
           method: "GET",
           credentials: "include",
           headers: {

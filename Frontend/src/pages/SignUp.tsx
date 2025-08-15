@@ -93,7 +93,7 @@ const Signup = () => {
         return
       }
 
-      const response = await fetch("https://vesta-diagnostics-t4nn.vercel.app/api/auth/signup", {
+      const response = await fetch("https://vesta-diagnostics.vercel.app//api/auth/signup", {
         method: "POST",
         credentials: "include",
         body: JSON.stringify(formData),

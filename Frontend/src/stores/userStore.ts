@@ -45,7 +45,7 @@ export const useUserStore = create<UserState>()(
       logout: async () => {
         try {
           // Call logout endpoint to clear httpOnly cookie
-          await fetch("https://vesta-diagnostics-t4nn.vercel.app/api/auth/logout", {
+          await fetch("https://vesta-diagnostics.vercel.app//api/auth/logout", {
             method: "POST",
             credentials: "include",
             headers: {
