@@ -22,6 +22,12 @@ connectDB();
 
 const app = express();
 
+// Middleware
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Explicit origin
+  credentials: true,
+}));
+
 // Security Middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -62,11 +68,6 @@ const adminLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Explicit origin
-  credentials: true,
-}));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
