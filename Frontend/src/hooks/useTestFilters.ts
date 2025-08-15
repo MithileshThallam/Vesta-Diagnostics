@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import type { MedicalTest, FilterState } from "@/types/test"
 
-export const useTestFilters = (tests: MedicalTest[], searchResults: MedicalTest[], filters: FilterState) => {
+export const useTestFilters = (_tests: MedicalTest[], searchResults: MedicalTest[], filters: FilterState) => {
   const filteredAndSortedTests = useMemo(() => {
     let filtered = searchResults
 
