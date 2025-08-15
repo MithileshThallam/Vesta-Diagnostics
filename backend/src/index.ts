@@ -14,7 +14,10 @@ import testRoutes from './routes/test.routes.js';
 import detailsRoutes from './routes/details.routes.js'
 
 
-dotenv.config();
+dotenv.config({
+  quiet: true, 
+  debug: false,
+});
 connectDB();
 
 const app = express();
