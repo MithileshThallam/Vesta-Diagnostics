@@ -31,6 +31,5 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-UserSchema.index({ phone: 1 });
 
 export default mongoose.model<IUser>('User', UserSchema);

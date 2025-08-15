@@ -45,7 +45,6 @@ const SubAdminSchema = new Schema<ISubAdmin>(
 );
 
 // Indexes
-SubAdminSchema.index({ phone: 1 });
 SubAdminSchema.index({ branch: 1 });
 SubAdminSchema.index({ name: 1 }); // Added index for name field
 

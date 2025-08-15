@@ -39,6 +39,5 @@ const TestSchema = new Schema<ITest>(
   { timestamps: true }
 );
 
-TestSchema.index({ id: 1 }, { unique: true });
 
 export default mongoose.model<ITest>('Test', TestSchema);
