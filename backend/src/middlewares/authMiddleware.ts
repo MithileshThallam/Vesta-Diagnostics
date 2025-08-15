@@ -10,7 +10,7 @@ export interface AuthRequest extends Request {
 
 export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies.UserAuthToken || req.cookies.SubAdminAuthToken || req.cookies.AdminAuthToken;
+    const token = req.cookies.AdminAuthToken || req.cookies.SubAdminAuthToken || req.cookies.UserAuthToken;
 
     if (!token) {
       return res.status(401).json({ message: 'Authentication required' });
