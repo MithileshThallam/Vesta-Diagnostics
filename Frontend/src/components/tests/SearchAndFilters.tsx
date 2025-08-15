@@ -20,12 +20,11 @@ interface SearchAndFiltersProps {
 
 const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
   filters,
-  locations,
   resultsCount,
   showFilters,
   searchInputRef,
   onSearchChange,
-  onLocationChange,
+  
   onSortChange,
   onToggleFilters,
   onClearSearch,

@@ -1,4 +1,4 @@
-import { Users, Calendar, TestTube, BarChart3, UserPlus, Activity, TrendingUp } from "lucide-react"
+import { Users, Calendar, TestTube, BarChart3, UserPlus, Activity } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useAdminStore } from "@/stores/adminStore"

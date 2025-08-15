@@ -6,7 +6,6 @@ import TestModal from "./TestDetailsModal"
 import InstantBookingModal from "../InstantBookingModal"
 import type { MedicalTest, TestCategory } from "@/types/test"
 import { useInView } from "react-intersection-observer"
-import { invert } from "lodash-es"
 
 interface TestsGridProps {
   groupedTests: { [key: string]: MedicalTest[] }

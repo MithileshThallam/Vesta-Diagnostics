@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import type {ErrorInfo, ReactNode} from 'react';
-import { Navigate } from 'react-router-dom';
 import { useUserStore } from '@/stores/userStore';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';

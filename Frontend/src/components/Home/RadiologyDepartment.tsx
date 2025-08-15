@@ -52,7 +52,7 @@ const radiologyTests = [
 const RadiologyDepartment = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [hoveredTest, setHoveredTest] = useState<number | null>(null);
+  const [, setHoveredTest] = useState<number | null>(null);
 
   useEffect(() => {
     if (!isAutoPlaying) return;

@@ -28,7 +28,7 @@ const Tests = () => {
 
   // UI state
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
-  const [isVisible, setIsVisible] = useState(false)
+  const [, setIsVisible] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
