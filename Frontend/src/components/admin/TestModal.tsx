@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react"
-import { Plus, Minus, Clock, Activity, MapPin, Zap, FileText, AlertTriangle, Stethoscope } from "lucide-react"
+import { Plus, Minus, Clock, Activity, MapPin, FileText, AlertTriangle, Stethoscope } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
@@ -34,7 +34,6 @@ interface FormData {
   description: string
   category: string
   duration: string
-  reportIn: string
   parameterCount: string
   parameters: string[]
   parts: string[]
@@ -50,7 +49,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     description: "",
     category: "laboratory",
     duration: "",
-    reportIn: "",
     parameterCount: "",
     parameters: [""],
     parts: [""],
@@ -72,9 +70,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     if (!formData.description.trim()) newErrors.description = "Description is required"
     if (!formData.category) newErrors.category = "Category is required"
     if (!formData.duration.trim()) newErrors.duration = "Duration is required"
-    if (!formData.reportIn || isNaN(Number(formData.reportIn)) || Number(formData.reportIn) <= 0) {
-      newErrors.reportIn = "Valid report time is required"
-    }
+   
     if (!formData.parameterCount || isNaN(Number(formData.parameterCount))) {
       newErrors.parameterCount = "Valid parameter count is required"
     }
@@ -98,7 +94,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           description: editTest.description || "",
           category: editTest.category || "laboratory",
           duration: editTest.duration || "",
-          reportIn: editTest.reportIn?.toString() || "",
           parameterCount: editTest.parameterCount?.toString() || "",
           parameters: editTest.parameters?.length > 0 ? [...editTest.parameters] : [""],
           parts: editTest.parts?.length > 0 ? [...editTest.parts] : [""],
@@ -113,7 +108,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           description: "",
           category: "laboratory",
           duration: "",
-          reportIn: "",
           parameterCount: "",
           parameters: [""],
           parts: [""],
@@ -128,13 +122,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
     }
   }, [open, mode, editTest])
 
-  // Memoized report time display
-  const reportTimeDisplay = useMemo(() => {
-    const hours = Number(formData.reportIn)
-    if (hours < 24) return `${hours} hours`
-    if (hours < 168) return `${Math.floor(hours / 24)} days`
-    return `${Math.floor(hours / 168)} weeks`
-  }, [formData.reportIn])
 
   // Debounced input handlers
   const debouncedHandleInputChange = useMemo(
@@ -197,7 +184,6 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
           description: formData.description.trim(),
           category: formData.category,
           duration: formData.duration.trim(),
-          reportIn: Number(formData.reportIn),
           parameterCount: Number(formData.parameterCount),
           parameters: formData.parameters.filter((param) => param.trim()),
           parts: formData.parts.filter((part) => part.trim()),
@@ -370,29 +356,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                     )}
                   </div>
 
-                  <div className="space-y-3">
-                    <Label htmlFor="reportIn" className="text-sm font-semibold flex items-center">
-                      <Zap className="w-4 h-4 mr-1 text-[hsl(45_100%_50%)]" />
-                      Report Time (hours) *
-                    </Label>
-                    <input
-                      id="reportIn"
-                      name="reportIn"
-                      type="number"
-                      value={formData.reportIn}
-                      onChange={(e) => debouncedHandleInputChange("reportIn", e.target.value)}
-                      className="w-full px-4 py-3 bg-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-                      placeholder="24"
-                      min="1"
-                      step="1"
-                    />
-                    {errors.reportIn && (
-                      <p className="text-destructive text-sm flex items-center">
-                        <AlertTriangle className="w-4 h-4 mr-1" />
-                        {errors.reportIn}
-                      </p>
-                    )}
-                  </div>
+                
 
                   <div className="space-y-3">
                     <Label htmlFor="parameterCount" className="text-sm font-semibold">
@@ -697,10 +661,7 @@ const TestModal = ({ open, onClose, onSubmit, editTest, mode }: TestModalProps) 
                       <Clock className="w-4 h-4 mr-3 text-[hsl(200_100%_50%)]" />
                       <span>{formData.duration || "Duration not set"}</span>
                     </div>
-                    <div className="flex items-center">
-                      <Zap className="w-4 h-4 mr-3 text-[hsl(45_100%_50%)]" />
-                      <span>Reports in {reportTimeDisplay}</span>
-                    </div>
+                    
                     <div className="flex items-center">
                       <Activity className="w-4 h-4 mr-3 text-[hsl(248_81%_20%)]" />
                       <span>{formData.parameterCount || "0"} Parameters</span>

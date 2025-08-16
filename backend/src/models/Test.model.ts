@@ -15,7 +15,7 @@ export interface ITest extends Document {
   parts: string[];
   parameterCount: number; 
   parameters: string[]
-  reportIn: number; 
+  reportIn?: number; 
   about: string; 
 }
 
@@ -33,7 +33,7 @@ const TestSchema = new Schema<ITest>(
     parts: [{ type: String, required: true }],
     parameterCount: { type: Number, required: true },
     parameters: [{ type: String, required: true }],
-    reportIn: { type: Number, required: true },
+    reportIn: { type: Number },
     about: { type: String, required: true },
   },
   { timestamps: true }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { Search, Filter, Plus, Edit, Trash2, Clock, Activity, MapPin, Zap } from "lucide-react"
+import { Search, Filter, Plus, Edit, Trash2, Clock, Activity, MapPin} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CreateTestModal from "./CreateTestModal"
@@ -34,7 +34,6 @@ const createTestPayload = (test: Omit<MedicalTest, "id"> | MedicalTest) => ({
   parts: test.parts,
   parameterCount: test.parameterCount,
   parameters: test.parameters,
-  reportIn: test.reportIn,
   about: test.about
 })
 
@@ -229,11 +228,7 @@ export const TestManagement = () => {
     }
   }, [tests, fetchTests, toast])
 
-  const formatReportTime = useCallback((hours: number) => {
-    if (hours < 24) return `${hours} hours`
-    if (hours < 168) return `${Math.floor(hours / 24)} days`
-    return `${Math.floor(hours / 168)} weeks`
-  }, [])
+  
 
   const getCategoryColor = useCallback((category: string) => {
     return CATEGORY_COLORS[category] || CATEGORY_COLORS.default
@@ -333,8 +328,8 @@ export const TestManagement = () => {
 
                   <div className="flex flex-col gap-1 text-sm text-[hsl(0_0%_45%)] dark:text-[hsl(0_0%_60%)]">
                     <div className="flex items-center">
-                      <Zap className="w-4 h-4 mr-2 text-[hsl(15_96%_53%)]" />
-                      <span>Reports in {formatReportTime(test.reportIn)}</span>
+                      
+                      <span></span>
                     </div>
                     <div className="flex items-center">
                       <Activity className="w-4 h-4 mr-2 text-[hsl(15_96%_53%)]" />

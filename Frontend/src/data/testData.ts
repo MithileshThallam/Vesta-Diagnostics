@@ -184,7 +184,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Thyroid gland"],
     parameterCount: 3,
     parameters: ["T3 (ng/dL)", "T4 (μg/dL)", "TSH (μIU/mL)"],
-    reportIn: 24,
     about: "Assesses thyroid gland function and screens for disorders like hypothyroidism or Graves' disease. TSH from pituitary gland regulates T3/T4 production which controls metabolism." 
   },
   {
@@ -199,7 +198,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Pituitary gland"],
     parameterCount: 1,
     parameters: ["LH level (mIU/mL)"],
-    reportIn: 24,
     about: "Measures hormone critical for ovulation in women and testosterone production in men. Used in infertility evaluations and pituitary disorder assessment."
   },
   {
@@ -214,7 +212,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Pituitary gland"],
     parameterCount: 1,
     parameters: ["FSH level (mIU/mL)"],
-    reportIn: 24,
     about: "Evaluates ovarian function in women and sperm production in men. Critical for diagnosing infertility, menopause, and pituitary disorders."
   },
   {
@@ -229,7 +226,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Testes"],
     parameterCount: 2,
     parameters: ["Total Testosterone (ng/dL)", "Free Testosterone (pg/mL)"],
-    reportIn: 24,
     about: "Assesses male hypogonadism, erectile dysfunction, and female virilization. Diurnal variation requires morning collection for accuracy."
   },
   {
@@ -244,7 +240,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["Gastrin (pg/mL)", "Secretin (pg/mL)", "CCK (pg/mL)", "Motilin (pg/mL)"],
-    reportIn: 48,
     about: "Specialized test analyzing gastrointestinal hormones linked to cutaneous manifestations in rosacea, psoriasis, and acne."
   },
   {
@@ -259,7 +254,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Skin"],
     parameterCount: 3,
     parameters: ["Elasticity Score", "Collagen Density Index", "Tensile Strength"],
-    reportIn: 24,
     about: "Quantifies skin biomechanical properties using suction or imaging technology to guide anti-aging treatments."
   },
   {
@@ -274,7 +268,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Sputum/Blood"],
     parameterCount: 6,
     parameters: ["MTB Detection", "Rifampicin Resistance", "Isoniazid Resistance", "Fluoroquinolone Resistance", "Strain Typing", "Bacterial Load"],
-    reportIn: 72,
     about: "Molecular diagnostic test using linear accelerator technology for rapid detection of Mycobacterium tuberculosis complex and drug resistance markers." 
   },
   {
@@ -289,7 +282,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 12,
     parameters: ["ANA Screen", "dsDNA", "SS-A", "SS-B", "Sm", "RNP", "Scl-70", "Centromere", "Jo-1", "Nucleolar", "Homogeneous", "Speckled"],
-    reportIn: 48,
     about: "Detects autoimmune disorders like lupus and Sjögren's syndrome through antibody patterns. Includes reflex confirmatory testing for positive screens."
   },
   {
@@ -304,7 +296,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Anti-CCP (U/mL)"],
-    reportIn: 24,
     about: "Highly specific marker for rheumatoid arthritis, aiding early diagnosis and differentiation from other arthritides."
   },
   {
@@ -319,7 +310,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Pituitary gland"],
     parameterCount: 1,
     parameters: ["Prolactin (ng/mL)"],
-    reportIn: 24,
     about: "Evaluates lactation disorders, infertility, and pituitary tumors. Requires stress-minimized collection due to exercise/stress sensitivity."
   },
 
@@ -336,7 +326,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 7,
     parameters: ["LDL-P", "HDL-P", "VLDL-P", "IDL", "LP(a)", "Small LDL", "Large HDL"],
-    reportIn: 48,
     about: "Advanced lipid profiling measuring lipoprotein particle number and size for refined cardiovascular risk assessment beyond standard lipid panel." 
   },
   {
@@ -351,7 +340,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Apolipoprotein A (mg/dL)"],
-    reportIn: 24,
     about: "Primary protein component of HDL ('good cholesterol') that facilitates reverse cholesterol transport from tissues to liver."
   },
   {
@@ -366,7 +354,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Apolipoprotein B (mg/dL)"],
-    reportIn: 24,
     about: "Primary protein on LDL and VLDL particles. Better predictor of cardiovascular risk than LDL-C as each atherogenic particle contains one ApoB molecule."
   },
   {
@@ -381,7 +368,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["hs-CRP (mg/L)"],
-    reportIn: 24,
     about: "Detects low-grade inflammation associated with atherosclerosis. Values >3 mg/L indicate high cardiovascular risk independent of lipid levels."
   },
   {
@@ -396,7 +382,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["ApoB/ApoA Ratio"],
-    reportIn: 24,
     about: "Stronger predictor of myocardial infarction risk than traditional cholesterol ratios. Higher ratios indicate more atherogenic particles relative to protective particles." 
   },
 
@@ -413,7 +398,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 15,
     parameters: ["WBC", "RBC", "Hemoglobin", "Hematocrit", "MCV", "MCH", "MCHC", "RDW", "Platelets", "Neutrophils", "Lymphocytes", "Monocytes", "Eosinophils", "Basophils", "MPV"],
-    reportIn: 24,
     about: "Fundamental screening test evaluating overall health status, detecting anemia, infection, inflammation, and hematologic disorders."
   },
   {
@@ -428,7 +412,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["ESR (mm/hr)"],
-    reportIn: 24,
     about: "Measures rate of red blood cell settling in plasma. Elevated in inflammatory conditions, infections, and autoimmune diseases."
   },
   {
@@ -443,7 +426,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["RBC (million/μL)"],
-    reportIn: 24,
     about: "Quantifies circulating red blood cells. Essential for diagnosing anemia (low) or polycythemia (high)."
   },
   {
@@ -458,7 +440,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["WBC (thousand/μL)"],
-    reportIn: 24,
     about: "Total count of white blood cells. Elevation indicates infection, inflammation, or malignancy; reduction may indicate bone marrow disorders."
   },
   {
@@ -473,7 +454,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Platelets (lakh/μL)"],
-    reportIn: 24,
     about: "Measures blood platelets critical for clotting. Low counts increase bleeding risk; high counts may cause thrombosis."
   },
   {
@@ -488,7 +468,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 2,
     parameters: ["ABO Type", "Rh Factor"],
-    reportIn: 24,
     about: "Determines blood group compatibility for transfusions and pregnancy management. Identifies ABO group (A/B/AB/O) and Rh status (positive/negative)." 
   },
 
@@ -505,7 +484,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Glucose (mg/dL)"],
-    reportIn: 24,
     about: "Screens for diabetes mellitus without fasting. Values >200 mg/dL suggest diabetes; 140-199 mg/dL indicate prediabetes."
   },
   {
@@ -520,7 +498,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Urea (mg/dL)"],
-    reportIn: 24,
     about: "Assesses kidney function and protein metabolism. Elevated in renal impairment, dehydration, or high protein intake."
   },
   {
@@ -535,7 +512,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Creatinine (mg/dL)"],
-    reportIn: 24,
     about: "Waste product from muscle metabolism. Elevated levels indicate impaired kidney function. Used to calculate eGFR."
   },
   {
@@ -550,7 +526,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Uric Acid (mg/dL)"],
-    reportIn: 24,
     about: "Evaluates gout, kidney stones, and tumor lysis syndrome. High levels may cause crystal deposition in joints/tissues."
   },
   {
@@ -565,7 +540,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Calcium (mg/dL)"],
-    reportIn: 24,
     about: "Assesses bone health, parathyroid function, and calcium metabolism. Requires albumin correction for accurate interpretation."
   },
   {
@@ -580,7 +554,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Iron (μg/dL)"],
-    reportIn: 24,
     about: "Evaluates iron-deficiency anemia or iron overload. Should be interpreted with ferritin and TIBC for complete assessment."
   },
   {
@@ -595,7 +568,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Total Cholesterol (mg/dL)"],
-    reportIn: 24,
     about: "Screens cardiovascular risk. Values <200 mg/dL desirable; 200-239 borderline high; ≥240 high risk."
   },
   {
@@ -610,7 +582,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Triglycerides (mg/dL)"],
-    reportIn: 24,
     about: "Measures main form of dietary fat. Fasting required. High levels increase cardiovascular and pancreatitis risk."
   },
   {
@@ -625,7 +596,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 3,
     parameters: ["Total Bilirubin (mg/dL)", "Direct Bilirubin (mg/dL)", "Indirect Bilirubin (mg/dL)"],
-    reportIn: 24,
     about: "Evaluates liver function and hemolytic disorders. Elevated levels cause jaundice. Fractionation differentiates hepatic vs hemolytic causes."
   },
   {
@@ -640,7 +610,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["AST (U/L)"],
-    reportIn: 24,
     about: "Liver enzyme also present in heart/muscle. Elevations indicate hepatocellular damage. AST:ALT ratio helps differentiate causes."
   },
   {
@@ -655,7 +624,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["ALT (U/L)"],
-    reportIn: 24,
     about: "Liver-specific enzyme. More specific for hepatic injury than AST. Elevations seen in viral hepatitis, fatty liver, and drug toxicity."
   },
   {
@@ -670,7 +638,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["Sodium (mEq/L)", "Potassium (mEq/L)", "Chloride (mEq/L)", "Bicarbonate (mEq/L)"],
-    reportIn: 24,
     about: "Assesses fluid balance, acid-base status, and electrolyte disorders. Critical for managing dehydration, renal disease, and critical illness."
   },
   {
@@ -685,7 +652,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["Total Protein (g/dL)", "Albumin (g/dL)", "Globulin (g/dL)", "A/G Ratio"],
-    reportIn: 24,
     about: "Evaluates nutritional status, liver function, and inflammatory conditions. Low albumin indicates malnutrition or liver disease; high globulin suggests chronic inflammation."
   },
   {
@@ -700,7 +666,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["HbA1c (%)"],
-    reportIn: 24,
     about: "Reflects 3-month average blood glucose. Gold standard for diabetes monitoring. Values ≥6.5% diagnostic for diabetes."
   },
   {
@@ -715,7 +680,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Vitamin B12 (pg/mL)"],
-    reportIn: 48,
     about: "Assesses B12 deficiency causing anemia and neuropathy. Common in vegetarians, elderly, and malabsorption disorders."
   },
   {
@@ -730,7 +694,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["25-OH Vitamin D (ng/mL)"],
-    reportIn: 48,
     about: "Evaluates vitamin D status. Deficiency widespread and linked to bone disorders, immune dysfunction, and chronic diseases."
   },
   {
@@ -745,7 +708,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["ALP (U/L)"],
-    reportIn: 24,
     about: "Elevated in liver disease (cholestasis) and bone disorders (Paget's, osteomalacia). Isoenzyme testing differentiates sources."
   },
   {
@@ -760,7 +722,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["GGT (U/L)"],
-    reportIn: 24,
     about: "Sensitive marker for alcohol consumption and cholestasis. Often elevated with ALP in liver disease."
   },
   {
@@ -775,7 +736,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Glucose (mg/dL)"],
-    reportIn: 24,
     about: "Diagnoses diabetes and prediabetes. Fasting required. Values: Normal <100 mg/dL; Prediabetes 100-125 mg/dL; Diabetes ≥126 mg/dL."
   },
   {
@@ -790,7 +750,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Ferritin (ng/mL)"],
-    reportIn: 24,
     about: "Best indicator of total body iron stores. Low in iron deficiency; high in inflammation or hemochromatosis."
   },
   {
@@ -805,7 +764,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["TIBC (μg/dL)"],
-    reportIn: 24,
     about: "Measures transferrin's iron-carrying capacity. Increases in iron deficiency; decreases in anemia of chronic disease."
   },
 
@@ -822,7 +780,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Sputum"],
     parameterCount: 2,
     parameters: ["AFB Smear", "Mycobacterial Culture"],
-    reportIn: 72,
     about: "Detects pulmonary tuberculosis. Smear provides rapid detection; culture confirms diagnosis and enables drug susceptibility testing."
   },
   {
@@ -837,7 +794,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["Culture Result", "Gram Stain", "Organism ID", "Antibiotic Sensitivity"],
-    reportIn: 120,
     about: "Identifies bacteria/fungi in bloodstream. Critical for sepsis management. Requires aseptic collection from multiple sites."
   },
   {
@@ -852,7 +808,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Urine"],
     parameterCount: 3,
     parameters: ["Culture Result", "Colony Count", "Antibiotic Sensitivity"],
-    reportIn: 48,
     about: "Diagnoses urinary tract infections. Significant growth defined as >100,000 CFU/mL. Identifies causative organisms and effective antibiotics."
   },
   {
@@ -867,7 +822,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Skin scraping"],
     parameterCount: 2,
     parameters: ["Direct Microscopy", "Fungal Culture"],
-    reportIn: 72,
     about: "Detects dermatophytes and yeasts causing skin infections. Includes KOH preparation for rapid diagnosis and culture for species identification."
   },
   {
@@ -882,7 +836,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Nail clipping"],
     parameterCount: 2,
     parameters: ["Direct Microscopy", "Fungal Culture"],
-    reportIn: 96,
     about: "Diagnoses fungal nail infections. Requires deep nail sampling. Culture may take 4-6 weeks but identifies causative species."
   },
 
@@ -899,7 +852,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["O Antigen Titer", "H Antigen Titer", "AH Titer", "BH Titer"],
-    reportIn: 24,
     about: "Detects antibodies against Salmonella typhi. Requires paired samples for accurate diagnosis. Limited specificity in endemic areas."
   },
   {
@@ -914,7 +866,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 3,
     parameters: ["NS1 Antigen", "IgM Antibody", "IgG Antibody"],
-    reportIn: 24,
     about: "Diagnoses dengue infection. NS1 detectable in early phase; IgM appears after 5 days. IgG indicates past infection."
   },
   {
@@ -929,7 +880,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["Virus Isolation", "RT-PCR", "Serotyping", "Neutralization"],
-    reportIn: 72,
     about: "Advanced dengue confirmation and serotyping performed at reference laboratories. Includes molecular testing and viral culture."
   },
   {
@@ -944,7 +894,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["CRP (mg/L)"],
-    reportIn: 24,
     about: "Acute phase reactant rising rapidly in inflammation/infection. Values >10 mg/L indicate significant inflammation."
   },
   {
@@ -959,7 +908,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["ASO Titer (IU/mL)"],
-    reportIn: 24,
     about: "Detects prior streptococcal infection. Elevated in post-streptococcal sequelae like rheumatic fever and glomerulonephritis."
   },
   {
@@ -974,7 +922,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["RF (IU/mL)"],
-    reportIn: 24,
     about: "Detects IgM autoantibody against Fc portion of IgG. Positive in 70-80% of rheumatoid arthritis cases but not specific."
   },
   {
@@ -989,7 +936,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Heterophile Antibody Titer"],
-    reportIn: 24,
     about: "Screens for infectious mononucleosis caused by Epstein-Barr virus. Detects heterophile antibodies that agglutinate sheep/horse RBCs."
   },
   {
@@ -1004,7 +950,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Anti-HCV"],
-    reportIn: 24,
     about: "Detects hepatitis C exposure. Positive results require HCV RNA PCR to confirm active infection."
   },
   {
@@ -1019,7 +964,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 3,
     parameters: ["HIV 1/2 Antibody", "p24 Antigen", "Differentiation Assay"],
-    reportIn: 24,
     about: "Fourth-generation test detecting both antibodies and p24 antigen. Window period reduced to 2-4 weeks. Confirmatory testing required for positives."
   },
   {
@@ -1034,7 +978,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 4,
     parameters: ["Pan-malarial Antigen", "P. falciparum", "P. vivax", "Mixed Infection"],
-    reportIn: 2,
     about: "Rapid immunochromatographic test detecting malaria antigens. Sensitive for P. falciparum and P. vivax. Microscopy remains gold standard."
   },
   {
@@ -1049,7 +992,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["HBsAg"],
-    reportIn: 24,
     about: "Primary screening for hepatitis B infection. Presence indicates active infection (acute or chronic). Confirmation and viral load required."
   },
   {
@@ -1064,7 +1006,6 @@ export const medicalTests: MedicalTest[] = [
     parts: ["Blood"],
     parameterCount: 1,
     parameters: ["Antibody Detection"],
-    reportIn: 24,
     about: "Non-specific screening for antibodies against various pathogens. Context-dependent interpretation based on clinical scenario."
   }
 ];

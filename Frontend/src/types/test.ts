@@ -24,7 +24,6 @@ export interface MedicalTest {
   parts: string[];
   parameterCount: number;
   parameters: string[];
-  reportIn: number; // in hours
   about: string;
 }
 

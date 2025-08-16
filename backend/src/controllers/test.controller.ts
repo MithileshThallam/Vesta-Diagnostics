@@ -17,7 +17,6 @@ export const createTest = async (req: Request, res: Response) => {
       parts,
       parameterCount,
       parameters,
-      reportIn,
       about,
     } = req.body;
 
@@ -32,7 +31,6 @@ export const createTest = async (req: Request, res: Response) => {
       !Array.isArray(parts) ||
       typeof parameterCount !== "number" ||
       !Array.isArray(parameters) ||
-      typeof reportIn !== "number" ||
       !about?.trim()
     ) {
       return res.status(400).json({ message: 'All required fields must be provided in the correct format' });
@@ -58,7 +56,6 @@ export const createTest = async (req: Request, res: Response) => {
       parts,
       parameterCount,
       parameters,
-      reportIn,
       about,
     });
 
@@ -88,7 +85,6 @@ export const updateTest = async (req: Request, res: Response) => {
       parts,
       parameterCount,
       parameters,
-      reportIn,
       about,
     } = req.body;
 
@@ -104,7 +100,6 @@ export const updateTest = async (req: Request, res: Response) => {
       !Array.isArray(parts) ||
       typeof parameterCount !== "number" ||
       !Array.isArray(parameters) ||
-      typeof reportIn !== "number" ||
       !about?.trim()
     ) {
       console.log("Validation failed for fields:", {
@@ -116,7 +111,6 @@ export const updateTest = async (req: Request, res: Response) => {
         parts: Array.isArray(parts),
         parameterCount: typeof parameterCount,
         parameters: Array.isArray(parameters),
-        reportIn: typeof reportIn,
         about: !!about?.trim()
       });
       return res.status(400).json({ message: 'All required fields must be provided in the correct format' });
@@ -161,7 +155,6 @@ export const updateTest = async (req: Request, res: Response) => {
       parts,
       parameterCount,
       parameters,
-      reportIn,
       about,
     };
 
@@ -196,7 +189,6 @@ export const updateTest = async (req: Request, res: Response) => {
         parts: updatedTest.parts,
         parameterCount: updatedTest.parameterCount,
         parameters: updatedTest.parameters,
-        reportIn: updatedTest.reportIn,
         about: updatedTest.about,
       }
     };
@@ -268,7 +260,7 @@ export const getAllTests = async (req: Request, res: Response) => {
       .skip(Number(skip))
       .limit(Number(limit))
       .select(
-        "id name category description duration locations popular parts parameterCount parameters reportIn about"
+        "id name category description duration locations popular parts parameterCount parameters  about"
       );
 
     return res.status(200).json({ tests });
