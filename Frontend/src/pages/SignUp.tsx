@@ -93,7 +93,9 @@ const Signup = () => {
         return
       }
 
-      const response = await fetch("https://vesta-diagnostics.vercel.app/api/auth/signup", {
+      console.log("Details sent to backend:", formData)
+
+      const response = await fetch("https://vesta-diagnostics.vercel.app//api/auth/signup", {
         method: "POST",
         credentials: "include",
         body: JSON.stringify(formData),

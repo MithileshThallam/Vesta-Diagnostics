@@ -29,7 +29,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      let response = await fetch("https://vesta-diagnostics.vercel.app/api/auth/login", {
+      let response = await fetch("https://vesta-diagnostics.vercel.app//api/auth/login", {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify({ phone, password }),

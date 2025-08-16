@@ -102,7 +102,7 @@ const InstantBookingModal: React.FC<InstantBookingModalProps> = ({
     console.log(formData)
   
     try {
-      const response = await fetch('https://vesta-diagnostics.vercel.app/api/bookings/create-booking', {
+      const response = await fetch('https://vesta-diagnostics.vercel.app//api/bookings/create-booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

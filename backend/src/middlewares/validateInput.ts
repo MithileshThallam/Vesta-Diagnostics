@@ -47,8 +47,9 @@ export const validateBody = (schema: ZodType<any>) => {
     console.log("the received data is safe for database to save");
 
     // Assign only the validated and filtered data
-    req.body = result.data;
-    console.log('Validated Data: ', result.data);
+    const { password, phone, ...rest } = result.data;
+    req.body = {phone, password};
+    console.log("the received data from login: ", req.body);
     next();
   };
 };

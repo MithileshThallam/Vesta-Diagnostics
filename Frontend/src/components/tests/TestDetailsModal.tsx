@@ -146,7 +146,7 @@ const TestModal: React.FC<TestModalProps> = React.memo(({ test, isOpen, onClose 
     console.log(formData)
   
     try {
-      const response = await fetch('https://vesta-diagnostics.vercel.app/api/bookings/create-booking', {
+      const response = await fetch('https://vesta-diagnostics.vercel.app//api/bookings/create-booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

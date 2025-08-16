@@ -65,6 +65,7 @@ export const signup = async (req: Request, res: Response) => {
     });
   }
 };
+
 export const login = async (req: Request, res: Response) => {
   try {
     const { phone, password } = req.body;
@@ -116,13 +117,9 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: '7d' }
     );
 
-    // const temp = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest['user'];
-
-    // console.log('Printing token for admin testing: ', temp)
-
     const cookieName = userType === 'admin' ? 'AdminAuthToken' : 
                       userType === 'sub-admin' ? 'SubAdminAuthToken' : 'UserAuthToken';
-    console.log(" env variable: ", process.env.NODE_ENV)
+    // console.log(" env variable: ", process.env.NODE_ENV)
 
     res.cookie(cookieName, token, {
       httpOnly: true,

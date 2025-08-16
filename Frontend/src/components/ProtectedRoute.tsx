@@ -26,7 +26,7 @@ export const ProtectedRoute = ({
           return;
         }
 
-        const response = await fetch("https://vesta-diagnostics.vercel.app/api/details/auth-check", {
+        const response = await fetch("https://vesta-diagnostics.vercel.app//api/details/auth-check", {
           credentials: "include",
         });
 
