@@ -17,6 +17,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthErrorBoundary } from "./components/AuthErrorBoundary";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
 import SubAdminPanel from "./pages/SubAdminPanel";
+import AboutUs from "./pages/AboutUs";
 const queryClient = new QueryClient();
 
 const AppContent = () => {
@@ -42,7 +43,7 @@ const AppContent = () => {
         <Route path="/tests" element={<Tests />} />
         <Route path="/franchise" element={<Franchise />} />
         <Route path="/contactus" element={<Contact />} />
-
+        <Route path="/about" element={<AboutUs />} />
         {/* Admin Routes */}
         <Route
           path="/admin"

@@ -1,248 +1,224 @@
-import { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import BookingForm from "@/components/Home/BookingForm";
-import { useNavigate } from "react-router-dom";
-import hero1 from "/HeroSlider/hero-1.webp";
-import hero2 from "/HeroSlider/hero-2.webp";
-import hero3 from "/HeroSlider/hero-3.webp";
-import hero4 from "/HeroSlider/hero-4.webp";
-import hero5 from "/HeroSlider/hero-5.webp";
+"use client"
+
+import type React from "react"
+
+import { useState, useEffect, useRef } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 const slides = [
   {
     id: 5,
-    image: hero5,
+    image: "/HeroSlider/hero-5.webp",
     title: "Revolutionizing Radiology",
     subtitle: "Precision through advanced imaging",
-    description: "Unlock clearer diagnoses with state-of-the-art radiology, enabling faster decisions and personalized treatment powered by imaging intelligence.",
+    description:
+      "Unlock clearer diagnoses with state-of-the-art radiology, enabling faster decisions and personalized treatment powered by imaging intelligence.",
   },
   {
     id: 1,
-    image: hero1,
+    image: "/HeroSlider/hero-1.webp",
     title: "Advanced Diagnostic Excellence",
     subtitle: "Where cutting-edge technology meets precision healthcare",
-    description: "Experience the future of medical diagnostics with our state-of-the-art facilities and innovative testing solutions.",
+    description:
+      "Experience the future of medical diagnostics with our state-of-the-art facilities and innovative testing solutions.",
   },
   {
     id: 2,
-    image: hero2,
+    image: "/HeroSlider/hero-2.webp",
     title: "Global Network, Local Care",
     subtitle: "Connected centers, personalized service",
-    description: "Our extensive network of diagnostic centers ensures world-class healthcare is always within your reach.",
+    description:
+      "Our extensive network of diagnostic centers ensures world-class healthcare is always within your reach.",
   },
   {
     id: 3,
-    image: hero3,
+    image: "/HeroSlider/hero-3.webp",
     title: "Comprehensive Testing Suite",
     subtitle: "From routine to specialized diagnostics",
-    description: "Advanced molecular diagnostics, genetic testing, and AI-powered analysis for accurate, timely results.",
+    description:
+      "Advanced molecular diagnostics, genetic testing, and AI-powered analysis for accurate, timely results.",
   },
   {
     id: 4,
-    image: hero4,
+    image: "/HeroSlider/hero-4.webp",
     title: "Expert Medical Professionals",
     subtitle: "Precision diagnostics, expert interpretation",
     description: "Our team of specialists combines years of experience with the latest diagnostic technologies.",
   },
-];
+]
 
 const HeroSlider = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-  const navigate = useNavigate();
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
+  const navigate = useNavigate()
 
-  // Clear interval on unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearInterval(intervalRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying) return
 
-    // Clear any existing interval
     if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+      clearInterval(intervalRef.current)
     }
 
-    // Set new interval
     intervalRef.current = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 5000)
 
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearInterval(intervalRef.current)
       }
-    };
-  }, [isAutoPlaying, currentSlide]);
+    }
+  }, [isAutoPlaying, currentSlide])
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-    setIsAutoPlaying(false);
-    // Restart auto-play after manual navigation
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
+    setCurrentSlide((prev) => (prev + 1) % slides.length)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 10000)
+  }
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    setIsAutoPlaying(false);
-    // Restart auto-play after manual navigation
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 10000)
+  }
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-    setIsAutoPlaying(false);
-    // Restart auto-play after manual navigation
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
+    setCurrentSlide(index)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 10000)
+  }
 
-  // Touch event handlers for mobile swipe
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+    touchStartX.current = e.touches[0].clientX
+  }
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
+    touchEndX.current = e.touches[0].clientX
+  }
 
   const handleTouchEnd = () => {
     if (touchStartX.current - touchEndX.current > 50) {
-      nextSlide(); // Swipe left
+      nextSlide() // Swipe left
     } else if (touchEndX.current - touchStartX.current > 50) {
-      prevSlide(); // Swipe right
+      prevSlide() // Swipe right
     }
-  };
-
-  // const handleBookSlot = () => {
-  //   setIsFormOpen(true);
-  // };
-
-  const handleCloseForm = () => {
-    setIsFormOpen(false);
-  };
+  }
 
   return (
-    <>
-      <section
-        className="relative h-screen overflow-hidden bg-white"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {/* Slides */}
-        <div className="relative h-full w-full">
-          {slides.map((slide, index) => (
+    <section
+      className="relative h-screen overflow-hidden bg-white"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Slides */}
+      <div className="relative h-full w-full">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+              index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
+            }`}
+          >
             <div
-              key={slide.id}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentSlide
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-105"
-                }`}
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${slide.image})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${slide.image})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
 
-              {/* Content */}
-              <div className="relative h-full flex items-center">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="max-w-3xl ml-4 md:ml-12 p-4 md:p-0">
-                    <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 leading-tight">
-                      {slide.title}
-                    </h2>
-                    <p className="text-lg sm:text-xl lg:text-2xl text-white/90 mb-3 sm:mb-4 font-medium">
-                      {slide.subtitle}
-                    </p>
-                    <p className="text-base sm:text-lg lg:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
-                      {slide.description}
-                    </p>
-                    
-                  </div>
+            {/* Content */}
+            <div className="relative h-full flex items-center">
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl ml-4 md:ml-12 p-4 md:p-0">
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 leading-tight">
+                    {slide.title}
+                  </h2>
+                  <p className="text-lg sm:text-xl lg:text-2xl text-white/90 mb-3 sm:mb-4 font-medium">
+                    {slide.subtitle}
+                  </p>
+                  <p className="text-base sm:text-lg lg:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
+                    {slide.description}
+                  </p>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute bottom-28 sm:bottom-32 right-4 sm:right-8 z-20">
+        <div className="px-6 py-3 text-lg font-bold bg-gradient-to-r from-orange-600 to-blue-600 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 text-center">
+          <div>🚚 Free Home Pickup Sample</div>
+          <div>⏰ 24/7 Available</div>
+          <div>📞 8886299108</div>
         </div>
+      </div>
 
-       {/* Free Home Pickup Info Box - positioned above Book a Slot button */}
-<div className="absolute bottom-28 sm:bottom-32 right-4 sm:right-8 z-20">
-  <div className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 text-center">
-    <div> 🚚Free Home Pickup Sample</div>
-    <div> ⏰24/7 Available</div>
-    <div> 📞8886299108</div>
-  </div>
-</div>
-
-{/* Bouncing Book a Slot Button - existing button below */}
-<div className="absolute bottom-8 sm:bottom-10 right-4 sm:right-8 z-20">
-  <Button
-    onClick={() => { navigate('/tests') }}
-    className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite]"
-  >
-    📅 Book a Slot Now
-  </Button>
-</div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200 hover:scale-105 z-10"
-          aria-label="Previous slide"
+      <div className="absolute bottom-8 sm:bottom-10 right-4 sm:right-8 z-20">
+        <Button
+          onClick={() => navigate("/tests")}
+          className="px-6 py-3 text-lg font-bold bg-gradient-to-r from-orange-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-bounce"
         >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
+          📅 Book a Slot Now
+        </Button>
+      </div>
 
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200 hover:scale-105 z-10"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
+      {/* Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200 hover:scale-105 z-10"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+      </button>
 
-        {/* Dots Indicator */}
-        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-10">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${index === currentSlide
-                ? "bg-white scale-125"
-                : "bg-white/50 hover:bg-white/70"
-                }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+      <button
+        onClick={nextSlide}
+        className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200 hover:scale-105 z-10"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+      </button>
 
-        {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-10">
-          <div
-            className="h-full transition-all duration-5000 ease-linear"
-            style={{
-              width: isAutoPlaying ? `${((currentSlide + 1) / slides.length) * 100}%` : "0%",
-              background: 'linear-gradient(90deg, hsl(15 96% 53%) 0%, hsl(248 81% 20%) 100%)'
-            }}
+      {/* Dots Indicator */}
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-10">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${
+              index === currentSlide ? "bg-white scale-125" : "bg-white/50 hover:bg-white/70"
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
           />
-        </div>
-      </section>
+        ))}
+      </div>
 
-      {/* Booking Form Modal */}
-      <BookingForm isOpen={isFormOpen} onClose={handleCloseForm} />
-    </>
-  );
-};
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-10">
+        <div
+          className="h-full transition-all duration-5000 ease-linear"
+          style={{
+            width: isAutoPlaying ? `${((currentSlide + 1) / slides.length) * 100}%` : "0%",
+            background: "linear-gradient(90deg, #F05A28 0%, #1A1449 100%)",
+          }}
+        />
+      </div>
+    </section>
+  )
+}
 
-export default HeroSlider;
+export default HeroSlider
