@@ -56,6 +56,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
+                <a href="/about" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
+                  <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
+                  About Us
+                </a>
+              </li>
+              <li>
                 <a href="/contact" className="text-gray-600 hover:text-vesta-orange transition-colors duration-300 flex items-center">
                   <span className="w-1.5 h-1.5 bg-vesta-orange rounded-full mr-3"></span>
                   Contact
