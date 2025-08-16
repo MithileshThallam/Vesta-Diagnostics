@@ -9,25 +9,25 @@ const AboutUs = () => {
     {
       id: 1,
       name: "Dr. Akarsh Yella",
-      designation: "Chief Executive Officer",
+      designation: "Direcor",
       image: "/Doc-1.png",
     },
     {
       id: 2,
       name: "Dr. Prashanti Yella",
-      designation: "Chief Medical Officer",
+      designation: "Director",
       image: "/Doc-2.png",
     },
     {
       id: 3,
       name: "Mr. Munta Lokesh",
-      designation: "Chief Technology Officer",
+      designation: "Director",
       image: "/Doc-3.png",
     },
     {
       id: 4,
       name: "Mr. Ram Pranav",
-      designation: "Director of Operations",
+      designation: "Director",
       image: "/Doc-4.png",
     },
   ]
