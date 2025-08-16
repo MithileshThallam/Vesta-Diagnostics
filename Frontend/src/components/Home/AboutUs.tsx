@@ -2,10 +2,10 @@ import { Shield, Award, Users, Clock } from "lucide-react"
 
 const AboutUs = () => {
   const stats = [
-    { icon: Users, value: "50K+", label: "Patients" },
-    { icon: Award, value: "25+", label: "Years" },
+    { icon: Users, value: "60K+", label: "Patients in 2 Years" },
+    { icon: Clock, value: "3000+", label: "Every Month" },
     { icon: Shield, value: "99.9%", label: "Accuracy" },
-    { icon: Clock, value: "24/7", label: "Support" },
+    { icon: Award, value: "ISO", label: "Certified" },
   ]
 
   return (
@@ -16,16 +16,15 @@ const AboutUs = () => {
           <div className="space-y-6 md:space-y-8 order-2 lg:order-1 lg:basis-1/2">
             <div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-dark mb-4 md:mb-6">
-                Trusted Healthcare Since{' '}
-                <span className="bg-gradient-primary bg-clip-text text-transparent">1999</span>
+                Trusted Healthcare Partner
               </h2>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-4 md:mb-6">
-                Vesta Diagnostics has been at the forefront of medical innovation for over two decades. Our commitment to 
-                excellence and precision has made us a trusted name in diagnostic healthcare.
+                Vesta Diagnostics delivers cutting-edge diagnostic services with precision and care. Our advanced 
+                technology and expert team ensure reliable results you can trust.
               </p>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                From a single diagnostic center to a global network, we remain focused on providing accurate, timely 
-                services that empower better health decisions.
+                Serving thousands of patients monthly, we've established ourselves as a leader in diagnostic excellence 
+                and patient-centered care.
               </p>
             </div>
 
@@ -62,8 +61,8 @@ const AboutUs = () => {
                   <Award className="w-4 h-4 md:w-6 md:h-6 text-white" />
                 </div>
                 <div>
-                  <div className="text-sm md:text-base font-semibold text-text-dark">ISO Certified</div>
-                  <div className="text-xs md:text-sm text-muted-foreground">Quality Assured</div>
+                  <div className="text-sm md:text-base font-semibold text-text-dark">Quality Assured</div>
+                  <div className="text-xs md:text-sm text-muted-foreground">Accredited Labs</div>
                 </div>
               </div>
             </div>

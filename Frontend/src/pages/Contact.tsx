@@ -145,7 +145,7 @@ const ContactInfo = () => {
                       </div>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-playfair text-lg sm:text-xl font-semibold text-foreground mb-2">Home Sample Collection</h3>
+                      <h3 className="font-playfair text-lg sm:text-xl font-semibold text-foreground mb-2">Free Home Pick up Samples</h3>
                       <a
                         href="tel:8886299108"
                         className="text-lg sm:text-xl font-bold text-primary hover:text-primary-accent transition-colors inline-flex items-center gap-2 flex-wrap"
