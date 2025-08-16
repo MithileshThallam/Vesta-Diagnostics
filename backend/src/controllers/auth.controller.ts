@@ -3,7 +3,6 @@ import User from '../models/User.model.js';
 import SubAdmin from '../models/SubAdmin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { AuthRequest } from '../middlewares/authMiddleware.js'
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -66,71 +65,90 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
+
+
+// ✅ Shared cookie options
+const baseCookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none" as const, // needed for clearCookie typings
+  path: "/",
+};
+
+// ✅ LOGIN
 export const login = async (req: Request, res: Response) => {
   try {
     const { phone, password } = req.body;
 
-    // Check hardcoded admin first
+    // Hardcoded super admin
     const hardcodedAdmin = {
       phone: process.env.ADMIN_PHONE,
       password: process.env.ADMIN_PASSWORD,
-      name: 'Super Admin',
-      role: 'admin',
-      _id: 'admin-id-001'
+      name: "Super Admin",
+      role: "admin",
+      _id: "admin-id-001",
     };
 
     let user: any = null;
-    let userType: 'admin' | 'sub-admin' | 'user' = 'user';
+    let userType: "admin" | "sub-admin" | "user" = "user";
 
+    // Check admin
     if (phone === hardcodedAdmin.phone) {
       if (password !== hardcodedAdmin.password) {
-        return res.status(400).json({ message: 'Invalid credentials' });
+        return res.status(400).json({ message: "Invalid credentials" });
       }
       user = hardcodedAdmin;
-      userType = 'admin';
+      userType = "admin";
     }
 
-    // Check sub-admins
+    // Check sub-admin
     if (!user) {
       user = await SubAdmin.findOne({ phone });
-      if (user) userType = 'sub-admin';
+      if (user) userType = "sub-admin";
     }
 
-    // Check regular users
+    // Check user
     if (!user) {
       user = await User.findOne({ phone });
-      if (user) userType = 'user';
+      if (user) userType = "user";
     }
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Verify password for non-admin users
-    if (userType !== 'admin' && !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+    // Verify password for DB users
+    if (
+      userType !== "admin" &&
+      !(await bcrypt.compare(password, user.password))
+    ) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // Generate JWT
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET!,
-      { expiresIn: '7d' }
+      { expiresIn: "7d" }
     );
 
-    const cookieName = userType === 'admin' ? 'AdminAuthToken' : 
-                      userType === 'sub-admin' ? 'SubAdminAuthToken' : 'UserAuthToken';
-    // console.log(" env variable: ", process.env.NODE_ENV)
+    // Choose cookie name
+    const cookieName =
+      userType === "admin"
+        ? "AdminAuthToken"
+        : userType === "sub-admin"
+        ? "SubAdminAuthToken"
+        : "UserAuthToken";
 
+
+    // Set cookie
     res.cookie(cookieName, token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: '/',
+      ...baseCookieOptions,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     return res.status(200).json({
-      message: 'Login successful',
+      message: "Login successful",
       user: {
         id: user._id,
         name: user.name,
@@ -139,17 +157,20 @@ export const login = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    return res.status(500).json({ message: 'Login failed' });
+    return res.status(500).json({ message: "Login failed" });
   }
 };
 
+// ✅ LOGOUT
 export const logout = (req: Request, res: Response) => {
-  res.clearCookie('UserAuthToken', { path: '/' });
-  res.clearCookie('SubAdminAuthToken', { path: '/' });
-  res.clearCookie('AdminAuthToken', { path: '/' });
+  const cookieNames = ["UserAuthToken", "SubAdminAuthToken", "AdminAuthToken"];
+
+  cookieNames.forEach((name) => {
+    res.clearCookie(name, baseCookieOptions);
+  });
 
   return res.status(200).json({
     success: true,
-    message: 'Logout successful',
+    message: "Logout successful",
   });
 };
