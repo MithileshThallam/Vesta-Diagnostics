@@ -5,6 +5,7 @@ import SubAdmin from '../models/SubAdmin.js';
 
 // ✅ Create Booking (User Only)
 export const createBooking = async (req: Request, res: Response) => {
+  console.log("req data for create booking: ", req.body)
   try {
     // Destructure all validated fields from req.body
     const {
@@ -15,7 +16,7 @@ export const createBooking = async (req: Request, res: Response) => {
 
     // Create booking with all validated data
     await Booking.create({
-      user: req.user!.id,
+      user: String,
       test,
       date: new Date(date),
       location

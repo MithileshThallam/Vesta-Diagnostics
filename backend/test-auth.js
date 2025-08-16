@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 async function testAuth() {
-  const baseUrl = 'http://localhost:5000';
+  const baseUrl = 'https://vesta-diagnostics.vercel.app';
   
   try {
     console.log('🔐 Testing authentication and authorization...\n');

@@ -1,7 +1,7 @@
 // Backend API configuration
 const BACKEND_BASE_URL = process.env.NODE_ENV === 'development' 
   ? 'https://vesta-diagnostics.vercel.app' // Update this with your actual production URL
-  : 'http://localhost:5000';
+  : 'https://vesta-diagnostics.vercel.app';
 
 interface ApiResponse<T = any> {
   data?: T;

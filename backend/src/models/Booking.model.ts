@@ -2,7 +2,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IBooking extends Document {
-  user: mongoose.Types.ObjectId;
+  user: string;
   test: string; // e.g. 'cbc'
   date: Date; // Booking date chosen by the user
   location: string;
@@ -10,7 +10,7 @@ export interface IBooking extends Document {
 
 const BookingSchema = new Schema<IBooking>(
   {
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: String, required: true },
     test: { type: String, required: true }, // Single test ID from frontend
     date: { type: Date, required: true }, // Date of booking/test
     location: { type: String, required: true },
