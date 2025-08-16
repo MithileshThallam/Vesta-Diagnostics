@@ -186,7 +186,7 @@ const HeroSlider = () => {
 </div>
 
 {/* Bouncing Book a Slot Button - existing button below */}
-<div className="absolute bottom-15 sm:bottom-20 right-4 sm:right-8 z-20">
+<div className="absolute bottom-8 sm:bottom-10 right-4 sm:right-8 z-20">
   <Button
     onClick={() => { navigate('/tests') }}
     className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite]"
