@@ -178,15 +178,15 @@ const HeroSlider = () => {
 
        {/* Free Home Pickup Info Box - positioned above Book a Slot button */}
 <div className="absolute bottom-28 sm:bottom-32 right-4 sm:right-8 z-20">
-  <div className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite] text-center">
-    <div>Free Home Pickup Sample</div>
-    <div>24/7 Available</div>
-    <div>8886299108</div>
+  <div className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 text-center">
+    <div> 🚚Free Home Pickup Sample</div>
+    <div> ⏰24/7 Available</div>
+    <div> 📞8886299108</div>
   </div>
 </div>
 
 {/* Bouncing Book a Slot Button - existing button below */}
-<div className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20">
+<div className="absolute bottom-15 sm:bottom-20 right-4 sm:right-8 z-20">
   <Button
     onClick={() => { navigate('/tests') }}
     className="px-6 py-3 text-lg font-bold bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 animate-[bounce_2s_infinite]"
