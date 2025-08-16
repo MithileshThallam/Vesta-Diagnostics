@@ -101,7 +101,7 @@ export const TestManagement = () => {
       const optimisticTest = { ...newTest, id: tempId } as MedicalTest
       setTests(prev => [optimisticTest, ...prev])
 
-      const response = await fetch("https://vesta-diagnostics.vercel.app//api/tests/create", {
+      const response = await fetch("https://vesta-diagnostics.vercel.app/api/tests/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -166,7 +166,7 @@ export const TestManagement = () => {
         t.id === updatedTest.id ? { ...t, ...updatedTest } : t
       ))
 
-      const res = await fetch(`https://vesta-diagnostics.vercel.app//api/tests/${updatedTest.id}`, {
+      const res = await fetch(`https://vesta-diagnostics.vercel.app/api/tests/${updatedTest.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
