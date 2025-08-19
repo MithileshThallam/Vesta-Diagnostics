@@ -9,7 +9,7 @@ const AboutUs = () => {
     {
       id: 1,
       name: "Dr. Akarsh Yella",
-      designation: "Direcor",
+      designation: "Director",
       image: "/Doc-1.png",
     },
     {
@@ -20,13 +20,13 @@ const AboutUs = () => {
     },
     {
       id: 3,
-      name: "Mr. Munta Lokesh",
+      name: "Mr. Munta Lokesh NRI",
       designation: "Director",
       image: "/Doc-3.png",
     },
     {
       id: 4,
-      name: "Mr. Ram Pranav",
+      name: "Mr. Ram Pranav NRI",
       designation: "Director",
       image: "/Doc-4.png",
     },
