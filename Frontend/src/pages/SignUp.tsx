@@ -107,7 +107,7 @@ const Signup = () => {
       if (response.ok) {
         toast({
           title: "Welcome!",
-          description: "Patient Logged in successfully.",
+          description: "Patient Signed Up successfully. Please Login!",
           className: "bg-white text-black",
         })
         navigate("/login")
